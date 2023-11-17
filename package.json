@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "bin": {
-    "release-plan": "./src/cli.js"
-  },
+  "bin": "./dist/cli.js",
+  "repository": "https://github.com/embroider-build/release-plan",
   "scripts": {
-    "prepare": "tsc",
+    "prepare": "npm run build",
+    "build": "tsup src/cli.ts --format esm",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -32,6 +32,7 @@
     "yargs": "^17.0.1"
   },
   "devDependencies": {
+    "tsup": "^7.3.0",
     "typescript": "^5.2.2"
   }
 }
