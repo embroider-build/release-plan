@@ -2,8 +2,8 @@ import execa from 'execa';
 import type { Solution } from './plan.js';
 import { loadSolution } from './plan.js';
 import { Octokit } from '@octokit/rest';
-import { absoluteDirname } from './utils.js';
 import latestVersion from 'latest-version';
+import { dirname } from 'path';
 
 async function hasCleanRepo(): Promise<boolean> {
   let result = await execa('git', ['status', '--porcelain=v1'], { cwd: __dirname });
@@ -43,7 +43,7 @@ async function makeTags(solution: Solution, reporter: IssueReporter, dryRun: boo
     }
     try {
       let tag = tagFor(pkgName, entry);
-      let cwd = absoluteDirname(entry.pkgJSONPath);
+      let cwd = dirname(entry.pkgJSONPath);
 
       let preExisting = await doesTagExist(tag);
 

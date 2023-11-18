@@ -1,11 +1,13 @@
 import type { Impact, ParsedChangelog } from './change-parser.js';
 import { publishedInterPackageDeps } from './interdep.js';
-import assertNever from 'assert-never';
+import {assertNever} from 'assert-never';
 import { inc, satisfies } from 'semver';
 import { highlightMarkdown } from './highlight.js';
 import chalk from 'chalk';
 import { resolve } from 'path';
-import { existsSync, readJSONSync, writeJSONSync } from 'fs-extra';
+import fsExtra from 'fs-extra';
+
+const { existsSync, readJSONSync, writeJSONSync } = fsExtra;
 
 export type Solution = Map<
   string,
@@ -210,7 +212,7 @@ export function planVersionBumps(changed: ParsedChangelog): Solution {
 }
 
 function solutionFile(): string {
-  return resolve(__dirname, '..', '..', '..', '.release-plan.json');
+  return resolve('./.release-plan.json');
 }
 
 export function saveSolution(solution: Solution, description: string): void {

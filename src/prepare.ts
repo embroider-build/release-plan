@@ -3,8 +3,9 @@ import { readFileSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 import type { Solution } from './plan.js';
 import { planVersionBumps, saveSolution } from './plan.js';
-import { readJSONSync, writeJSONSync } from 'fs-extra';
-import { relativeToAbsolute } from './utils.js';
+import fsExtra from 'fs-extra';
+
+const { readJSONSync, writeJSONSync } = fsExtra;
 
 const changelogPreamble = `# Embroider Changelog
 `;
@@ -38,9 +39,9 @@ function versionSummary(solution: Solution): string {
 function updateVersions(solution: Solution) {
   for (let entry of solution.values()) {
     if (entry.impact) {
-      let pkg = readJSONSync(relativeToAbsolute(entry.pkgJSONPath));
+      let pkg = readJSONSync(entry.pkgJSONPath);
       pkg.version = entry.newVersion;
-      writeJSONSync(relativeToAbsolute(entry.pkgJSONPath), pkg, { spaces: 2 });
+      writeJSONSync(entry.pkgJSONPath, pkg, { spaces: 2 });
     }
   }
 }
