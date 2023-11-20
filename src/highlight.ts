@@ -1,4 +1,4 @@
-import highlight from 'cli-highlight';
+import { highlight } from 'cli-highlight';
 import chalk from 'chalk';
 
 export function highlightMarkdown(md: string): string {
