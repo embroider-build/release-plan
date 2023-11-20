@@ -1,0 +1,21 @@
+{
+  "solution": {
+    "release-plan": {
+      "impact": "minor",
+      "oldVersion": "0.0.0",
+      "newVersion": "0.1.0",
+      "constraints": [
+        {
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
+        }
+      ],
+      "pkgJSONPath": "package.json"
+    }
+  },
+  "description": "## Release (2023-11-20)\n\nrelease-plan 0.1.0 (minor)\n\n#### :rocket: Enhancement\n* [#5](https://github.com/embroider-build/release-plan/pull/5) add --single-package option ([@mansona](https://github.com/mansona))\n* [#1](https://github.com/embroider-build/release-plan/pull/1) use tsup ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* [#7](https://github.com/embroider-build/release-plan/pull/7) use dist/cli.js directly in workflows ([@mansona](https://github.com/mansona))\n* [#6](https://github.com/embroider-build/release-plan/pull/6) add workflows for review and release ([@mansona](https://github.com/mansona))\n* [#4](https://github.com/embroider-build/release-plan/pull/4) reset version so release-plan will work on itself ([@mansona](https://github.com/mansona))\n* [#3](https://github.com/embroider-build/release-plan/pull/3) convert everything to work correctly with ESM ([@mansona](https://github.com/mansona))\n* [#2](https://github.com/embroider-build/release-plan/pull/2) revert back from tsup to tsc ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+}
