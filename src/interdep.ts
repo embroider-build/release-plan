@@ -1,8 +1,9 @@
 import glob from 'globby';
-import { resolve, join } from 'path';
-import { readFileSync, readJSONSync } from 'fs-extra';
+import { resolve, join, dirname } from 'path';
+import fsExtra from 'fs-extra';
 import yaml from 'js-yaml';
 
+const { readFileSync, readJSONSync, existsSync } = fsExtra;
 export type Range = `workspace:${string}`;
 
 export interface PkgEntry {
@@ -13,18 +14,13 @@ export interface PkgEntry {
 }
 
 export function publishedInterPackageDeps(): Map<string, PkgEntry> {
-  let rootDir = resolve(__dirname, '..', '..', '..');
+  let rootDir = './';
   let packages: Map<string, PkgEntry> = new Map();
 
-  let pkgJSONS: Map<string, any> = new Map();
-
-  for (let pattern of (yaml.load(readFileSync(resolve(__dirname, '../../../pnpm-workspace.yaml'), 'utf8')) as any)
-    .packages) {
-    for (let dir of glob.sync(pattern, { cwd: rootDir, expandDirectories: false, onlyDirectories: true })) {
-      let absolutePkgJSONPath = resolve(rootDir, dir, 'package.json');
-      let pkg = readJSONSync(absolutePkgJSONPath);
+  function loadPackage(dir: string) {
+    let pkg = readJSONSync(join(dir, 'package.json'));
       if (pkg.private) {
-        continue;
+        return;
       }
       pkgJSONS.set(pkg.name, pkg);
       packages.set(pkg.name, {
@@ -33,6 +29,18 @@ export function publishedInterPackageDeps(): Map<string, PkgEntry> {
         isDependencyOf: new Map(),
         isPeerDependencyOf: new Map(),
       });
+  }
+
+  let pkgJSONS: Map<string, any> = new Map();
+
+  if(!existsSync('./pnpm-workspace.yaml')) {
+    loadPackage('./');
+  } else {
+    for (let pattern of (yaml.load(readFileSync('./pnpm-workspace.yaml', 'utf8')) as any)
+      .packages) {
+      for (let dir of glob.sync(pattern, { cwd: rootDir, expandDirectories: false, onlyDirectories: true })) {
+        loadPackage(dirname(resolve(rootDir, dir, 'package.json')))
+      }
     }
   }
 

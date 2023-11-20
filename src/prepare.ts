@@ -1,27 +1,26 @@
 import { parseChangeLogOrExit } from './change-parser.js';
 import { readFileSync, writeFileSync } from 'fs';
-import { resolve } from 'path';
 import type { Solution } from './plan.js';
 import { planVersionBumps, saveSolution } from './plan.js';
-import { readJSONSync, writeJSONSync } from 'fs-extra';
-import { relativeToAbsolute } from './utils.js';
+import fsExtra from 'fs-extra';
 
-const changelogPreamble = `# Embroider Changelog
-`;
+const { readJSONSync, writeJSONSync } = fsExtra;
+
+const changelogPreamblePattern = /#.*Changelog.*$/;
 
 function updateChangelog(newChangelogContent: string, solution: Solution): string {
-  let targetChangelogFile = resolve(__dirname, '..', '..', '..', 'CHANGELOG.md');
-  let oldChangelogContent = readFileSync(targetChangelogFile, 'utf8');
-  if (!oldChangelogContent.startsWith(changelogPreamble)) {
-    process.stderr.write(`Cannot parse existing changelog. Expected it to start with:\n${changelogPreamble}`);
+  let targetChangelogFile = './CHANGELOG.md';
+  let oldChangelogContent = readFileSync(targetChangelogFile, 'utf8').split('\n');
+
+  if (!changelogPreamblePattern.test(oldChangelogContent[0])) {
+    process.stderr.write(`Cannot parse existing changelog. Expected it to match:\n${changelogPreamblePattern}\n`);
     process.exit(-1);
   }
-  oldChangelogContent = oldChangelogContent.slice(changelogPreamble.length);
 
   let [firstNewLine, ...restNewLines] = newChangelogContent.trim().split('\n');
 
   let newOutput = firstNewLine + '\n\n' + versionSummary(solution) + '\n' + restNewLines.join('\n') + '\n';
-  writeFileSync(targetChangelogFile, changelogPreamble + '\n' + newOutput + oldChangelogContent);
+  writeFileSync(targetChangelogFile, oldChangelogContent[0] + '\n' + newOutput + oldChangelogContent.slice(1));
   return newOutput;
 }
 
@@ -38,9 +37,9 @@ function versionSummary(solution: Solution): string {
 function updateVersions(solution: Solution) {
   for (let entry of solution.values()) {
     if (entry.impact) {
-      let pkg = readJSONSync(relativeToAbsolute(entry.pkgJSONPath));
+      let pkg = readJSONSync(entry.pkgJSONPath);
       pkg.version = entry.newVersion;
-      writeJSONSync(relativeToAbsolute(entry.pkgJSONPath), pkg, { spaces: 2 });
+      writeJSONSync(entry.pkgJSONPath, pkg, { spaces: 2 });
     }
   }
 }

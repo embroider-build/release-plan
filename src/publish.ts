@@ -2,11 +2,11 @@ import execa from 'execa';
 import type { Solution } from './plan.js';
 import { loadSolution } from './plan.js';
 import { Octokit } from '@octokit/rest';
-import { absoluteDirname } from './utils.js';
 import latestVersion from 'latest-version';
+import { dirname } from 'path';
 
 async function hasCleanRepo(): Promise<boolean> {
-  let result = await execa('git', ['status', '--porcelain=v1'], { cwd: __dirname });
+  let result = await execa('git', ['status', '--porcelain=v1']);
   return result.stdout.length === 0;
 }
 
@@ -43,7 +43,7 @@ async function makeTags(solution: Solution, reporter: IssueReporter, dryRun: boo
     }
     try {
       let tag = tagFor(pkgName, entry);
-      let cwd = absoluteDirname(entry.pkgJSONPath);
+      let cwd = dirname(entry.pkgJSONPath);
 
       let preExisting = await doesTagExist(tag);
 
@@ -76,7 +76,7 @@ async function pushTags(reporter: IssueReporter, dryRun: boolean) {
   }
 
   try {
-    await execa('git', ['push', '--tags'], { cwd: __dirname });
+    await execa('git', ['push', '--tags']);
   } catch (err) {
     reporter.reportFailure(`Failed to git push`);
   }
@@ -186,7 +186,7 @@ async function pnpmPublish(solution: Solution, reporter: IssueReporter, dryRun: 
       }
 
       await execa('pnpm', ['publish', '--access=public'], {
-        cwd: absoluteDirname(entry.pkgJSONPath),
+        cwd: entry.pkgJSONPath,
         stderr: 'inherit',
         stdout: 'inherit',
       });
