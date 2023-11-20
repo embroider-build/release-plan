@@ -191,7 +191,7 @@ export function explain(solution: Solution) {
   return output.join('\n');
 }
 
-export function planVersionBumps(changed: ParsedChangelog): Solution {
+export function planVersionBumps(changed: ParsedChangelog, singlePackage?: string): Solution {
   let plan = new Plan();
   for (let section of changed.sections) {
     if ('unlabeled' in section) {
@@ -203,9 +203,14 @@ export function planVersionBumps(changed: ParsedChangelog): Solution {
       process.exit(-1);
     }
 
-    for (let pkg of section.packages) {
-      plan.addConstraint(`@embroider/${pkg}`, section.impact, `Appears in changelog section ${section.heading}`);
+    if (singlePackage) {
+      plan.addConstraint(singlePackage, section.impact, `Appears in changelog section ${section.heading}`);
+    } else {
+      for (let pkg of section.packages) {
+        plan.addConstraint(`@embroider/${pkg}`, section.impact, `Appears in changelog section ${section.heading}`);
+      }
     }
+
   }
 
   return plan.solve();

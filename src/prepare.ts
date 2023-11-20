@@ -44,9 +44,9 @@ function updateVersions(solution: Solution) {
   }
 }
 
-export async function prepare(newChangelogContent: string) {
+export async function prepare(newChangelogContent: string, singlePackage?: string) {
   let changes = parseChangeLogOrExit(newChangelogContent);
-  let solution = planVersionBumps(changes);
+  let solution = planVersionBumps(changes, singlePackage);
   updateVersions(solution);
   let description = updateChangelog(newChangelogContent, solution);
   saveSolution(solution, description);
