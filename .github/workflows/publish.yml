@@ -49,7 +49,7 @@ jobs:
         with:
           version: 8
       - name: npm publish
-        run: pnpm release-plan publish
+        run: node ./dist/cli.js publish
         env:
           GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
