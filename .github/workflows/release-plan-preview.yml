@@ -1,0 +1,50 @@
+name: Release Plan Review
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  prepare_release_notes:
+    name: Prepare Release Notes
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      explanation: ${{ steps.explanation.outputs.text }}
+
+    steps:
+      - uses: actions/checkout@v4
+        # We need to download lots of history so that
+        # lerna-changelog can discover what's changed since the last release
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: "Generate Explanation and Prep Changelogs"
+        id: explanation
+        run: |
+          set -x
+          pnpm release-plan prepare --single-package=release-plan
+          jq .description .release-plan.json >> $GITHUB_OUTPUT
+        env:
+          GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: "Prepare Release using 'release-plan'"
+          author: "github-actions[bot] <github-actions-bot@users.noreply.github.com>"
+          labels: "internal"
+          branch: release-preview
+          title: Release Preview
+          body: |
+            Preview of the Release.
+
+            See `.github/workflows/release-plan-preview.yml` for how this PR was created.
+
+            -----------------------------------------
+
+            ${{ steps.explanation.outputs.text }}
