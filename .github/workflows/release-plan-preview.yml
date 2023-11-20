@@ -30,8 +30,9 @@ jobs:
         run: |
           set -x
           node ./dist/cli.js prepare --single-package=release-plan
+          description=$(jq .description .release-plan.json)
           echo 'text<<EOF' >> $GITHUB_OUTPUT
-          echo `jq .description .release-plan.json` >> $GITHUB_OUTPUT
+          echo "$description" >> $GITHUB_OUTPUT
           echo 'EOF' >> $GITHUB_OUTPUT
         env:
           GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
