@@ -4,6 +4,8 @@ import { loadSolution } from './plan.js';
 import { Octokit } from '@octokit/rest';
 import latestVersion from 'latest-version';
 import { dirname } from 'path';
+import PackageJson from '@npmcli/package-json';
+import parseGithubUrl from 'parse-github-repo-url';
 
 async function hasCleanRepo(): Promise<boolean> {
   let result = await execa('git', ['status', '--porcelain=v1']);
@@ -92,11 +94,32 @@ function chooseRepresentativeTag(solution: Solution): string {
   process.exit(-1);
 }
 
+async function getRepo(): Promise<{owner: string, repo:string}> {
+  const pkgJson = await PackageJson.load('./');
+  const normalisedJson = await pkgJson.normalize({
+    steps: ['fixRepositoryField'],
+  });
+
+  if(!normalisedJson.content.repository) {
+    throw new Error('This package does not have a repository defined');
+  }
+
+  const parsed = parseGithubUrl((normalisedJson.content.repository as {url: string}).url);
+
+  if (!parsed) {
+    throw new Error("This package does not have a valid repository");
+  }
+
+  const [user, repo] = parsed;
+  return { owner: user, repo };
+}
+
 async function doesReleaseExist(octokit: Octokit, tagName: string, reporter: IssueReporter) {
   try {
+    const { owner, repo } = await getRepo();
     let response = await octokit.repos.getReleaseByTag({
-      owner: 'embroider-build',
-      repo: 'embroider',
+      owner,
+      repo,
       tag: tagName,
     });
 
@@ -130,9 +153,11 @@ async function createGithubRelease(
       return;
     }
 
+    const { owner, repo } = await getRepo();
+
     await octokit.repos.createRelease({
-      owner: 'embroider-build',
-      repo: 'embroider',
+      owner,
+      repo,
       tag_name: tagName,
       body: description,
     });

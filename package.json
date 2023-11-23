@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@ef4/lerna-changelog": "^1.0.4",
+    "@npmcli/package-json": "^5.0.0",
     "@octokit/rest": "^19.0.8",
     "@types/fs-extra": "^9.0.12",
     "@types/js-yaml": "^4.0.5",
@@ -28,10 +29,13 @@
     "globby": "^11.0.3",
     "js-yaml": "^4.1.0",
     "latest-version": "^5.0.0",
+    "parse-github-repo-url": "^1.4.1",
     "semver": "^7.3.5",
     "yargs": "^17.0.1"
   },
   "devDependencies": {
+    "@types/npmcli__package-json": "^4.0.3",
+    "@types/parse-github-repo-url": "^1.4.2",
     "typescript": "^5.2.2"
   }
 }
