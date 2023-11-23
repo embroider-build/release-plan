@@ -210,7 +210,7 @@ async function pnpmPublish(solution: Solution, reporter: IssueReporter, dryRun: 
         args.push(`--otp=${otp}`);
       }
 
-      await execa('pnpm', ['publish', '--access=public'], {
+      await execa('pnpm', args, {
         cwd: dirname(entry.pkgJSONPath),
         stderr: 'inherit',
         stdout: 'inherit',
