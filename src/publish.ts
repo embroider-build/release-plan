@@ -172,7 +172,7 @@ async function doesVersionExist(pkgName: string, version: string, reporter: Issu
     let latest = await latestVersion(pkgName, { version });
     return Boolean(latest);
   } catch (err) {
-    if (err.name === 'VersionNotFoundError') {
+    if (err.name === 'VersionNotFoundError' || err.name === 'PackageNotFoundError') {
       return false;
     }
 
