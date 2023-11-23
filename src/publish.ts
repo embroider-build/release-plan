@@ -13,7 +13,7 @@ async function hasCleanRepo(): Promise<boolean> {
 }
 
 function tagFor(pkgName: string, entry: { newVersion: string }): string {
-  return `v${entry.newVersion}-${pkgName.replace(/^@embroider\//, '')}`;
+  return `v${entry.newVersion}-${pkgName}`;
 }
 
 function info(message: string) {
@@ -227,7 +227,7 @@ export async function publish(opts: { skipRepoSafetyCheck?: boolean; dryRun?: bo
   if (!opts.skipRepoSafetyCheck) {
     if (!(await hasCleanRepo())) {
       process.stderr.write(`You have uncommitted changes.
-To publish a release you should start from a clean repo. Run "embroider-release prepare", then commit the changes, then come back and run "embroider-release publish.
+To publish a release you should start from a clean repo. Run "npx release-plan prepare", then commit the changes, then come back and run "npx release-plan publish.
 `);
       process.exit(-1);
     }
