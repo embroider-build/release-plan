@@ -1,5 +1,5 @@
 import glob from 'globby';
-import { resolve, join, dirname } from 'path';
+import { resolve, relative } from 'path';
 import fsExtra from 'fs-extra';
 import yaml from 'js-yaml';
 
@@ -17,15 +17,15 @@ export function publishedInterPackageDeps(): Map<string, PkgEntry> {
   let rootDir = './';
   let packages: Map<string, PkgEntry> = new Map();
 
-  function loadPackage(dir: string) {
-    let pkg = readJSONSync(join(dir, 'package.json'));
+  function loadPackage(packagePath: string) {
+    let pkg = readJSONSync(packagePath);
       if (pkg.private) {
         return;
       }
       pkgJSONS.set(pkg.name, pkg);
       packages.set(pkg.name, {
         version: pkg.version,
-        pkgJSONPath: join(dir, 'package.json'),
+        pkgJSONPath: `./${relative('.', packagePath)}`,
         isDependencyOf: new Map(),
         isPeerDependencyOf: new Map(),
       });
@@ -34,12 +34,12 @@ export function publishedInterPackageDeps(): Map<string, PkgEntry> {
   let pkgJSONS: Map<string, any> = new Map();
 
   if(!existsSync('./pnpm-workspace.yaml')) {
-    loadPackage('./');
+    loadPackage('./package.json');
   } else {
     for (let pattern of (yaml.load(readFileSync('./pnpm-workspace.yaml', 'utf8')) as any)
       .packages) {
       for (let dir of glob.sync(pattern, { cwd: rootDir, expandDirectories: false, onlyDirectories: true })) {
-        loadPackage(dirname(resolve(rootDir, dir, 'package.json')))
+        loadPackage(resolve(rootDir, dir, 'package.json'))
       }
     }
   }

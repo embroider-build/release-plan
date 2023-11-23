@@ -211,12 +211,12 @@ async function pnpmPublish(solution: Solution, reporter: IssueReporter, dryRun: 
       }
 
       await execa('pnpm', ['publish', '--access=public'], {
-        cwd: entry.pkgJSONPath,
+        cwd: dirname(entry.pkgJSONPath),
         stderr: 'inherit',
         stdout: 'inherit',
       });
     } catch (err) {
-      reporter.reportFailure(`Failed to pnpm publish ${pkgName}`);
+      reporter.reportFailure(`Failed to pnpm publish ${pkgName} - Error: ${err.message}`);
     }
   }
 }
