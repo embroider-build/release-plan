@@ -4,6 +4,8 @@ import { loadSolution } from './plan.js';
 import { Octokit } from '@octokit/rest';
 import latestVersion from 'latest-version';
 import { dirname } from 'path';
+import PackageJson from '@npmcli/package-json';
+import parseGithubUrl from 'parse-github-repo-url';
 
 async function hasCleanRepo(): Promise<boolean> {
   let result = await execa('git', ['status', '--porcelain=v1']);
@@ -11,7 +13,7 @@ async function hasCleanRepo(): Promise<boolean> {
 }
 
 function tagFor(pkgName: string, entry: { newVersion: string }): string {
-  return `v${entry.newVersion}-${pkgName.replace(/^@embroider\//, '')}`;
+  return `v${entry.newVersion}-${pkgName}`;
 }
 
 function info(message: string) {
@@ -92,11 +94,32 @@ function chooseRepresentativeTag(solution: Solution): string {
   process.exit(-1);
 }
 
+async function getRepo(): Promise<{owner: string, repo:string}> {
+  const pkgJson = await PackageJson.load('./');
+  const normalisedJson = await pkgJson.normalize({
+    steps: ['fixRepositoryField'],
+  });
+
+  if(!normalisedJson.content.repository) {
+    throw new Error('This package does not have a repository defined');
+  }
+
+  const parsed = parseGithubUrl((normalisedJson.content.repository as {url: string}).url);
+
+  if (!parsed) {
+    throw new Error("This package does not have a valid repository");
+  }
+
+  const [user, repo] = parsed;
+  return { owner: user, repo };
+}
+
 async function doesReleaseExist(octokit: Octokit, tagName: string, reporter: IssueReporter) {
   try {
+    const { owner, repo } = await getRepo();
     let response = await octokit.repos.getReleaseByTag({
-      owner: 'embroider-build',
-      repo: 'embroider',
+      owner,
+      repo,
       tag: tagName,
     });
 
@@ -130,9 +153,11 @@ async function createGithubRelease(
       return;
     }
 
+    const { owner, repo } = await getRepo();
+
     await octokit.repos.createRelease({
-      owner: 'embroider-build',
-      repo: 'embroider',
+      owner,
+      repo,
       tag_name: tagName,
       body: description,
     });
@@ -147,7 +172,7 @@ async function doesVersionExist(pkgName: string, version: string, reporter: Issu
     let latest = await latestVersion(pkgName, { version });
     return Boolean(latest);
   } catch (err) {
-    if (err.name === 'VersionNotFoundError') {
+    if (err.name === 'VersionNotFoundError' || err.name === 'PackageNotFoundError') {
       return false;
     }
 
@@ -202,7 +227,7 @@ export async function publish(opts: { skipRepoSafetyCheck?: boolean; dryRun?: bo
   if (!opts.skipRepoSafetyCheck) {
     if (!(await hasCleanRepo())) {
       process.stderr.write(`You have uncommitted changes.
-To publish a release you should start from a clean repo. Run "embroider-release prepare", then commit the changes, then come back and run "embroider-release publish.
+To publish a release you should start from a clean repo. Run "npx release-plan prepare", then commit the changes, then come back and run "npx release-plan publish.
 `);
       process.exit(-1);
     }
