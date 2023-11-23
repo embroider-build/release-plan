@@ -2,8 +2,8 @@
   "solution": {
     "release-plan": {
       "impact": "patch",
-      "oldVersion": "0.2.0",
-      "newVersion": "0.2.1",
+      "oldVersion": "0.2.1",
+      "newVersion": "0.2.2",
       "constraints": [
         {
           "impact": "patch",
@@ -13,5 +13,5 @@
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2023-11-23)\n\nrelease-plan 0.2.1 (patch)\n\n#### :bug: Bug Fix\n* [#13](https://github.com/embroider-build/release-plan/pull/13) Fix npm publish ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2023-11-23)\n\nrelease-plan 0.2.2 (patch)\n\n#### :bug: Bug Fix\n* [#15](https://github.com/embroider-build/release-plan/pull/15) actually use otp when it's provided ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
