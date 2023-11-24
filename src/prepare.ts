@@ -20,7 +20,7 @@ function updateChangelog(newChangelogContent: string, solution: Solution): strin
   let [firstNewLine, ...restNewLines] = newChangelogContent.trim().split('\n');
 
   let newOutput = firstNewLine + '\n\n' + versionSummary(solution) + '\n' + restNewLines.join('\n') + '\n';
-  writeFileSync(targetChangelogFile, oldChangelogContent[0] + '\n' + newOutput + oldChangelogContent.slice(1));
+  writeFileSync(targetChangelogFile, oldChangelogContent[0] + '\n' + newOutput + oldChangelogContent.slice(1).join('\n'));
   return newOutput;
 }
 
