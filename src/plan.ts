@@ -39,9 +39,8 @@ class Plan {
   addConstraint(packageName: string, impact: Impact, reason: string): void {
     let pkgConstraints = this.#constraints.get(packageName);
     if (!pkgConstraints) {
-      let err = new Error(`unknown package "${packageName}"`);
-      (err as any).unknownPackage = true;
-      throw err;
+      console.warn(chalk.yellow(`Warning: unknown package "${packageName}"`));
+      return;
     }
     if (!pkgConstraints.some(existing => existing.impact === impact && existing.reason === reason)) {
       pkgConstraints.push({ impact, reason });
