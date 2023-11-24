@@ -2,6 +2,7 @@ import glob from 'globby';
 import { resolve, relative } from 'path';
 import fsExtra from 'fs-extra';
 import yaml from 'js-yaml';
+import execa from 'execa';
 
 const { readFileSync, readJSONSync, existsSync } = fsExtra;
 export type Range = `workspace:${string}`;
@@ -34,6 +35,14 @@ export function publishedInterPackageDeps(): Map<string, PkgEntry> {
   let pkgJSONS: Map<string, any> = new Map();
 
   if(!existsSync('./pnpm-workspace.yaml')) {
+    const result = execa.sync("npm", ["query", ".workspace"]);
+    const resultParsed = JSON.parse(result.stdout);
+    const locations = resultParsed.map((i:any) => i.location);
+
+    for( const location of locations ) {
+      loadPackage(resolve(location, 'package.json'));
+    }
+
     loadPackage('./package.json');
   } else {
     for (let pattern of (yaml.load(readFileSync('./pnpm-workspace.yaml', 'utf8')) as any)
