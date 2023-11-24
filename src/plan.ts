@@ -206,7 +206,7 @@ export function planVersionBumps(changed: ParsedChangelog, singlePackage?: strin
       plan.addConstraint(singlePackage, section.impact, `Appears in changelog section ${section.heading}`);
     } else {
       for (let pkg of section.packages) {
-        plan.addConstraint(`@embroider/${pkg}`, section.impact, `Appears in changelog section ${section.heading}`);
+        plan.addConstraint(pkg, section.impact, `Appears in changelog section ${section.heading}`);
       }
     }
 
