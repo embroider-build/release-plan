@@ -1,4 +1,22 @@
 # release-plan Changelog
+## Release (2023-11-24)
+
+release-plan 0.3.0 (minor)
+
+#### :rocket: Enhancement
+* [#24](https://github.com/embroider-build/release-plan/pull/24) add support for npm workspaces ([@mansona](https://github.com/mansona))
+
+#### :bug: Bug Fix
+* [#23](https://github.com/embroider-build/release-plan/pull/23) use require.resolve to find lerna-changelog ([@mansona](https://github.com/mansona))
+* [#21](https://github.com/embroider-build/release-plan/pull/21) don't throw when we encounter an unknown package ([@mansona](https://github.com/mansona))
+* [#20](https://github.com/embroider-build/release-plan/pull/20) fix updating changelog ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* [#25](https://github.com/embroider-build/release-plan/pull/25) remove reference to @embroider ([@mansona](https://github.com/mansona))
+* [#22](https://github.com/embroider-build/release-plan/pull/22) remove unused package.json ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
 
 ## Release (2023-11-23)
 
