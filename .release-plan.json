@@ -2,16 +2,12 @@
   "solution": {
     "release-plan": {
       "impact": "minor",
-      "oldVersion": "0.2.3",
-      "newVersion": "0.3.0",
+      "oldVersion": "0.3.0",
+      "newVersion": "0.4.0",
       "constraints": [
         {
           "impact": "minor",
           "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
         },
         {
           "impact": "patch",
@@ -21,5 +17,5 @@
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2023-11-24)\n\nrelease-plan 0.3.0 (minor)\n\n#### :rocket: Enhancement\n* [#24](https://github.com/embroider-build/release-plan/pull/24) add support for npm workspaces ([@mansona](https://github.com/mansona))\n\n#### :bug: Bug Fix\n* [#23](https://github.com/embroider-build/release-plan/pull/23) use require.resolve to find lerna-changelog ([@mansona](https://github.com/mansona))\n* [#21](https://github.com/embroider-build/release-plan/pull/21) don't throw when we encounter an unknown package ([@mansona](https://github.com/mansona))\n* [#20](https://github.com/embroider-build/release-plan/pull/20) fix updating changelog ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* [#25](https://github.com/embroider-build/release-plan/pull/25) remove reference to @embroider ([@mansona](https://github.com/mansona))\n* [#22](https://github.com/embroider-build/release-plan/pull/22) remove unused package.json ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2023-12-04)\n\nrelease-plan 0.4.0 (minor)\n\n#### :rocket: Enhancement\n* [#28](https://github.com/embroider-build/release-plan/pull/28) pick the correct package manager to do npm publish ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* [#29](https://github.com/embroider-build/release-plan/pull/29) Add linting and check it in CI  ([@mansona](https://github.com/mansona))\n* [#27](https://github.com/embroider-build/release-plan/pull/27) run npm init release-plan-setup --update ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
