@@ -2,17 +2,20 @@
   "name": "release-plan",
   "version": "0.3.0",
   "description": "",
+  "keywords": [],
+  "repository": "https://github.com/embroider-build/release-plan",
+  "license": "MIT",
+  "author": "Edward Faulkner <edward@eaf4.com>",
+  "contributors": [
+    "Chris Manson <chris@manson.ie>"
+  ],
   "type": "module",
   "bin": "./dist/cli.js",
-  "repository": "https://github.com/embroider-build/release-plan",
   "scripts": {
-    "prepare": "npm run build",
     "build": "tsc",
+    "prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@ef4/lerna-changelog": "^1.0.4",
     "@npmcli/package-json": "^5.0.0",

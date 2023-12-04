@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - main
+      - master
 
 concurrency:
   group: publish-${{ github.head_ref || github.ref }}
@@ -22,7 +23,7 @@ jobs:
       command: ${{ steps.check-release.outputs.command }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: 'main'
@@ -45,6 +46,7 @@ jobs:
           node-version: 18
           # This creates an .npmrc that reads the NODE_AUTH_TOKEN environment variable
           registry-url: 'https://registry.npmjs.org'
+      
       - uses: pnpm/action-setup@v2
         with:
           version: 8
