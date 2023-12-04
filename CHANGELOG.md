@@ -1,4 +1,17 @@
 # release-plan Changelog
+## Release (2023-12-04)
+
+release-plan 0.4.0 (minor)
+
+#### :rocket: Enhancement
+* [#28](https://github.com/embroider-build/release-plan/pull/28) pick the correct package manager to do npm publish ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* [#29](https://github.com/embroider-build/release-plan/pull/29) Add linting and check it in CI  ([@mansona](https://github.com/mansona))
+* [#27](https://github.com/embroider-build/release-plan/pull/27) run npm init release-plan-setup --update ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
 ## Release (2023-11-24)
 
 release-plan 0.3.0 (minor)
