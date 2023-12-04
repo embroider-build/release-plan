@@ -1,21 +1,17 @@
 {
   "solution": {
     "release-plan": {
-      "impact": "minor",
-      "oldVersion": "0.3.0",
-      "newVersion": "0.4.0",
+      "impact": "patch",
+      "oldVersion": "0.4.0",
+      "newVersion": "0.4.1",
       "constraints": [
         {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
           "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
+          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2023-12-04)\n\nrelease-plan 0.4.0 (minor)\n\n#### :rocket: Enhancement\n* [#28](https://github.com/embroider-build/release-plan/pull/28) pick the correct package manager to do npm publish ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* [#29](https://github.com/embroider-build/release-plan/pull/29) Add linting and check it in CI  ([@mansona](https://github.com/mansona))\n* [#27](https://github.com/embroider-build/release-plan/pull/27) run npm init release-plan-setup --update ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2023-12-04)\n\nrelease-plan 0.4.1 (patch)\n\n#### :bug: Bug Fix\n* [#30](https://github.com/embroider-build/release-plan/pull/30) add shebang back and fix linting config ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
