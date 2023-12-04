@@ -6,10 +6,12 @@ import latestVersion from 'latest-version';
 import { dirname } from 'path';
 import PackageJson from '@npmcli/package-json';
 import parseGithubUrl from 'parse-github-repo-url';
-import { existsSync } from 'fs-extra';
+import fsExtra from 'fs-extra';
+
+const { existsSync } = fsExtra;
 
 async function hasCleanRepo(): Promise<boolean> {
-  let result = await execa('git', ['status', '--porcelain=v1']);
+  const result = await execa('git', ['status', '--porcelain=v1']);
   return result.stdout.length === 0;
 }
 
@@ -34,21 +36,31 @@ class IssueReporter {
 }
 
 async function doesTagExist(tag: string) {
-  let { stdout } = await execa('git', ['ls-remote', '--tags', 'origin', '-l', tag]);
+  const { stdout } = await execa('git', [
+    'ls-remote',
+    '--tags',
+    'origin',
+    '-l',
+    tag,
+  ]);
 
   return stdout.trim() !== '';
 }
 
-async function makeTags(solution: Solution, reporter: IssueReporter, dryRun: boolean): Promise<void> {
-  for (let [pkgName, entry] of solution) {
+async function makeTags(
+  solution: Solution,
+  reporter: IssueReporter,
+  dryRun: boolean,
+): Promise<void> {
+  for (const [pkgName, entry] of solution) {
     if (!entry.impact) {
       continue;
     }
     try {
-      let tag = tagFor(pkgName, entry);
-      let cwd = dirname(entry.pkgJSONPath);
+      const tag = tagFor(pkgName, entry);
+      const cwd = dirname(entry.pkgJSONPath);
 
-      let preExisting = await doesTagExist(tag);
+      const preExisting = await doesTagExist(tag);
 
       if (preExisting) {
         info(`The tag, ${tag}, has already been pushed up for ${pkgName}`);
@@ -86,7 +98,7 @@ async function pushTags(reporter: IssueReporter, dryRun: boolean) {
 }
 
 function chooseRepresentativeTag(solution: Solution): string {
-  for (let [pkgName, entry] of solution) {
+  for (const [pkgName, entry] of solution) {
     if (entry.impact) {
       return tagFor(pkgName, entry);
     }
@@ -95,30 +107,36 @@ function chooseRepresentativeTag(solution: Solution): string {
   process.exit(-1);
 }
 
-async function getRepo(): Promise<{owner: string, repo:string}> {
+async function getRepo(): Promise<{ owner: string; repo: string }> {
   const pkgJson = await PackageJson.load('./');
   const normalisedJson = await pkgJson.normalize({
     steps: ['fixRepositoryField'],
   });
 
-  if(!normalisedJson.content.repository) {
+  if (!normalisedJson.content.repository) {
     throw new Error('This package does not have a repository defined');
   }
 
-  const parsed = parseGithubUrl((normalisedJson.content.repository as {url: string}).url);
+  const parsed = parseGithubUrl(
+    (normalisedJson.content.repository as { url: string }).url,
+  );
 
   if (!parsed) {
-    throw new Error("This package does not have a valid repository");
+    throw new Error('This package does not have a valid repository');
   }
 
   const [user, repo] = parsed;
   return { owner: user, repo };
 }
 
-async function doesReleaseExist(octokit: Octokit, tagName: string, reporter: IssueReporter) {
+async function doesReleaseExist(
+  octokit: Octokit,
+  tagName: string,
+  reporter: IssueReporter,
+) {
   try {
     const { owner, repo } = await getRepo();
-    let response = await octokit.repos.getReleaseByTag({
+    const response = await octokit.repos.getReleaseByTag({
       owner,
       repo,
       tag: tagName,
@@ -130,7 +148,9 @@ async function doesReleaseExist(octokit: Octokit, tagName: string, reporter: Iss
       return false;
     }
     console.error(err.message);
-    reporter.reportFailure(`Problem while checking for existing GitHub release`);
+    reporter.reportFailure(
+      `Problem while checking for existing GitHub release`,
+    );
   }
 }
 
@@ -139,10 +159,10 @@ async function createGithubRelease(
   description: string,
   tagName: string,
   reporter: IssueReporter,
-  dryRun: boolean
+  dryRun: boolean,
 ): Promise<void> {
   try {
-    let preExisting = await doesReleaseExist(octokit, tagName, reporter);
+    const preExisting = await doesReleaseExist(octokit, tagName, reporter);
 
     if (preExisting) {
       info(`A release with the name '${tagName}' already exists`);
@@ -150,7 +170,9 @@ async function createGithubRelease(
     }
 
     if (dryRun) {
-      info(`--dryRun active. Skipping creating a Release on GitHub for ${tagName}`);
+      info(
+        `--dryRun active. Skipping creating a Release on GitHub for ${tagName}`,
+      );
       return;
     }
 
@@ -168,12 +190,19 @@ async function createGithubRelease(
   }
 }
 
-async function doesVersionExist(pkgName: string, version: string, reporter: IssueReporter) {
+async function doesVersionExist(
+  pkgName: string,
+  version: string,
+  reporter: IssueReporter,
+) {
   try {
-    let latest = await latestVersion(pkgName, { version });
+    const latest = await latestVersion(pkgName, { version });
     return Boolean(latest);
   } catch (err) {
-    if (err.name === 'VersionNotFoundError' || err.name === 'PackageNotFoundError') {
+    if (
+      err.name === 'VersionNotFoundError' ||
+      err.name === 'PackageNotFoundError'
+    ) {
       return false;
     }
 
@@ -182,13 +211,23 @@ async function doesVersionExist(pkgName: string, version: string, reporter: Issu
   }
 }
 
-async function npmPublish(solution: Solution, reporter: IssueReporter, dryRun: boolean, packageManager: string, otp?: string): Promise<void> {
-  for (let [pkgName, entry] of solution) {
+async function npmPublish(
+  solution: Solution,
+  reporter: IssueReporter,
+  dryRun: boolean,
+  packageManager: string,
+  otp?: string,
+): Promise<void> {
+  for (const [pkgName, entry] of solution) {
     if (!entry.impact) {
       continue;
     }
 
-    let preExisting = await doesVersionExist(pkgName, entry.newVersion, reporter);
+    const preExisting = await doesVersionExist(
+      pkgName,
+      entry.newVersion,
+      reporter,
+    );
 
     if (preExisting) {
       info(`${pkgName} has already been publish @ version ${entry.newVersion}`);
@@ -199,7 +238,7 @@ async function npmPublish(solution: Solution, reporter: IssueReporter, dryRun: b
       info(
         `--dryRun active. Skipping \`${packageManager} publish --access=public${
           otp ? ' --otp=*redacted*' : ''
-        }\` for ${pkgName}, which would publish version ${entry.newVersion}`
+        }\` for ${pkgName}, which would publish version ${entry.newVersion}`,
       );
       continue;
     }
@@ -217,21 +256,27 @@ async function npmPublish(solution: Solution, reporter: IssueReporter, dryRun: b
         stdout: 'inherit',
       });
     } catch (err) {
-      reporter.reportFailure(`Failed to ${packageManager} publish ${pkgName} - Error: ${err.message}`);
+      reporter.reportFailure(
+        `Failed to ${packageManager} publish ${pkgName} - Error: ${err.message}`,
+      );
     }
   }
 }
 
-function packageManager() : string {
-  if(existsSync('./pnpm-lock.yaml')) {
+function packageManager(): string {
+  if (existsSync('./pnpm-lock.yaml')) {
     return 'pnpm';
-  } 
+  }
 
   return 'npm';
 }
 
-export async function publish(opts: { skipRepoSafetyCheck?: boolean; dryRun?: boolean; otp?: string }) {
-  let dryRun = opts.dryRun ?? false;
+export async function publish(opts: {
+  skipRepoSafetyCheck?: boolean;
+  dryRun?: boolean;
+  otp?: string;
+}) {
+  const dryRun = opts.dryRun ?? false;
 
   if (!opts.skipRepoSafetyCheck) {
     if (!(await hasCleanRepo())) {
@@ -242,26 +287,32 @@ To publish a release you should start from a clean repo. Run "npx release-plan p
     }
   }
 
-  let { solution, description } = loadSolution();
+  const { solution, description } = loadSolution();
 
   if (!process.env.GITHUB_AUTH) {
     process.stderr.write(`\nYou need to set GITHUB_AUTH.`);
     process.exit(-1);
   }
 
-  let octokit = new Octokit({ auth: process.env.GITHUB_AUTH });
+  const octokit = new Octokit({ auth: process.env.GITHUB_AUTH });
 
-  let representativeTag = chooseRepresentativeTag(solution);
+  const representativeTag = chooseRepresentativeTag(solution);
 
   // from this point forward we don't stop if something goes wrong, we just keep
   // track of whether anything went wrong so we can use the right exit code at
   // the end.
-  let reporter = new IssueReporter();
+  const reporter = new IssueReporter();
 
   await makeTags(solution, reporter, dryRun);
   await npmPublish(solution, reporter, dryRun, packageManager(), opts.otp);
   await pushTags(reporter, dryRun);
-  await createGithubRelease(octokit, description, representativeTag, reporter, dryRun);
+  await createGithubRelease(
+    octokit,
+    description,
+    representativeTag,
+    reporter,
+    dryRun,
+  );
 
   if (reporter.hadIssues) {
     process.stderr.write(`\nSome parts of the release were unsuccessful.\n`);

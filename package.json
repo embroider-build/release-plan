@@ -13,6 +13,7 @@
   "bin": "./dist/cli.js",
   "scripts": {
     "build": "tsc",
+    "lint": "eslint .",
     "prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -39,6 +40,13 @@
   "devDependencies": {
     "@types/npmcli__package-json": "^4.0.3",
     "@types/parse-github-repo-url": "^1.4.2",
+    "@typescript-eslint/eslint-plugin": "^6.13.2",
+    "@typescript-eslint/parser": "^6.13.2",
+    "eslint": "^8.55.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-n": "^16.3.1",
+    "eslint-plugin-prettier": "^5.0.1",
+    "prettier": "^3.1.0",
     "typescript": "^5.2.2"
   }
 }

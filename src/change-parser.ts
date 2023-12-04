@@ -1,31 +1,36 @@
 export type Impact = 'major' | 'minor' | 'patch';
 export type UnlabeledSection = { unlabeled: true; summaryText: string };
-export type LabeledSection = { packages: string[]; impact: Impact; heading: string };
+export type LabeledSection = {
+  packages: string[];
+  impact: Impact;
+  heading: string;
+};
 export type Section = LabeledSection | UnlabeledSection;
 export interface ParsedChangelog {
   sections: Section[];
 }
 
-const knownSections: Record<string, { impact: Impact } | { unlabeled: true }> = {
-  ':boom: Breaking Change': {
-    impact: 'major',
-  },
-  ':rocket: Enhancement': {
-    impact: 'minor',
-  },
-  ':bug: Bug Fix': {
-    impact: 'patch',
-  },
-  ':memo: Documentation': {
-    impact: 'patch',
-  },
-  ':house: Internal': {
-    impact: 'patch',
-  },
-  ':question: Unlabeled': {
-    unlabeled: true,
-  },
-};
+const knownSections: Record<string, { impact: Impact } | { unlabeled: true }> =
+  {
+    ':boom: Breaking Change': {
+      impact: 'major',
+    },
+    ':rocket: Enhancement': {
+      impact: 'minor',
+    },
+    ':bug: Bug Fix': {
+      impact: 'patch',
+    },
+    ':memo: Documentation': {
+      impact: 'patch',
+    },
+    ':house: Internal': {
+      impact: 'patch',
+    },
+    ':question: Unlabeled': {
+      unlabeled: true,
+    },
+  };
 
 const ignoredSections = [/Committers: \d+/];
 
@@ -40,7 +45,7 @@ function stillWithinSection(lines: string[]): boolean {
 }
 
 function consumeSection(lines: string[]) {
-  let matchedLines = [];
+  const matchedLines = [];
   while (stillWithinSection(lines)) {
     matchedLines.push(lines.shift());
   }
@@ -48,15 +53,15 @@ function consumeSection(lines: string[]) {
 }
 
 function parseSection(lines: string[]): Section | undefined {
-  let line = lines.shift();
+  const line = lines.shift();
   const heading = line ? sectionHeading(line) : undefined;
   if (!heading) {
     return;
   }
 
-  let sectionConfig = knownSections[heading];
+  const sectionConfig = knownSections[heading];
   if (!sectionConfig) {
-    if (ignoredSections.some(pattern => pattern.test(heading))) {
+    if (ignoredSections.some((pattern) => pattern.test(heading))) {
       consumeSection(lines);
       return;
     }
@@ -67,11 +72,11 @@ function parseSection(lines: string[]): Section | undefined {
     return { unlabeled: true, summaryText: consumeSection(lines).join('\n') };
   }
 
-  let packages = new Set<string>();
+  const packages = new Set<string>();
   while (stillWithinSection(lines)) {
-    let packageList = parsePackageList(lines);
+    const packageList = parsePackageList(lines);
     if (packageList) {
-      for (let pkg of packageList) {
+      for (const pkg of packageList) {
         packages.add(pkg);
       }
     }
@@ -84,7 +89,7 @@ function parseSection(lines: string[]): Section | undefined {
 }
 
 function parsePackageList(lines: string[]): string[] | undefined {
-  let line = lines.shift();
+  const line = lines.shift();
   if (!line) {
     return;
   }
@@ -92,19 +97,19 @@ function parsePackageList(lines: string[]): string[] | undefined {
     return;
   }
   if (line.startsWith('* `')) {
-    let parts = line.slice(2).split(/,\s*/);
-    if (!parts.every(p => p.startsWith('`') && p.endsWith('`'))) {
+    const parts = line.slice(2).split(/,\s*/);
+    if (!parts.every((p) => p.startsWith('`') && p.endsWith('`'))) {
       throw new Error(`don't understand this line: ${line}.`);
     }
-    return parts.map(p => p.slice(1, -1));
+    return parts.map((p) => p.slice(1, -1));
   }
 }
 
 export function parseChangeLog(src: string): ParsedChangelog {
-  let lines = src.split('\n');
-  let sections = [];
+  const lines = src.split('\n');
+  const sections = [];
   while (lines.length > 0) {
-    let section = parseSection(lines);
+    const section = parseSection(lines);
     if (section) {
       sections.push(section);
     }

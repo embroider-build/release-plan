@@ -1,6 +1,6 @@
 import type { Impact, ParsedChangelog } from './change-parser.js';
 import { publishedInterPackageDeps } from './interdep.js';
-import {assertNever} from 'assert-never';
+import { assertNever } from 'assert-never';
 import { inc, satisfies } from 'semver';
 import { highlightMarkdown } from './highlight.js';
 import chalk from 'chalk';
@@ -29,34 +29,38 @@ class Plan {
     this.#pkgs = publishedInterPackageDeps();
 
     // initialize constraints for every published package
-    let constraints = new Map<string, { impact: Impact; reason: string }[]>();
-    for (let pkg of this.#pkgs.keys()) {
+    const constraints = new Map<string, { impact: Impact; reason: string }[]>();
+    for (const pkg of this.#pkgs.keys()) {
       constraints.set(pkg, []);
     }
     this.#constraints = constraints;
   }
 
   addConstraint(packageName: string, impact: Impact, reason: string): void {
-    let pkgConstraints = this.#constraints.get(packageName);
+    const pkgConstraints = this.#constraints.get(packageName);
     if (!pkgConstraints) {
       console.warn(chalk.yellow(`Warning: unknown package "${packageName}"`));
       return;
     }
-    if (!pkgConstraints.some(existing => existing.impact === impact && existing.reason === reason)) {
+    if (
+      !pkgConstraints.some(
+        (existing) => existing.impact === impact && existing.reason === reason,
+      )
+    ) {
       pkgConstraints.push({ impact, reason });
       this.#propagate(packageName, impact);
     }
   }
 
   solve(): Solution {
-    let solution: Solution = new Map();
-    for (let [pkgName, entry] of this.#pkgs) {
-      let constraints = this.#constraints.get(pkgName)!;
-      let impact = this.#sumImpact(constraints);
+    const solution: Solution = new Map();
+    for (const [pkgName, entry] of this.#pkgs) {
+      const constraints = this.#constraints.get(pkgName)!;
+      const impact = this.#sumImpact(constraints);
       if (!impact) {
         solution.set(pkgName, { impact: undefined, oldVersion: entry.version });
       } else {
-        let newVersion = inc(entry.version, impact)!;
+        const newVersion = inc(entry.version, impact)!;
         solution.set(pkgName, {
           impact,
           oldVersion: entry.version,
@@ -69,7 +73,10 @@ class Plan {
     return solution;
   }
 
-  #expandWorkspaceRange(range: `workspace:${string}`, availableVersion: string): string {
+  #expandWorkspaceRange(
+    range: `workspace:${string}`,
+    availableVersion: string,
+  ): string {
     // this implements PNPM's rules for how workspace: protocol dependencies get
     // expanded into proper semver ranges.
     switch (range) {
@@ -85,13 +92,25 @@ class Plan {
   }
 
   #propagate(packageName: string, impact: Impact) {
-    let entry = this.#pkgs.get(packageName)!;
-    let minNewVersion = inc(entry.version, impact)!;
-    for (let [consumerName, workspaceRange] of entry.isDependencyOf) {
-      this.#propagateDep(packageName, minNewVersion, 'dependencies', consumerName, workspaceRange);
+    const entry = this.#pkgs.get(packageName)!;
+    const minNewVersion = inc(entry.version, impact)!;
+    for (const [consumerName, workspaceRange] of entry.isDependencyOf) {
+      this.#propagateDep(
+        packageName,
+        minNewVersion,
+        'dependencies',
+        consumerName,
+        workspaceRange,
+      );
     }
-    for (let [consumerName, workspaceRange] of entry.isPeerDependencyOf) {
-      this.#propagateDep(packageName, minNewVersion, 'peerDependencies', consumerName, workspaceRange);
+    for (const [consumerName, workspaceRange] of entry.isPeerDependencyOf) {
+      this.#propagateDep(
+        packageName,
+        minNewVersion,
+        'peerDependencies',
+        consumerName,
+        workspaceRange,
+      );
     }
   }
 
@@ -100,21 +119,25 @@ class Plan {
     minNewVersion: string,
     section: 'dependencies' | 'peerDependencies',
     consumerName: string,
-    workspaceRange: `workspace:${string}`
+    workspaceRange: `workspace:${string}`,
   ) {
-    let entry = this.#pkgs.get(packageName)!;
+    const entry = this.#pkgs.get(packageName)!;
 
-    let oldRange = this.#expandWorkspaceRange(workspaceRange, entry.version);
+    const oldRange = this.#expandWorkspaceRange(workspaceRange, entry.version);
     if (!satisfies(minNewVersion, oldRange)) {
       switch (section) {
         case 'dependencies':
-          this.addConstraint(consumerName, 'patch', `Has dependency ${'`'}${workspaceRange}${'`'} on ${packageName}`);
+          this.addConstraint(
+            consumerName,
+            'patch',
+            `Has dependency ${'`'}${workspaceRange}${'`'} on ${packageName}`,
+          );
           break;
         case 'peerDependencies':
           this.addConstraint(
             consumerName,
             'major',
-            `Has peer dependency ${'`'}${workspaceRange}${'`'} on ${packageName}`
+            `Has peer dependency ${'`'}${workspaceRange}${'`'} on ${packageName}`,
           );
           break;
         default:
@@ -124,13 +147,13 @@ class Plan {
   }
 
   #sumImpact(impacts: { impact: Impact }[]): Impact | undefined {
-    if (impacts.some(i => i.impact === 'major')) {
+    if (impacts.some((i) => i.impact === 'major')) {
       return 'major';
     }
-    if (impacts.some(i => i.impact === 'minor')) {
+    if (impacts.some((i) => i.impact === 'minor')) {
       return 'minor';
     }
-    if (impacts.some(i => i.impact === 'patch')) {
+    if (impacts.some((i) => i.impact === 'patch')) {
       return 'patch';
     }
   }
@@ -154,17 +177,21 @@ function capitalize(s: string): string {
 }
 
 export function explain(solution: Solution) {
-  let output: string[] = [];
+  const output: string[] = [];
 
-  for (let priority of ['major', 'minor', 'patch'] as const) {
-    if ([...solution].some(entry => entry[1].impact === priority)) {
+  for (const priority of ['major', 'minor', 'patch'] as const) {
+    if ([...solution].some((entry) => entry[1].impact === priority)) {
       output.push(impactLabel(priority, capitalize(priority)));
       output.push('');
 
-      for (let [pkgName, entry] of solution) {
+      for (const [pkgName, entry] of solution) {
         if (entry.impact === priority) {
-          output.push(`  ${impactLabel(entry.impact, pkgName)} from ${entry.oldVersion} to ${entry.newVersion}`);
-          for (let constraint of entry.constraints) {
+          output.push(
+            `  ${impactLabel(entry.impact, pkgName)} from ${
+              entry.oldVersion
+            } to ${entry.newVersion}`,
+          );
+          for (const constraint of entry.constraints) {
             if (constraint.impact === entry.impact) {
               output.push(`   - ${constraint.reason}`);
             }
@@ -175,10 +202,10 @@ export function explain(solution: Solution) {
     }
   }
 
-  if ([...solution].some(entry => entry[1].impact === undefined)) {
+  if ([...solution].some((entry) => entry[1].impact === undefined)) {
     output.push(impactLabel(undefined, 'Unreleased'));
     output.push('');
-    for (let [pkgName, entry] of solution) {
+    for (const [pkgName, entry] of solution) {
       if (entry.impact === undefined) {
         output.push(`## ${pkgName}`);
         output.push(`  ${impactLabel(entry.impact, pkgName)} unchanged`);
@@ -190,26 +217,36 @@ export function explain(solution: Solution) {
   return output.join('\n');
 }
 
-export function planVersionBumps(changed: ParsedChangelog, singlePackage?: string): Solution {
-  let plan = new Plan();
-  for (let section of changed.sections) {
+export function planVersionBumps(
+  changed: ParsedChangelog,
+  singlePackage?: string,
+): Solution {
+  const plan = new Plan();
+  for (const section of changed.sections) {
     if ('unlabeled' in section) {
       process.stderr.write(
         highlightMarkdown(
-          `# Unlabeled Changes\n\n${section.summaryText}\n\n*Cannot plan release until the above changes are labeled*.\n`
-        )
+          `# Unlabeled Changes\n\n${section.summaryText}\n\n*Cannot plan release until the above changes are labeled*.\n`,
+        ),
       );
       process.exit(-1);
     }
 
     if (singlePackage) {
-      plan.addConstraint(singlePackage, section.impact, `Appears in changelog section ${section.heading}`);
+      plan.addConstraint(
+        singlePackage,
+        section.impact,
+        `Appears in changelog section ${section.heading}`,
+      );
     } else {
-      for (let pkg of section.packages) {
-        plan.addConstraint(pkg, section.impact, `Appears in changelog section ${section.heading}`);
+      for (const pkg of section.packages) {
+        plan.addConstraint(
+          pkg,
+          section.impact,
+          `Appears in changelog section ${section.heading}`,
+        );
       }
     }
-
   }
 
   return plan.solve();
@@ -220,24 +257,28 @@ function solutionFile(): string {
 }
 
 export function saveSolution(solution: Solution, description: string): void {
-  writeJSONSync(solutionFile(), { solution: Object.fromEntries(solution), description }, { spaces: 2 });
+  writeJSONSync(
+    solutionFile(),
+    { solution: Object.fromEntries(solution), description },
+    { spaces: 2 },
+  );
 }
 
 export function loadSolution(): { solution: Solution; description: string } {
   try {
     if (!existsSync(solutionFile())) {
-      let err = new Error(`No such file ${solutionFile()}`);
+      const err = new Error(`No such file ${solutionFile()}`);
       (err as any).code = 'ENOENT';
       throw err;
     }
-    let json = readJSONSync(solutionFile());
+    const json = readJSONSync(solutionFile());
     return {
       solution: new Map(Object.entries(json.solution)),
       description: json.description,
     };
   } catch (err) {
     process.stderr.write(
-      `Unable to load release plan file. You must run "embroider-release prepare" first to create the file.\n`
+      `Unable to load release plan file. You must run "embroider-release prepare" first to create the file.\n`,
     );
     if (err.code !== 'ENOENT') {
       console.error(err);

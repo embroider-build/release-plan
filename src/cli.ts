@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import yargs from 'yargs/yargs';
 import type { Argv } from 'yargs';
 
@@ -8,29 +7,33 @@ import { publish } from './publish.js';
 
 yargs(process.argv.slice(2))
   .usage(
-    `Most of the subcommands in here exist so you can easily test parts of the release process by themselves. To do an actual release, see RELEASE.md.`
+    `Most of the subcommands in here exist so you can easily test parts of the release process by themselves. To do an actual release, see RELEASE.md.`,
   )
   .scriptName('release')
   .command(
     'prepare',
     `Edits the package.json and changelog files to prepare for release.`,
-    yargs => fromStdin(yargs).option('singlePackage', {
-      type: 'string',
-      description:
-        'Allows you to run this command in a non monorepo and define the package name',
-    }),
+    (yargs) =>
+      fromStdin(yargs).option('singlePackage', {
+        type: 'string',
+        description:
+          'Allows you to run this command in a non monorepo and define the package name',
+      }),
     async function (opts) {
-      let { prepare } = await import('./prepare.js');
-      let solution = await prepare(await newChangelogContent(opts), opts.singlePackage);
-      let { explain } = await import('./plan.js');
+      const { prepare } = await import('./prepare.js');
+      const solution = await prepare(
+        await newChangelogContent(opts),
+        opts.singlePackage,
+      );
+      const { explain } = await import('./plan.js');
       process.stdout.write(explain(solution));
       process.stdout.write(`\nSuccessfully prepared released\n`);
-    }
+    },
   )
   .command(
     'publish',
     `Publishes an already-prepared released by tagging, pushing tags, creating GitHub release, and publishing to NPM.`,
-    yargs =>
+    (yargs) =>
       yargs
         .option('skipRepoSafetyCheck', {
           type: 'boolean',
@@ -43,53 +46,63 @@ yargs(process.argv.slice(2))
         })
         .option('dryRun', {
           type: 'boolean',
-          description: 'Run through the release, but log to stdout instead of tagging/pushing/publishing',
+          description:
+            'Run through the release, but log to stdout instead of tagging/pushing/publishing',
         }),
     async function (opts) {
       await publish(opts);
-    }
+    },
   )
   .command(
     'gather-changes',
     `Uses lerna-changelog to build a description of all the PRs in the release.`,
-    yargs => yargs,
+    (yargs) => yargs,
     async function (/* opts */) {
-      let { gatherChanges } = await import('./gather-changes.js');
+      const { gatherChanges } = await import('./gather-changes.js');
       process.stdout.write(await gatherChanges());
-    }
+    },
   )
   .command(
     'parse-changes',
     `Parse the summary of changes into a structured format`,
-    yargs => fromStdin(yargs),
+    (yargs) => fromStdin(yargs),
     async function (opts) {
-      let { parseChangeLogOrExit } = await import('./change-parser.js');
-      console.log(JSON.stringify(parseChangeLogOrExit(await newChangelogContent(opts)), null, 2));
-    }
+      const { parseChangeLogOrExit } = await import('./change-parser.js');
+      console.log(
+        JSON.stringify(
+          parseChangeLogOrExit(await newChangelogContent(opts)),
+          null,
+          2,
+        ),
+      );
+    },
   )
   .command(
     'discover-deps',
     `Summarizes how all our published packages relate to each other`,
-    yargs => yargs,
+    (yargs) => yargs,
     async function (/* opts */) {
-      let { publishedInterPackageDeps } = await import('./interdep.js');
+      const { publishedInterPackageDeps } = await import('./interdep.js');
       console.log(publishedInterPackageDeps());
-    }
+    },
   )
   .command(
     'explain-plan',
     `Explains which packages need to be released at what versions and why.`,
-    yargs => fromStdin(yargs)
-    .option('singlePackage', {
-      type: 'string',
-      description:
-        'Allows you to run this command in a non monorepo and define the package name',
-    }),
+    (yargs) =>
+      fromStdin(yargs).option('singlePackage', {
+        type: 'string',
+        description:
+          'Allows you to run this command in a non monorepo and define the package name',
+      }),
     async function (opts) {
-      let { planVersionBumps, explain } = await import('./plan.js');
-      let solution = planVersionBumps(parseChangeLogOrExit(await newChangelogContent(opts)), opts.singlePackage);
+      const { planVersionBumps, explain } = await import('./plan.js');
+      const solution = planVersionBumps(
+        parseChangeLogOrExit(await newChangelogContent(opts)),
+        opts.singlePackage,
+      );
       console.log(explain(solution));
-    }
+    },
   )
   .demandCommand()
   .strictCommands()
@@ -98,7 +111,8 @@ yargs(process.argv.slice(2))
 function fromStdin(yargs: Argv) {
   return yargs.option('fromStdin', {
     type: 'boolean',
-    description: 'Read the summary of changes from stdin instead of building them from scratch.',
+    description:
+      'Read the summary of changes from stdin instead of building them from scratch.',
   });
 }
 
@@ -107,7 +121,7 @@ async function newChangelogContent(opts: { fromStdin: boolean | undefined }) {
   if (opts.fromStdin) {
     content = readFileSync(process.stdin.fd, 'utf8');
   } else {
-    let { gatherChanges } = await import('./gather-changes.js');
+    const { gatherChanges } = await import('./gather-changes.js');
     content = await gatherChanges();
   }
   return content;
