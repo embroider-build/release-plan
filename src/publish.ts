@@ -6,6 +6,7 @@ import latestVersion from 'latest-version';
 import { dirname } from 'path';
 import PackageJson from '@npmcli/package-json';
 import parseGithubUrl from 'parse-github-repo-url';
+import { existsSync } from 'fs-extra';
 
 async function hasCleanRepo(): Promise<boolean> {
   let result = await execa('git', ['status', '--porcelain=v1']);
@@ -181,7 +182,7 @@ async function doesVersionExist(pkgName: string, version: string, reporter: Issu
   }
 }
 
-async function pnpmPublish(solution: Solution, reporter: IssueReporter, dryRun: boolean, otp?: string): Promise<void> {
+async function npmPublish(solution: Solution, reporter: IssueReporter, dryRun: boolean, packageManager: string, otp?: string): Promise<void> {
   for (let [pkgName, entry] of solution) {
     if (!entry.impact) {
       continue;
@@ -196,7 +197,7 @@ async function pnpmPublish(solution: Solution, reporter: IssueReporter, dryRun: 
 
     if (dryRun) {
       info(
-        `--dryRun active. Skipping \`pnpm publish --access=public${
+        `--dryRun active. Skipping \`${packageManager} publish --access=public${
           otp ? ' --otp=*redacted*' : ''
         }\` for ${pkgName}, which would publish version ${entry.newVersion}`
       );
@@ -210,15 +211,23 @@ async function pnpmPublish(solution: Solution, reporter: IssueReporter, dryRun: 
         args.push(`--otp=${otp}`);
       }
 
-      await execa('pnpm', args, {
+      await execa(packageManager, args, {
         cwd: dirname(entry.pkgJSONPath),
         stderr: 'inherit',
         stdout: 'inherit',
       });
     } catch (err) {
-      reporter.reportFailure(`Failed to pnpm publish ${pkgName} - Error: ${err.message}`);
+      reporter.reportFailure(`Failed to ${packageManager} publish ${pkgName} - Error: ${err.message}`);
     }
   }
+}
+
+function packageManager() : string {
+  if(existsSync('./pnpm-lock.yaml')) {
+    return 'pnpm';
+  } 
+
+  return 'npm';
 }
 
 export async function publish(opts: { skipRepoSafetyCheck?: boolean; dryRun?: boolean; otp?: string }) {
@@ -250,7 +259,7 @@ To publish a release you should start from a clean repo. Run "npx release-plan p
   let reporter = new IssueReporter();
 
   await makeTags(solution, reporter, dryRun);
-  await pnpmPublish(solution, reporter, dryRun, opts.otp);
+  await npmPublish(solution, reporter, dryRun, packageManager(), opts.otp);
   await pushTags(reporter, dryRun);
   await createGithubRelease(octokit, description, representativeTag, reporter, dryRun);
 
