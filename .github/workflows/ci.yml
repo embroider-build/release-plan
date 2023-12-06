@@ -27,3 +27,19 @@ jobs:
           version: 8
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
+
+  test:
+    name: "Test"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test

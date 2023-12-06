@@ -9,7 +9,14 @@ module.exports = {
     'plugin:prettier/recommended',
     'plugin:n/recommended',
   ],
-  overrides: [],
+  overrides: [
+    {
+      files: 'src/*.test.ts',
+      rules: {
+        'n/no-unpublished-import': 0,
+      },
+    },
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',

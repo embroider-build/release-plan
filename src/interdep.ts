@@ -1,10 +1,8 @@
-import glob from 'globby';
-import { resolve, relative } from 'path';
+import { resolve, relative, join } from 'path';
 import fsExtra from 'fs-extra';
-import yaml from 'js-yaml';
 import execa from 'execa';
 
-const { readFileSync, readJSONSync, existsSync } = fsExtra;
+const { readJSONSync, existsSync } = fsExtra;
 export type Range = `workspace:${string}`;
 
 export interface PkgEntry {
@@ -12,10 +10,10 @@ export interface PkgEntry {
   pkgJSONPath: string;
   isDependencyOf: Map<string, Range>;
   isPeerDependencyOf: Map<string, Range>;
+  pkg: any;
 }
 
-export function publishedInterPackageDeps(): Map<string, PkgEntry> {
-  const rootDir = './';
+export function getPackages(rootDir: string): Map<string, PkgEntry> {
   const packages: Map<string, PkgEntry> = new Map();
 
   function loadPackage(packagePath: string) {
@@ -23,19 +21,18 @@ export function publishedInterPackageDeps(): Map<string, PkgEntry> {
     if (pkg.private) {
       return;
     }
-    pkgJSONS.set(pkg.name, pkg);
+
     packages.set(pkg.name, {
       version: pkg.version,
       pkgJSONPath: `./${relative('.', packagePath)}`,
       isDependencyOf: new Map(),
       isPeerDependencyOf: new Map(),
+      pkg,
     });
   }
 
-  const pkgJSONS: Map<string, any> = new Map();
-
-  if (!existsSync('./pnpm-workspace.yaml')) {
-    const result = execa.sync('npm', ['query', '.workspace']);
+  if (!existsSync(join(rootDir, './pnpm-workspace.yaml'))) {
+    const result = execa.sync('npm', ['query', '.workspace'], { cwd: rootDir });
     const resultParsed = JSON.parse(result.stdout);
     const locations = resultParsed.map((i: any) => i.location);
 
@@ -43,22 +40,25 @@ export function publishedInterPackageDeps(): Map<string, PkgEntry> {
       loadPackage(resolve(location, 'package.json'));
     }
 
-    loadPackage('./package.json');
+    loadPackage(join(rootDir, './package.json'));
   } else {
-    for (const pattern of (
-      yaml.load(readFileSync('./pnpm-workspace.yaml', 'utf8')) as any
-    ).packages) {
-      for (const dir of glob.sync(pattern, {
-        cwd: rootDir,
-        expandDirectories: false,
-        onlyDirectories: true,
-      })) {
-        loadPackage(resolve(rootDir, dir, 'package.json'));
-      }
-    }
-  }
+    const result = execa.sync(`pnpm`, ['m', 'ls', '--json', '--depth=-1'], {
+      cwd: rootDir,
+    });
+    const workspaceJson = JSON.parse(result.stdout);
 
-  for (const [consumerName, consumerPkgJSON] of pkgJSONS) {
+    workspaceJson
+      .filter((item: any) => item.name && item.path)
+      .forEach((item: any) => loadPackage(join(item.path, 'package.json')));
+  }
+  return packages;
+}
+
+export function publishedInterPackageDeps(): Map<string, PkgEntry> {
+  const packages = getPackages('./');
+
+  for (const [consumerName, packageDefinition] of packages) {
+    const consumerPkgJSON = packageDefinition.pkg;
     // no devDeps because changes to devDeps shouldn't ever force us to
     // release
     for (const section of ['dependencies', 'peerDependencies'] as const) {
