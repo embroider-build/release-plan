@@ -1,6 +1,17 @@
 # release-plan Changelog
 ## Release (2023-12-06)
 
+release-plan 0.5.1 (patch)
+
+#### :bug: Bug Fix
+* `release-plan`
+  * [#35](https://github.com/embroider-build/release-plan/pull/35) fix pnpm package discovery bug ([@mansona](https://github.com/mansona))
+  * [#34](https://github.com/embroider-build/release-plan/pull/34) Fix pnpm package discovery ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+## Release (2023-12-06)
+
 release-plan 0.5.0 (minor)
 
 #### :rocket: Enhancement
