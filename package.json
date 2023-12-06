@@ -30,7 +30,6 @@
     "cli-highlight": "^2.1.11",
     "execa": "^4.0.3",
     "fs-extra": "^10.0.0",
-    "globby": "^11.0.3",
     "js-yaml": "^4.1.0",
     "latest-version": "^5.0.0",
     "parse-github-repo-url": "^1.4.1",
