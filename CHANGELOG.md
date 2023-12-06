@@ -1,4 +1,14 @@
 # release-plan Changelog
+## Release (2023-12-06)
+
+release-plan 0.5.0 (minor)
+
+#### :rocket: Enhancement
+* `release-plan`
+  * [#32](https://github.com/embroider-build/release-plan/pull/32) update lerna-changelog ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
 ## Release (2023-12-04)
 
 release-plan 0.4.1 (patch)
