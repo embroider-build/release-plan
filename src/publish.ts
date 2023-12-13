@@ -10,6 +10,13 @@ import fsExtra from 'fs-extra';
 
 const { existsSync } = fsExtra;
 
+type PublishOptions = {
+  skipRepoSafetyCheck?: boolean;
+  dryRun?: boolean;
+  otp?: string;
+  publishBranch?: string;
+};
+
 async function hasCleanRepo(): Promise<boolean> {
   const result = await execa('git', ['status', '--porcelain=v1']);
   return result.stdout.length === 0;
@@ -27,7 +34,7 @@ function success(message: string) {
   process.stdout.write(`\n 🎉 ${message} 🎉\n`);
 }
 
-class IssueReporter {
+export class IssueReporter {
   hadIssues = false;
   reportFailure(message: string): void {
     this.hadIssues = true;
@@ -211,12 +218,29 @@ async function doesVersionExist(
   }
 }
 
-async function npmPublish(
+/**
+ * Call npm publish or pnpm publish on each of the packages in a plan
+ *
+ * @returns Promise<T> return value only used for testing
+ */
+export async function npmPublish(
   solution: Solution,
   reporter: IssueReporter,
   options: PublishOptions,
   packageManager: string,
-): Promise<void> {
+): Promise<{ args: string[]; released: Map<string, string> }> {
+  const args = ['publish', '--access=public'];
+
+  if (options.otp) {
+    args.push(`--otp=${options.otp}`);
+  }
+
+  if (options.publishBranch) {
+    args.push(`--publish-branch=${options.publishBranch}`);
+  }
+
+  const released = new Map();
+
   for (const [pkgName, entry] of solution) {
     if (!entry.impact) {
       continue;
@@ -230,7 +254,7 @@ async function npmPublish(
 
     if (preExisting) {
       info(`${pkgName} has already been publish @ version ${entry.newVersion}`);
-      return;
+      continue;
     }
 
     if (options.dryRun) {
@@ -239,20 +263,12 @@ async function npmPublish(
           options.otp ? ' --otp=*redacted*' : ''
         }\` for ${pkgName}, which would publish version ${entry.newVersion}`,
       );
+
+      released.set(pkgName, entry.newVersion);
       continue;
     }
 
     try {
-      const args = ['publish', '--access=public'];
-
-      if (options.otp) {
-        args.push(`--otp=${options.otp}`);
-      }
-
-      if (options.publishBranch) {
-        args.push(`--publish-branch=${options.publishBranch}`);
-      }
-
       await execa(packageManager, args, {
         cwd: dirname(entry.pkgJSONPath),
         stderr: 'inherit',
@@ -264,6 +280,11 @@ async function npmPublish(
       );
     }
   }
+
+  return {
+    args,
+    released,
+  };
 }
 
 function packageManager(): string {
