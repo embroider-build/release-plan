@@ -1,17 +1,17 @@
 {
   "solution": {
     "release-plan": {
-      "impact": "patch",
-      "oldVersion": "0.5.0",
-      "newVersion": "0.5.1",
+      "impact": "minor",
+      "oldVersion": "0.5.1",
+      "newVersion": "0.6.0",
       "constraints": [
         {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2023-12-06)\n\nrelease-plan 0.5.1 (patch)\n\n#### :bug: Bug Fix\n* `release-plan`\n  * [#35](https://github.com/embroider-build/release-plan/pull/35) fix pnpm package discovery bug ([@mansona](https://github.com/mansona))\n  * [#34](https://github.com/embroider-build/release-plan/pull/34) Fix pnpm package discovery ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2023-12-13)\n\nrelease-plan 0.6.0 (minor)\n\n#### :rocket: Enhancement\n* `release-plan`\n  * [#38](https://github.com/embroider-build/release-plan/pull/38) add --publish-branch if passed to release-plan publish ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
