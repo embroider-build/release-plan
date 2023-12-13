@@ -49,6 +49,11 @@ yargs(process.argv.slice(2))
           type: 'boolean',
           description:
             'Run through the release, but log to stdout instead of tagging/pushing/publishing',
+        })
+        .option('publish-branch', {
+          type: 'string',
+          description:
+            '(pnpm) optionally pass on the --publish-branch if you need to publish from a branch other than main|master',
         }),
     async function (opts) {
       await publish(opts);

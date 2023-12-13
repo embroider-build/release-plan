@@ -50,7 +50,7 @@ async function doesTagExist(tag: string) {
 async function makeTags(
   solution: Solution,
   reporter: IssueReporter,
-  dryRun: boolean,
+  options: PublishOptions,
 ): Promise<void> {
   for (const [pkgName, entry] of solution) {
     if (!entry.impact) {
@@ -67,7 +67,7 @@ async function makeTags(
         return;
       }
 
-      if (dryRun) {
+      if (options.dryRun) {
         info(`--dryRun active. Skipping \`git tag ${tag}\``);
         continue;
       }
@@ -84,8 +84,8 @@ async function makeTags(
   }
 }
 
-async function pushTags(reporter: IssueReporter, dryRun: boolean) {
-  if (dryRun) {
+async function pushTags(reporter: IssueReporter, options: PublishOptions) {
+  if (options.dryRun) {
     info(`--dryRun active. Skipping \`git push --tags\``);
     return;
   }
@@ -103,7 +103,7 @@ function chooseRepresentativeTag(solution: Solution): string {
       return tagFor(pkgName, entry);
     }
   }
-  process.stderr.write('Found no releaseable packages in the plan');
+  process.stderr.write('Found no releasable packages in the plan');
   process.exit(-1);
 }
 
@@ -159,7 +159,7 @@ async function createGithubRelease(
   description: string,
   tagName: string,
   reporter: IssueReporter,
-  dryRun: boolean,
+  options: PublishOptions,
 ): Promise<void> {
   try {
     const preExisting = await doesReleaseExist(octokit, tagName, reporter);
@@ -169,7 +169,7 @@ async function createGithubRelease(
       return;
     }
 
-    if (dryRun) {
+    if (options.dryRun) {
       info(
         `--dryRun active. Skipping creating a Release on GitHub for ${tagName}`,
       );
@@ -214,9 +214,8 @@ async function doesVersionExist(
 async function npmPublish(
   solution: Solution,
   reporter: IssueReporter,
-  dryRun: boolean,
+  options: PublishOptions,
   packageManager: string,
-  otp?: string,
 ): Promise<void> {
   for (const [pkgName, entry] of solution) {
     if (!entry.impact) {
@@ -234,10 +233,10 @@ async function npmPublish(
       return;
     }
 
-    if (dryRun) {
+    if (options.dryRun) {
       info(
         `--dryRun active. Skipping \`${packageManager} publish --access=public${
-          otp ? ' --otp=*redacted*' : ''
+          options.otp ? ' --otp=*redacted*' : ''
         }\` for ${pkgName}, which would publish version ${entry.newVersion}`,
       );
       continue;
@@ -246,8 +245,12 @@ async function npmPublish(
     try {
       const args = ['publish', '--access=public'];
 
-      if (otp) {
-        args.push(`--otp=${otp}`);
+      if (options.otp) {
+        args.push(`--otp=${options.otp}`);
+      }
+
+      if (options.publishBranch) {
+        args.push(`--publish-branch=${options.publishBranch}`);
       }
 
       await execa(packageManager, args, {
@@ -271,13 +274,7 @@ function packageManager(): string {
   return 'npm';
 }
 
-export async function publish(opts: {
-  skipRepoSafetyCheck?: boolean;
-  dryRun?: boolean;
-  otp?: string;
-}) {
-  const dryRun = opts.dryRun ?? false;
-
+export async function publish(opts: PublishOptions) {
   if (!opts.skipRepoSafetyCheck) {
     if (!(await hasCleanRepo())) {
       process.stderr.write(`You have uncommitted changes.
@@ -303,22 +300,22 @@ To publish a release you should start from a clean repo. Run "npx release-plan p
   // the end.
   const reporter = new IssueReporter();
 
-  await makeTags(solution, reporter, dryRun);
-  await npmPublish(solution, reporter, dryRun, packageManager(), opts.otp);
-  await pushTags(reporter, dryRun);
+  await makeTags(solution, reporter, opts);
+  await npmPublish(solution, reporter, opts, packageManager());
+  await pushTags(reporter, opts);
   await createGithubRelease(
     octokit,
     description,
     representativeTag,
     reporter,
-    dryRun,
+    opts,
   );
 
   if (reporter.hadIssues) {
     process.stderr.write(`\nSome parts of the release were unsuccessful.\n`);
     process.exit(-1);
   } else {
-    if (dryRun) {
+    if (opts.dryRun) {
       success(`--dryRun active. Would have successfully published release!`);
       return;
     }
