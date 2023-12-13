@@ -1,4 +1,14 @@
 # release-plan Changelog
+## Release (2023-12-13)
+
+release-plan 0.6.0 (minor)
+
+#### :rocket: Enhancement
+* `release-plan`
+  * [#38](https://github.com/embroider-build/release-plan/pull/38) add --publish-branch if passed to release-plan publish ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
 ## Release (2023-12-06)
 
 release-plan 0.5.1 (patch)
