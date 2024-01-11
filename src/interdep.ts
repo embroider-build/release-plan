@@ -31,9 +31,12 @@ export function getPackages(rootDir: string): Map<string, PkgEntry> {
     });
   }
 
-  const { packages: workspaces } = getPackagesSync(rootDir);
+  const { packages: workspaces, rootPackage } = getPackagesSync(rootDir);
 
   workspaces.forEach((item) => loadPackage(join(item.dir, 'package.json')));
+  if (rootPackage?.dir) {
+    loadPackage(join(rootPackage.dir, 'package.json'));
+  }
 
   return packages;
 }
