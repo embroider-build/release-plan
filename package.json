@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@ef4/lerna-changelog": "^2.0.0",
+    "@manypkg/get-packages": "^2.2.0",
     "@npmcli/package-json": "^5.0.0",
     "@octokit/rest": "^19.0.8",
     "@types/fs-extra": "^9.0.12",

@@ -1,8 +1,8 @@
-import { resolve, relative, join } from 'path';
+import { relative, join } from 'path';
 import fsExtra from 'fs-extra';
-import execa from 'execa';
+import { getPackagesSync } from '@manypkg/get-packages';
 
-const { readJSONSync, existsSync } = fsExtra;
+const { readJSONSync } = fsExtra;
 export type Range = `workspace:${string}`;
 
 export interface PkgEntry {
@@ -31,26 +31,10 @@ export function getPackages(rootDir: string): Map<string, PkgEntry> {
     });
   }
 
-  if (!existsSync(join(rootDir, './pnpm-workspace.yaml'))) {
-    const result = execa.sync('npm', ['query', '.workspace'], { cwd: rootDir });
-    const resultParsed = JSON.parse(result.stdout);
-    const locations = resultParsed.map((i: any) => i.location);
+  const { packages: workspaces } = getPackagesSync(rootDir);
 
-    for (const location of locations) {
-      loadPackage(resolve(location, 'package.json'));
-    }
+  workspaces.forEach((item) => loadPackage(join(item.dir, 'package.json')));
 
-    loadPackage(join(rootDir, './package.json'));
-  } else {
-    const result = execa.sync(`pnpm`, ['m', 'ls', '--json', '--depth=-1'], {
-      cwd: rootDir,
-    });
-    const workspaceJson = JSON.parse(result.stdout);
-
-    workspaceJson
-      .filter((item: any) => item.name && item.path)
-      .forEach((item: any) => loadPackage(join(item.path, 'package.json')));
-  }
   return packages;
 }
 
