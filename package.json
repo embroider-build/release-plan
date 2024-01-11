@@ -18,7 +18,7 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@ef4/lerna-changelog": "^2.0.0",
+    "@ef4/lerna-changelog": "^2.1.0",
     "@manypkg/get-packages": "^2.2.0",
     "@npmcli/package-json": "^5.0.0",
     "@octokit/rest": "^19.0.8",

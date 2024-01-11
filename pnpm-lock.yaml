@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@ef4/lerna-changelog':
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^2.1.0
+        version: 2.1.0
       '@manypkg/get-packages':
         specifier: ^2.2.0
         version: 2.2.0
@@ -104,11 +104,12 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /@ef4/lerna-changelog@2.0.0:
-    resolution: {integrity: sha512-dCT3wMC501ZQqFwroxuDrktSm8tgrmMO67S7hRbJqRbbUarkYd0KVZPyW+O569lVBdEVTGTWWMNmPgGrD9IQjA==}
+  /@ef4/lerna-changelog@2.1.0:
+    resolution: {integrity: sha512-c6301SsWdOBrTGEkQmDTK5dDJUX2+03kN6UYZhewkqih3vy3HZxp1G1eJPVPd5EQpaLRptxFsMtgDcsabPZmRg==}
     engines: {node: 12.* || 14.* || >= 16}
     hasBin: true
     dependencies:
+      '@manypkg/get-packages': 2.2.0
       chalk: 4.1.2
       cli-highlight: 2.1.11
       execa: 5.1.1
