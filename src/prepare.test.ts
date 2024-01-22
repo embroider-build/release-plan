@@ -32,6 +32,7 @@ describe('prepare', function () {
       );
       const [, newChangelog] = mocks.writeFileSync.mock.lastCall;
       expect(newChangelog).to.eq(`# A Totally ficticious Changelog
+
 ## v1.0.0
 
 thing v1.0.0 (major)
@@ -63,7 +64,8 @@ thing v1.0.0 (major)
       new Map([['thing', { newVersion: 'v1.0.0', impact: 'major' }]]) as any,
     );
     const [, newChangelog] = mocks.writeFileSync.mock.lastCall;
-    expect(newChangelog).to.eq(`# A Totally ficticious Changelog
+    expect(newChangelog).to.eq(`# A Totally ficticious CHANGELOG
+
 ## v1.0.0
 
 thing v1.0.0 (major)
@@ -77,5 +79,4 @@ thing v1.0.0 (major)
 - spent a lot of time trying to figure out releases (if only there was a tool to help with that)
 `);
   });
-
 });
