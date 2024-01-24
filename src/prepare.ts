@@ -6,7 +6,7 @@ import fsExtra from 'fs-extra';
 
 const { readJSONSync, writeJSONSync } = fsExtra;
 
-const changelogPreamblePattern = /#.*Changelog.*$/;
+const changelogPreamblePattern = /#.*Changelog.*$/i;
 
 export function updateChangelog(
   newChangelogContent: string,
@@ -38,7 +38,7 @@ export function updateChangelog(
   writeFileSync(
     targetChangelogFile,
     oldChangelogContent[0] +
-      '\n' +
+      '\n\n' +
       newOutput +
       oldChangelogContent.slice(1).join('\n'),
   );
