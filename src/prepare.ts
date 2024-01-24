@@ -1,5 +1,5 @@
 import { parseChangeLogOrExit } from './change-parser.js';
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import type { Solution } from './plan.js';
 import { planVersionBumps, saveSolution } from './plan.js';
 import fsExtra from 'fs-extra';
@@ -8,7 +8,7 @@ const { readJSONSync, writeJSONSync } = fsExtra;
 
 const changelogPreamblePattern = /#.*Changelog.*$/;
 
-function updateChangelog(
+export function updateChangelog(
   newChangelogContent: string,
   solution: Solution,
 ): string {
