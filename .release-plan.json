@@ -1,17 +1,17 @@
 {
   "solution": {
     "release-plan": {
-      "impact": "minor",
-      "oldVersion": "0.5.1",
-      "newVersion": "0.6.0",
+      "impact": "patch",
+      "oldVersion": "0.6.0",
+      "newVersion": "0.6.1",
       "constraints": [
         {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2023-12-13)\n\nrelease-plan 0.6.0 (minor)\n\n#### :rocket: Enhancement\n* `release-plan`\n  * [#38](https://github.com/embroider-build/release-plan/pull/38) add --publish-branch if passed to release-plan publish ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2024-01-24)\n\nrelease-plan 0.6.1 (patch)\n\n#### :bug: Bug Fix\n* `release-plan`\n  * [#47](https://github.com/embroider-build/release-plan/pull/47) Robustly discover packages with @manypkg ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 1\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
 }

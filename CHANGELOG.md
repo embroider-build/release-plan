@@ -1,4 +1,14 @@
 # release-plan Changelog
+## Release (2024-01-24)
+
+release-plan 0.6.1 (patch)
+
+#### :bug: Bug Fix
+* `release-plan`
+  * [#47](https://github.com/embroider-build/release-plan/pull/47) Robustly discover packages with @manypkg ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 1
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
 ## Release (2023-12-13)
 
 release-plan 0.6.0 (minor)
