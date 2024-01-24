@@ -54,5 +54,93 @@ describe('interdep', function () {
       `,
       );
     });
+
+    describe('pnpm/fixtures/single-package', function () {
+      it('can load the workspaces', function () {
+        const answer = getPackages('./fixtures/pnpm/single-package');
+
+        expect(Array(...answer.keys())).toMatchInlineSnapshot(`
+        [
+          "foo-package",
+        ]
+      `);
+
+        expect(answer.get('foo-package')).toMatchInlineSnapshot(
+          {
+            pkg: expect.any(Object),
+            version: expect.any(String),
+          },
+          `
+          {
+            "isDependencyOf": Map {},
+            "isPeerDependencyOf": Map {},
+            "pkg": Any<Object>,
+            "pkgJSONPath": "./fixtures/pnpm/single-package/package.json",
+            "version": Any<String>,
+          }
+        `,
+        );
+      });
+    });
+
+    describe('pnpm/fixtures/multi-lockfile', function () {
+      it('can load the workspaces', function () {
+        const answer = getPackages('./fixtures/pnpm/multi-lockfile');
+
+        expect(Array(...answer.keys())).toMatchInlineSnapshot(`
+          [
+            "a",
+            "b",
+            "c",
+          ]
+        `);
+
+        expect(answer.get('a')).toMatchInlineSnapshot(
+          {
+            pkg: expect.any(Object),
+            version: expect.any(String),
+          },
+          `
+          {
+            "isDependencyOf": Map {},
+            "isPeerDependencyOf": Map {},
+            "pkg": Any<Object>,
+            "pkgJSONPath": "./fixtures/pnpm/multi-lockfile/packages/a/package.json",
+            "version": Any<String>,
+          }
+        `,
+        );
+        expect(answer.get('b')).toMatchInlineSnapshot(
+          {
+            pkg: expect.any(Object),
+            version: expect.any(String),
+          },
+          `
+          {
+            "isDependencyOf": Map {},
+            "isPeerDependencyOf": Map {},
+            "pkg": Any<Object>,
+            "pkgJSONPath": "./fixtures/pnpm/multi-lockfile/packages/b/package.json",
+            "version": Any<String>,
+          }
+        `,
+        );
+        expect(answer.get('c')).toMatchInlineSnapshot(
+          {
+            pkg: expect.any(Object),
+            version: expect.any(String),
+          },
+          `
+          {
+            "isDependencyOf": Map {},
+            "isPeerDependencyOf": Map {},
+            "pkg": Any<Object>,
+            "pkgJSONPath": "./fixtures/pnpm/multi-lockfile/packages/c/package.json",
+            "version": Any<String>,
+          }
+        `,
+        );
+      });
+    });
   });
 });
