@@ -1,4 +1,23 @@
 # release-plan Changelog
+
+## Release (2024-01-26)
+
+release-plan 0.7.0 (minor)
+
+#### :rocket: Enhancement
+* `release-plan`
+  * [#52](https://github.com/embroider-build/release-plan/pull/52) add ability to pass tag to publish command ([@mansona](https://github.com/mansona))
+
+#### :bug: Bug Fix
+* `release-plan`
+  * [#51](https://github.com/embroider-build/release-plan/pull/51) Make changelog header discovery more forgiving (case-insensitive) ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* `release-plan`
+  * [#49](https://github.com/embroider-build/release-plan/pull/49) add a basic test for updateChangelog ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
 ## Release (2024-01-24)
 
 release-plan 0.6.1 (patch)
