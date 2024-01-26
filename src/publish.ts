@@ -15,6 +15,7 @@ type PublishOptions = {
   dryRun?: boolean;
   otp?: string;
   publishBranch?: string;
+  tag?: string;
 };
 
 async function hasCleanRepo(): Promise<boolean> {
@@ -237,6 +238,10 @@ export async function npmPublish(
 
   if (options.publishBranch) {
     args.push(`--publish-branch=${options.publishBranch}`);
+  }
+
+  if (options.tag) {
+    args.push(`--tag=${options.tag}`);
   }
 
   const released = new Map();

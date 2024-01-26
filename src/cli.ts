@@ -54,6 +54,10 @@ yargs(process.argv.slice(2))
           type: 'string',
           description:
             '(pnpm) optionally pass on the --publish-branch if you need to publish from a branch other than main|master',
+        })
+        .option('tag', {
+          type: 'string',
+          description: 'pass --tag to npm publish command',
         }),
     async function (opts) {
       await publish(opts);

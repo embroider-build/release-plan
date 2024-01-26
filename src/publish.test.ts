@@ -69,5 +69,27 @@ describe('publish', function () {
         }
       `);
     });
+
+    it('adds tag if passed by options', async function () {
+      const thingy = await npmPublish(
+        new Map([['thingy', { oldVersion: '3' }]]) as Solution,
+        reporter,
+        {
+          tag: 'best-tag',
+        },
+        'face',
+      );
+
+      expect(thingy).toMatchInlineSnapshot(`
+        {
+          "args": [
+            "publish",
+            "--access=public",
+            "--tag=best-tag",
+          ],
+          "released": Map {},
+        }
+      `);
+    });
   });
 });
