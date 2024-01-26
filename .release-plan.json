@@ -1,17 +1,25 @@
 {
   "solution": {
     "release-plan": {
-      "impact": "patch",
-      "oldVersion": "0.6.0",
-      "newVersion": "0.6.1",
+      "impact": "minor",
+      "oldVersion": "0.6.1",
+      "newVersion": "0.7.0",
       "constraints": [
+        {
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
+        },
         {
           "impact": "patch",
           "reason": "Appears in changelog section :bug: Bug Fix"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2024-01-24)\n\nrelease-plan 0.6.1 (patch)\n\n#### :bug: Bug Fix\n* `release-plan`\n  * [#47](https://github.com/embroider-build/release-plan/pull/47) Robustly discover packages with @manypkg ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 1\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
+  "description": "## Release (2024-01-26)\n\nrelease-plan 0.7.0 (minor)\n\n#### :rocket: Enhancement\n* `release-plan`\n  * [#52](https://github.com/embroider-build/release-plan/pull/52) add ability to pass tag to publish command ([@mansona](https://github.com/mansona))\n\n#### :bug: Bug Fix\n* `release-plan`\n  * [#51](https://github.com/embroider-build/release-plan/pull/51) Make changelog header discovery more forgiving (case-insensitive) ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `release-plan`\n  * [#49](https://github.com/embroider-build/release-plan/pull/49) add a basic test for updateChangelog ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
