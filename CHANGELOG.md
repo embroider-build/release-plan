@@ -1,5 +1,16 @@
 # release-plan Changelog
 
+## Release (2024-02-14)
+
+release-plan 0.7.1 (patch)
+
+#### :bug: Bug Fix
+* `release-plan`
+  * [#54](https://github.com/embroider-build/release-plan/pull/54) fix import of semver ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2024-01-26)
 
 release-plan 0.7.0 (minor)
