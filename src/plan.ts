@@ -1,11 +1,13 @@
 import type { Impact, ParsedChangelog } from './change-parser.js';
 import { publishedInterPackageDeps } from './interdep.js';
 import { assertNever } from 'assert-never';
-import { inc, satisfies } from 'semver';
+import semver from 'semver';
 import { highlightMarkdown } from './highlight.js';
 import chalk from 'chalk';
 import { resolve } from 'path';
 import fsExtra from 'fs-extra';
+
+const { inc, satisfies } = semver;
 
 const { existsSync, readJSONSync, writeJSONSync } = fsExtra;
 
