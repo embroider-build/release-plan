@@ -1,25 +1,17 @@
 {
   "solution": {
     "release-plan": {
-      "impact": "minor",
-      "oldVersion": "0.6.1",
-      "newVersion": "0.7.0",
+      "impact": "patch",
+      "oldVersion": "0.7.0",
+      "newVersion": "0.7.1",
       "constraints": [
-        {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        },
         {
           "impact": "patch",
           "reason": "Appears in changelog section :bug: Bug Fix"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2024-01-26)\n\nrelease-plan 0.7.0 (minor)\n\n#### :rocket: Enhancement\n* `release-plan`\n  * [#52](https://github.com/embroider-build/release-plan/pull/52) add ability to pass tag to publish command ([@mansona](https://github.com/mansona))\n\n#### :bug: Bug Fix\n* `release-plan`\n  * [#51](https://github.com/embroider-build/release-plan/pull/51) Make changelog header discovery more forgiving (case-insensitive) ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `release-plan`\n  * [#49](https://github.com/embroider-build/release-plan/pull/49) add a basic test for updateChangelog ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2024-02-14)\n\nrelease-plan 0.7.1 (patch)\n\n#### :bug: Bug Fix\n* `release-plan`\n  * [#54](https://github.com/embroider-build/release-plan/pull/54) fix import of semver ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
