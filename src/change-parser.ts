@@ -30,6 +30,9 @@ const knownSections: Record<string, { impact: Impact } | { unlabeled: true }> =
     ':question: Unlabeled': {
       unlabeled: true,
     },
+    ':present: Additional updates': {
+      unlabeled: true,
+    },
   };
 
 const ignoredSections = [/Committers: \d+/];
