@@ -22,17 +22,26 @@ This allows folks with GH Maintainer access to preview and release to npm withou
 
 [gh-create]: https://github.com/mansona/create-release-plan-setup
 
-## Installation
+
+## Usage & Installation
+
+To use `release-plan` you need to have a valid `GITHUB_AUTH` environment variable that has the `repo` permission. This allows `release-plan` to check what PRs have been merged since the last release and plan the release accordingly. If you use the [`gh` CLI](https://cli.github.com/), this can be set via `export GITHUB_AUTH=$(gh auth token)`.
+
+### Automated
+
+Use [`create-release-plan-setup`][gh-create], see the [README][gh-create] over there for detailed instructions.
+
+If you already have a local `GITHUB_AUTH` token, 
+```bash
+npx create-release-plan-setup@latest 
+```
+does all the setup for you (aside from repo-configuration ([see here][gh-create]))
+
+### Manual
 
 ```
 npm i --save-dev release-plan
 ```
-
-or using [`create-release-plan-setup`][gh-create], see below
-
-## Usage
-
-To use `release-plan` you need to have a valid `GITHUB_AUTH` environment variable that has the `repo` permission. This allows `release-plan` to check what PRs have been merged since the last release and plan the release accordingly.
 
 1. Run `npx release-plan explain-plan`. If there are unlabeled PRs that need to be released it will complain and show you a list of them. Each PR needs to be labeled with one of: 
     - breaking
@@ -91,5 +100,5 @@ Summary:
 |   | release-plan        | release-it | changesets |
 | - | ------------------  | ---------- | ---------- |
 | number of steps | 5     | 6          | 8          |
-| Downsides | only ci      | <ul><li>maintainers need admin access to both GitHub and NPM</li><li>requires a computer</li></ul>      |  <ul><li>requires push access to the submitter's PR, or potentially risk losing steam from the contributor to ask them to create the changeset</li><li>more up-front work required per change/PR</li><li>hard to go back and add a changeset and have it associated with the PR correctly (maybe impossible), so forgetting to add changesets pre-merge can totally ruin the accuracy of changeset's changelog</li><li>requires a computer</li></ul> |
+| Downsides | n/a      | <ul><li>maintainers need admin access to both GitHub and NPM</li><li>requires a computer</li></ul>      |  <ul><li>requires push access to the submitter's PR, or potentially risk losing steam from the contributor to ask them to create the changeset</li><li>more up-front work required per change/PR</li><li>hard to go back and add a changeset and have it associated with the PR correctly (maybe impossible), so forgetting to add changesets pre-merge can totally ruin the accuracy of changeset's changelog</li><li>requires a computer</li></ul> |
 
