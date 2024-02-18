@@ -8,6 +8,8 @@ This package was originally developed to help release [Embroider](https://github
   - release from _anywhere_[^release-anywhere]
 - everything is automated via GH Action Workflows[^gh-by-default]
 - no need to give maintainers access to npm[^npm-config]
+- pnpm and monorepo support _by default_
+  - also supports non-pnpm repos
 - release preview PR 
   - release via merge of the releae preview PR
 - automatic changelog
@@ -81,6 +83,8 @@ To use `release-plan` you need to have a valid `GITHUB_AUTH` environment variabl
 
 Note that we take the stance of reducing friction for new contributors (regardless of how new to GitHub they are), we want to optimize for the contribution, and assume that mantainers can handle a little bit of process -- and with this stance, changesets is the _most work_ out of this comparison.
 
+Additionally, this comparison assumes the recommended configuration for each release tool. 
+
 
 | release-plan        | release-it (requires computer) | changesets (requires computer) |
 | ------------------  | ------------------------------ | ------------------------------ |
@@ -99,13 +103,13 @@ Note that we take the stance of reducing friction for new contributors (regardle
 
 
 
-Access:
+_Needed_ Access:
 |   | release-plan        | release-it | changesets |
 | - | ------------------  | ---------- | ---------- |
 | NPM_TOKEN | only ci     | local      | only ci    |
 | GH_TOKEN | only ci      | local      | only ci    |
 
-
+Note that while it's recommended to use `release-plan` with full automation, `release-plan` can be used locally, as described in the [Manual Installation](#manual) section of this README.
 
 Summary:
 |   | release-plan        | release-it | changesets |
