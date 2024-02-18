@@ -25,8 +25,6 @@ This allows folks with GH Maintainer access to preview and release to npm withou
 
 ## Usage & Installation
 
-To use `release-plan` you need to have a valid `GITHUB_AUTH` environment variable that has the `repo` permission. This allows `release-plan` to check what PRs have been merged since the last release and plan the release accordingly. If you use the [`gh` CLI](https://cli.github.com/), this can be set via `export GITHUB_AUTH=$(gh auth token)`.
-
 ### Automated
 
 Use [`create-release-plan-setup`][gh-create], see the [README][gh-create] over there for detailed instructions.
@@ -37,11 +35,24 @@ npx create-release-plan-setup@latest
 ```
 does all the setup for you (aside from repo-configuration ([see here][gh-create]))
 
+<details><summary>how to get a GITHUB_AUTH token</summary>
+
+You can create a [GitHub personal access token here](https://github.com/settings/tokens/new?scopes=repo&description=GITHUB_AUTH+env+variable)
+
+Or, if you use the [`gh` CLI](https://cli.github.com/), you can temporarily expose a token to your local terminal shell via:
+```bash
+export GITHUB_AUTH=$(gh auth token);
+```
+
+</details>
+
 ### Manual
 
 ```
 npm i --save-dev release-plan
 ```
+
+To use `release-plan` you need to have a valid `GITHUB_AUTH` environment variable that has the `repo` permission. This allows `release-plan` to check what PRs have been merged since the last release and plan the release accordingly. 
 
 1. Run `npx release-plan explain-plan`. If there are unlabeled PRs that need to be released it will complain and show you a list of them. Each PR needs to be labeled with one of: 
     - breaking
