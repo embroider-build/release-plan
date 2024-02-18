@@ -4,10 +4,23 @@ This package was originally developed to help release [Embroider](https://github
 
 ## Features
 
-- no manual steps
-- no need to give maintainers access to npm
-- release preview 
+- no manual steps[^after-initial-setup]
+  - release from _anywhere_[^release-anywhere]
+- everything is automated via GH Action Workflows[^gh-by-default]
+- no need to give maintainers access to npm[^npm-config]
+- release preview PR 
+  - release via merge of the releae preview PR
 - automatic changelog
+  - changelog entries editable by editing PR titles
+
+This allows folks with GH Maintainer access to preview and release to npm without actually needing to have any keys locally on their machine (or access to the npm package, which makes management of the repo separate from the npm package easy and encouraged).
+
+[^gh-by-default]: While GitHub Actions is the default setup via [`create-release-plan-setup`][gh-create]
+[^after-initial-setup]: after initial setup, which is already mostly automated.
+[^npm-config]: The NPM token can be granular, and the package needs to have its "Publishing access" configured to either "Don't require two-factor authentication" or, "Require two-factor authentication or an automation or granular access token" (recommended). This can be configured under `https://www.npmjs.com/package/{package-name}/access`
+[^release-anywhere]: You can release from bed, the mall, the percelain, anywhere! No need for a computer! (assuming you have a pocket computer (phone))
+
+[gh-create]: https://github.com/mansona/create-release-plan-setup
 
 ## Installation
 
@@ -15,7 +28,7 @@ This package was originally developed to help release [Embroider](https://github
 npm i --save-dev release-plan
 ```
 
-or using [`create-release-plan-setup`](https://github.com/mansona/create-release-plan-setup), see below
+or using [`create-release-plan-setup`][gh-create], see below
 
 ## Usage
 
@@ -46,6 +59,8 @@ To use `release-plan` you need to have a valid `GITHUB_AUTH` environment variabl
 
 ## Comparison
 
+Note that we take the stance of reducing friction for new contributors (regardless of how new to GitHub they are), we want to optimize for the contribution, and assume that mantainers can handle a little bit of process -- and with this stance, changesets is the _most work_ out of this comparison.
+
 
 | release-plan        | release-it (requires computer) | changesets (requires computer) |
 | ------------------  | ------------------------------ | ------------------------------ |
@@ -71,15 +86,10 @@ Access:
 | GH_TOKEN | only ci      | local      | only ci    |
 
 
-number of steps:
-- release-plan: 5
-- release-it: 6
-  Downsides:
-  - maintainers need admin access to GH and NPM
-  - requires computer
-- changesets: 8
-  Downsides:
-  - requires push access to a submitter's PR
-  - more up-front work required
-  - hard to go back and add a changeset and have it associated with the PR correctly
-  - requires computer
+
+Summary:
+|   | release-plan        | release-it | changesets |
+| - | ------------------  | ---------- | ---------- |
+| number of steps | 5     | 6          | 8          |
+| Downsides | only ci      | <ul><li>maintainers need admin access to both GitHub and NPM</li><li>requires a computer</li></ul>      |  <ul><li>requires push access to the submitter's PR, or potentially risk losing steam from the contributor to ask them to create the changeset</li><li>more up-front work required per change/PR</li><li>hard to go back and add a changeset and have it associated with the PR correctly (maybe impossible), so forgetting to add changesets pre-merge can totally ruin the accuracy of changeset's changelog</li><li>requires a computer</li></ul> |
+
