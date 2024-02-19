@@ -7,7 +7,7 @@ This package was originally developed to help release [Embroider](https://github
 - ✨ No manual steps[^after-initial-setup]
   - release from _anywhere_[^release-anywhere]
 - 🤖 Everything is automated via GH Action Workflows[^gh-by-default]
-- no need to give maintainers access to npm[^npm-config]
+- 🔐 No need to give maintainers access to npm[^npm-config]
 - pnpm and monorepo support _by default_
   - also supports non-pnpm repos
 - release preview PR 
