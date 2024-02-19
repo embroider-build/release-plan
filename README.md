@@ -81,7 +81,7 @@ To use `release-plan` you need to have a valid `GITHUB_AUTH` environment variabl
 
 ## Comparison
 
-Note that we take the stance of reducing friction for new contributors (regardless of how new to GitHub they are), we want to optimize for the contribution, and assume that mantainers can handle a little bit of process -- and with this stance, changesets is the _most work_ out of this comparison.
+Note that we take the stance of reducing friction for new contributors (regardless of how new to GitHub they are), we want to optimize for the contribution, and assume that maintainers can handle a little bit of process -- and with this stance, changesets is the _most work_ out of this comparison.
 
 Additionally, this comparison assumes the recommended configuration for each release tool. 
 
