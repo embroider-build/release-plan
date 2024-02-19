@@ -20,7 +20,7 @@ This allows folks with GH Maintainer access to preview and release to npm withou
 [^gh-by-default]: While GitHub Actions is the default setup via [`create-release-plan-setup`][gh-create]
 [^after-initial-setup]: after initial setup, which is already mostly automated.
 [^npm-config]: The NPM token can be granular, and the package needs to have its "Publishing access" configured to either "Don't require two-factor authentication" or, "Require two-factor authentication or an automation or granular access token" (recommended). This can be configured under `https://www.npmjs.com/package/{package-name}/access`
-[^release-anywhere]: You can release from bed, the mall, the percelain, anywhere! No need for a computer! (assuming you have a pocket computer (phone))
+[^release-anywhere]: You can release from bed, the mall, the porcelain, anywhere! No need for a computer! (assuming you have a smart phone)
 
 [gh-create]: https://github.com/mansona/create-release-plan-setup
 
