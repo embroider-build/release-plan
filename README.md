@@ -4,7 +4,7 @@ This package was originally developed to help release [Embroider](https://github
 
 ## Features
 
-- no manual steps[^after-initial-setup]
+- ✨ No manual steps[^after-initial-setup]
   - release from _anywhere_[^release-anywhere]
 - everything is automated via GH Action Workflows[^gh-by-default]
 - no need to give maintainers access to npm[^npm-config]
