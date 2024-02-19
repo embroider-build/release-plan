@@ -12,7 +12,7 @@ This package was originally developed to help release [Embroider](https://github
   - also supports non-pnpm repos
 - 🚀 Release preview PR 
   - release via merge of the releae preview PR
-- automatic changelog
+- 📝 Automatic changelog
   - changelog entries editable by editing PR titles
 
 This allows folks with GH Maintainer access to preview and release to npm without actually needing to have any keys locally on their machine (or access to the npm package, which makes management of the repo separate from the npm package easy and encouraged).
