@@ -1,6 +1,6 @@
 # release-plan
 
-_The most flexible, contributor friendly, hands-off release tool there is_.
+_The most contributor friendly and hands-off release tool there is_.
 
 ## Features
 
