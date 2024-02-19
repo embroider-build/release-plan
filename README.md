@@ -11,7 +11,7 @@ This package was originally developed to help release [Embroider](https://github
 - 📦 PNPM and monorepo support _by default_
   - also supports non-pnpm repos
 - 🚀 Release preview PR 
-  - release via merge of the releae preview PR
+  - release via merge of the release preview PR
 - 📝 Automatic changelog
   - changelog entries editable by editing PR titles
 
