@@ -10,7 +10,7 @@ This package was originally developed to help release [Embroider](https://github
 - 🔐 No need to give maintainers access to npm[^npm-config]
 - 📦 PNPM and monorepo support _by default_
   - also supports non-pnpm repos
-- release preview PR 
+- 🚀 Release preview PR 
   - release via merge of the releae preview PR
 - automatic changelog
   - changelog entries editable by editing PR titles
