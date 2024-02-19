@@ -75,7 +75,7 @@ To use `release-plan` you need to have a valid `GITHUB_AUTH` environment variabl
 
 4. Once you're happy with the plan, run `npx release-plan prepare`. This will edit CHANGELOG.md, bump the version numbers in package.json files, and create a file named `.release-plan.json`. Make a PR with these changes.
 
-5. Once the PR is merged, in a clean local repo at the merge commit, run `npx release-plan publish`. if you need an `otp` for your release you can provide that to the `publish` command like this `npx release-plan publish --otp=123456`
+5. Once the PR is merged, in a clean local repo at the merge commit, run `npx release-plan publish`. If you need an `otp` for your release you can provide that to the `publish` command like this `npx release-plan publish --otp=123456`
 
     
 
