@@ -48,6 +48,16 @@ export GITHUB_AUTH=$(gh auth token);
 
 </details>
 
+This command will create 
+```
+.github/workflows/
+  - plan-release.yml
+  - publish.yml
+RELEASE.md
+```
+
+which is responsible for automating the process that you'd run through manually below.
+
 ### Manual
 
 ```
