@@ -93,7 +93,39 @@ describe('parseChangeLog', () => {
 
     expect(result).toMatchInlineSnapshot(`
       {
-        "sections": [],
+        "sections": [
+          {
+            "summaryText": "",
+            "unlabeled": true,
+          },
+        ],
+      }
+    `);
+  });
+
+  it('does not ignore unlabeled PRs if they come from known packages', () => {
+    const changelog = `
+#### :present: Additional updates
+* \`tutorial\`
+  * [#1618](https://github.com/NullVoxPopuli/limber/pull/1618) Add note about trying out Polaris ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#1680](https://github.com/NullVoxPopuli/limber/pull/1680) feat: Arg Components ([@MichalBryxi](https://github.com/MichalBryxi))
+* \`limber\`
+  * [#1642](https://github.com/NullVoxPopuli/limber/pull/1642) Fix for #1641: Alternative 1) Remove \`z-10\` from resize-handle ([@johanrd](https://github.com/johanrd))
+* Other
+  * [#1667](https://github.com/NullVoxPopuli/limber/pull/1667) Update pnpm to v8.15.3 ([@renovate[bot]](https://github.com/apps/renovate))
+`;
+    const result = parseChangeLog(changelog, new Set(['tutorial']));
+
+    expect(result).toMatchInlineSnapshot(`
+      {
+        "sections": [
+          {
+            "summaryText": "* \`tutorial\`
+        * [#1618](https://github.com/NullVoxPopuli/limber/pull/1618) Add note about trying out Polaris ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+        * [#1680](https://github.com/NullVoxPopuli/limber/pull/1680) feat: Arg Components ([@MichalBryxi](https://github.com/MichalBryxi))",
+            "unlabeled": true,
+          },
+        ],
       }
     `);
   });

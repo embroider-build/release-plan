@@ -1,5 +1,3 @@
-import { getPackages } from './interdep.js';
-
 export type Impact = 'major' | 'minor' | 'patch';
 export type UnlabeledSection = { unlabeled: true; summaryText: string };
 export type LabeledSection = {
@@ -57,7 +55,10 @@ function consumeSection(lines: string[]) {
   return matchedLines;
 }
 
-function parseSection(lines: string[], publishableNames: Set<string>): Section | undefined {
+function parseSection(
+  lines: string[],
+  publishableNames: Set<string>,
+): Section | undefined {
   const line = lines.shift();
   const heading = line ? sectionHeading(line) : undefined;
   if (!heading) {
@@ -74,7 +75,11 @@ function parseSection(lines: string[], publishableNames: Set<string>): Section |
   }
 
   if ('unlabeled' in sectionConfig) {
-    return { unlabeled: true, summaryText: consumeSection(lines).join('\n') };
+    const relevantLines = filteredUnlabeled([...lines], publishableNames);
+
+    const consumed = consumeSection(relevantLines);
+
+    return { unlabeled: true, summaryText: consumed.join('\n') };
   }
 
   const packages = new Set<string>();
@@ -88,11 +93,48 @@ function parseSection(lines: string[], publishableNames: Set<string>): Section |
       }
     }
   }
+
   return {
     packages: [...packages],
     impact: sectionConfig.impact,
     heading,
   };
+}
+
+function filteredUnlabeled(
+  lines: string[],
+  publishableNames: Set<string>,
+): string[] {
+  const relevant = [];
+  let skipWholeList = false;
+
+  for (const line of lines) {
+    if (line === '* Other') continue;
+    if (line.startsWith('*')) {
+      const packageNames = parsePackageList([line]);
+      if (!packageNames) continue;
+
+      const relevantNames = packageNames.filter((name) =>
+        publishableNames.has(name),
+      );
+
+      if (relevantNames.length === 0) {
+        skipWholeList = true;
+        continue;
+      }
+
+      skipWholeList = false;
+
+      relevant.push(`* ${relevantNames.map((x) => `\`${x}\``).join(', ')}`);
+      continue;
+    }
+
+    if (!skipWholeList) {
+      relevant.push(line);
+    }
+  }
+
+  return relevant;
 }
 
 function parsePackageList(lines: string[]): string[] | undefined {
@@ -112,7 +154,10 @@ function parsePackageList(lines: string[]): string[] | undefined {
   }
 }
 
-export function parseChangeLog(src: string, publishableNames: Set<string>): ParsedChangelog {
+export function parseChangeLog(
+  src: string,
+  publishableNames: Set<string>,
+): ParsedChangelog {
   const lines = src.split('\n');
   const sections = [];
   while (lines.length > 0) {
@@ -124,7 +169,10 @@ export function parseChangeLog(src: string, publishableNames: Set<string>): Pars
   return { sections };
 }
 
-export function parseChangeLogOrExit(src: string, publishableNames: Set<string>): ParsedChangelog {
+export function parseChangeLogOrExit(
+  src: string,
+  publishableNames: Set<string>,
+): ParsedChangelog {
   try {
     return parseChangeLog(src, publishableNames);
   } catch (err) {
