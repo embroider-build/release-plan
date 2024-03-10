@@ -107,8 +107,12 @@ yargs(process.argv.slice(2))
       }),
     async function (opts) {
       const { planVersionBumps, explain } = await import('./plan.js');
+      const { getPackages } = await import('./interdep.js');
+      const packages = getPackages('./');
+      const publishableNames = new Set(packages.keys());
+
       const solution = planVersionBumps(
-        parseChangeLogOrExit(await newChangelogContent(opts)),
+        parseChangeLogOrExit(await newChangelogContent(opts), publishableNames),
         opts.singlePackage,
       );
       console.log(explain(solution));

@@ -14,7 +14,7 @@ describe('parseChangeLog', () => {
 * \`ember-repl\`
   * [#1687](https://github.com/NullVoxPopuli/limber/pull/1687) Allow passing rehype plugins to the markdown renderer in ember-repl ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
 `;
-    const result = parseChangeLog(changelog);
+    const result = parseChangeLog(changelog, new Set(['ember-repl']));
 
     expect(result).toMatchInlineSnapshot(`
       {
@@ -50,7 +50,7 @@ describe('parseChangeLog', () => {
 - [@NullVoxPopuli](https://github.com/NullVoxPopuli)
 - [@johanrd](https://github.com/johanrd)
 `;
-    const result = parseChangeLog(changelog);
+    const result = parseChangeLog(changelog, new Set(['ember-repl']));
 
     expect(result).toMatchInlineSnapshot(`
       {
@@ -69,7 +69,7 @@ describe('parseChangeLog', () => {
 
   it('does not blow up on empty changelog', () => {
     const changelog = '';
-    const result = parseChangeLog(changelog);
+    const result = parseChangeLog(changelog, new Set(['ember-repl']));
 
     expect(result).toMatchInlineSnapshot(`
     {
@@ -89,7 +89,7 @@ describe('parseChangeLog', () => {
 * Other
   * [#1667](https://github.com/NullVoxPopuli/limber/pull/1667) Update pnpm to v8.15.3 ([@renovate[bot]](https://github.com/apps/renovate))
 `;
-    const result = parseChangeLog(changelog);
+    const result = parseChangeLog(changelog, new Set(['ember-repl']));
 
     expect(result).toMatchInlineSnapshot(`
       {
@@ -109,7 +109,7 @@ describe('parseChangeLog', () => {
 * \`ember-repl\`, \`ember-repl-test-app\`
   * [#1687](https://github.com/NullVoxPopuli/limber/pull/1687) Allow passing rehype plugins to the markdown renderer in ember-repl ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
 `;
-    const result = parseChangeLog(changelog);
+    const result = parseChangeLog(changelog, new Set(['ember-repl']));
 
     expect(result).toMatchInlineSnapshot(`
       {

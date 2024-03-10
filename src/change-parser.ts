@@ -1,3 +1,5 @@
+import { getPackages } from './interdep.js';
+
 export type Impact = 'major' | 'minor' | 'patch';
 export type UnlabeledSection = { unlabeled: true; summaryText: string };
 export type LabeledSection = {
@@ -55,7 +57,7 @@ function consumeSection(lines: string[]) {
   return matchedLines;
 }
 
-function parseSection(lines: string[]): Section | undefined {
+function parseSection(lines: string[], publishableNames: Set<string>): Section | undefined {
   const line = lines.shift();
   const heading = line ? sectionHeading(line) : undefined;
   if (!heading) {
@@ -80,7 +82,9 @@ function parseSection(lines: string[]): Section | undefined {
     const packageList = parsePackageList(lines);
     if (packageList) {
       for (const pkg of packageList) {
-        packages.add(pkg);
+        if (publishableNames.has(pkg)) {
+          packages.add(pkg);
+        }
       }
     }
   }
@@ -108,11 +112,11 @@ function parsePackageList(lines: string[]): string[] | undefined {
   }
 }
 
-export function parseChangeLog(src: string): ParsedChangelog {
+export function parseChangeLog(src: string, publishableNames: Set<string>): ParsedChangelog {
   const lines = src.split('\n');
   const sections = [];
   while (lines.length > 0) {
-    const section = parseSection(lines);
+    const section = parseSection(lines, publishableNames);
     if (section) {
       sections.push(section);
     }
@@ -120,9 +124,9 @@ export function parseChangeLog(src: string): ParsedChangelog {
   return { sections };
 }
 
-export function parseChangeLogOrExit(src: string): ParsedChangelog {
+export function parseChangeLogOrExit(src: string, publishableNames: Set<string>): ParsedChangelog {
   try {
-    return parseChangeLog(src);
+    return parseChangeLog(src, publishableNames);
   } catch (err) {
     console.error(err);
     console.error(`the full changelog that failed to parse was:\n${src}`);
