@@ -78,9 +78,14 @@ yargs(process.argv.slice(2))
     (yargs) => fromStdin(yargs),
     async function (opts) {
       const { parseChangeLogOrExit } = await import('./change-parser.js');
+      const publishableNames = await getPublishablePackages();
+
       console.log(
         JSON.stringify(
-          parseChangeLogOrExit(await newChangelogContent(opts)),
+          parseChangeLogOrExit(
+            await newChangelogContent(opts),
+            publishableNames,
+          ),
           null,
           2,
         ),
@@ -107,10 +112,8 @@ yargs(process.argv.slice(2))
       }),
     async function (opts) {
       const { planVersionBumps, explain } = await import('./plan.js');
-      const { getPackages } = await import('./interdep.js');
-      const packages = getPackages('./');
-      const publishableNames = new Set(packages.keys());
 
+      const publishableNames = await getPublishablePackages();
       const solution = planVersionBumps(
         parseChangeLogOrExit(await newChangelogContent(opts), publishableNames),
         opts.singlePackage,
@@ -128,6 +131,12 @@ function fromStdin(yargs: Argv) {
     description:
       'Read the summary of changes from stdin instead of building them from scratch.',
   });
+}
+
+async function getPublishablePackages() {
+  const { getPublishablePackageNames } = await import('./interdep.js');
+
+  return getPublishablePackageNames('./');
 }
 
 async function newChangelogContent(opts: { fromStdin: boolean | undefined }) {

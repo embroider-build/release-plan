@@ -13,6 +13,13 @@ export interface PkgEntry {
   pkg: any;
 }
 
+export function getPublishablePackageNames(rootDir: string): Set<string> {
+  const packages = getPackages(rootDir);
+  const publishableNames = new Set(packages.keys());
+
+  return publishableNames;
+}
+
 export function getPackages(rootDir: string): Map<string, PkgEntry> {
   const packages: Map<string, PkgEntry> = new Map();
 

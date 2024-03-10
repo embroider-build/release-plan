@@ -3,6 +3,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import type { Solution } from './plan.js';
 import { planVersionBumps, saveSolution } from './plan.js';
 import fsExtra from 'fs-extra';
+import { getPublishablePackageNames } from './interdep.js';
 
 const { readJSONSync, writeJSONSync } = fsExtra;
 
@@ -69,7 +70,8 @@ export async function prepare(
   newChangelogContent: string,
   singlePackage?: string,
 ) {
-  const changes = parseChangeLogOrExit(newChangelogContent);
+  const publishableNames = getPublishablePackageNames('./');
+  const changes = parseChangeLogOrExit(newChangelogContent, publishableNames);
   const solution = planVersionBumps(changes, singlePackage);
   updateVersions(solution);
   const description = updateChangelog(newChangelogContent, solution);
