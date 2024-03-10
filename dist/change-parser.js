@@ -52,9 +52,14 @@ function parseSection(lines, publishableNames) {
         throw new Error(`unexpected section: ${heading}`);
     }
     if ('unlabeled' in sectionConfig) {
-        const relevantLines = filteredUnlabeled([...lines], publishableNames);
-        const consumed = consumeSection(relevantLines);
-        return { unlabeled: true, summaryText: consumed.join('\n') };
+        const relevantLines = filteredUnlabeled(lines, publishableNames);
+        if (relevantLines.length) {
+            const consumed = consumeSection(relevantLines);
+            return { unlabeled: true, summaryText: consumed.join('\n') };
+        }
+        else {
+            return;
+        }
     }
     const packages = new Set();
     while (stillWithinSection(lines)) {
