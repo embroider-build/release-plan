@@ -75,11 +75,15 @@ function parseSection(
   }
 
   if ('unlabeled' in sectionConfig) {
-    const relevantLines = filteredUnlabeled([...lines], publishableNames);
+    const relevantLines = filteredUnlabeled(lines, publishableNames);
 
-    const consumed = consumeSection(relevantLines);
+    if (relevantLines.length) {
+      const consumed = consumeSection(relevantLines);
 
-    return { unlabeled: true, summaryText: consumed.join('\n') };
+      return { unlabeled: true, summaryText: consumed.join('\n') };
+    } else {
+      return;
+    }
   }
 
   const packages = new Set<string>();

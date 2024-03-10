@@ -78,8 +78,9 @@ describe('parseChangeLog', () => {
     `);
   });
 
-  it('ignores unlabeled PRs if they come from ignored packages', () => {
-    const changelog = `
+  describe('with ignored packages (the inverse of the passed allow-list)', () => {
+    it('ignores unlabeled PRs if they come from ignored packages', () => {
+      const changelog = `
 #### :present: Additional updates
 * \`tutorial\`
   * [#1618](https://github.com/NullVoxPopuli/limber/pull/1618) Add note about trying out Polaris ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
@@ -89,22 +90,17 @@ describe('parseChangeLog', () => {
 * Other
   * [#1667](https://github.com/NullVoxPopuli/limber/pull/1667) Update pnpm to v8.15.3 ([@renovate[bot]](https://github.com/apps/renovate))
 `;
-    const result = parseChangeLog(changelog, new Set(['ember-repl']));
+      const result = parseChangeLog(changelog, new Set(['ember-repl']));
 
-    expect(result).toMatchInlineSnapshot(`
-      {
-        "sections": [
-          {
-            "summaryText": "",
-            "unlabeled": true,
-          },
-        ],
-      }
-    `);
-  });
+      expect(result).toMatchInlineSnapshot(`
+        {
+          "sections": [],
+        }
+      `);
+    });
 
-  it('does not ignore unlabeled PRs if they come from known packages', () => {
-    const changelog = `
+    it('does not ignore unlabeled PRs if they come from known packages', () => {
+      const changelog = `
 #### :present: Additional updates
 * \`tutorial\`
   * [#1618](https://github.com/NullVoxPopuli/limber/pull/1618) Add note about trying out Polaris ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
@@ -114,24 +110,51 @@ describe('parseChangeLog', () => {
 * Other
   * [#1667](https://github.com/NullVoxPopuli/limber/pull/1667) Update pnpm to v8.15.3 ([@renovate[bot]](https://github.com/apps/renovate))
 `;
-    const result = parseChangeLog(changelog, new Set(['tutorial']));
+      const result = parseChangeLog(changelog, new Set(['tutorial']));
 
-    expect(result).toMatchInlineSnapshot(`
-      {
-        "sections": [
-          {
-            "summaryText": "* \`tutorial\`
-        * [#1618](https://github.com/NullVoxPopuli/limber/pull/1618) Add note about trying out Polaris ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
-        * [#1680](https://github.com/NullVoxPopuli/limber/pull/1680) feat: Arg Components ([@MichalBryxi](https://github.com/MichalBryxi))",
-            "unlabeled": true,
-          },
-        ],
-      }
-    `);
-  });
+      expect(result).toMatchInlineSnapshot(`
+        {
+          "sections": [
+            {
+              "summaryText": "* \`tutorial\`
+          * [#1618](https://github.com/NullVoxPopuli/limber/pull/1618) Add note about trying out Polaris ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+          * [#1680](https://github.com/NullVoxPopuli/limber/pull/1680) feat: Arg Components ([@MichalBryxi](https://github.com/MichalBryxi))",
+              "unlabeled": true,
+            },
+          ],
+        }
+      `);
+    });
 
-  it('ignores packages on labeled PRs if those packages are ignored', () => {
-    const changelog = `## Release (2024-03-10)
+    it('does not ignore unlabeled PRs if they come from known packages', () => {
+      const changelog = `
+#### :present: Additional updates
+* \`tutorial\`
+  * [#1618](https://github.com/NullVoxPopuli/limber/pull/1618) Add note about trying out Polaris ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#1680](https://github.com/NullVoxPopuli/limber/pull/1680) feat: Arg Components ([@MichalBryxi](https://github.com/MichalBryxi))
+* \`limber\`
+  * [#1642](https://github.com/NullVoxPopuli/limber/pull/1642) Fix for #1641: Alternative 1) Remove \`z-10\` from resize-handle ([@johanrd](https://github.com/johanrd))
+* Other
+  * [#1667](https://github.com/NullVoxPopuli/limber/pull/1667) Update pnpm to v8.15.3 ([@renovate[bot]](https://github.com/apps/renovate))
+`;
+      const result = parseChangeLog(changelog, new Set(['tutorial']));
+
+      expect(result).toMatchInlineSnapshot(`
+        {
+          "sections": [
+            {
+              "summaryText": "* \`tutorial\`
+          * [#1618](https://github.com/NullVoxPopuli/limber/pull/1618) Add note about trying out Polaris ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+          * [#1680](https://github.com/NullVoxPopuli/limber/pull/1680) feat: Arg Components ([@MichalBryxi](https://github.com/MichalBryxi))",
+              "unlabeled": true,
+            },
+          ],
+        }
+      `);
+    });
+
+    it('ignores packages on labeled PRs if those packages are ignored', () => {
+      const changelog = `## Release (2024-03-10)
 
 #### :boom: Breaking Change
 * \`ember-repl\`, \`ember-repl-test-app\`
@@ -141,27 +164,58 @@ describe('parseChangeLog', () => {
 * \`ember-repl\`, \`ember-repl-test-app\`
   * [#1687](https://github.com/NullVoxPopuli/limber/pull/1687) Allow passing rehype plugins to the markdown renderer in ember-repl ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
 `;
-    const result = parseChangeLog(changelog, new Set(['ember-repl']));
+      const result = parseChangeLog(changelog, new Set(['ember-repl']));
 
-    expect(result).toMatchInlineSnapshot(`
-      {
-        "sections": [
-          {
-            "heading": ":boom: Breaking Change",
-            "impact": "major",
-            "packages": [
-              "ember-repl",
-            ],
-          },
-          {
-            "heading": ":rocket: Enhancement",
-            "impact": "minor",
-            "packages": [
-              "ember-repl",
-            ],
-          },
-        ],
-      }
-    `);
+      expect(result).toMatchInlineSnapshot(`
+        {
+          "sections": [
+            {
+              "heading": ":boom: Breaking Change",
+              "impact": "major",
+              "packages": [
+                "ember-repl",
+              ],
+            },
+            {
+              "heading": ":rocket: Enhancement",
+              "impact": "minor",
+              "packages": [
+                "ember-repl",
+              ],
+            },
+          ],
+        }
+      `);
+    });
+
+    it('if all unlabeled changes are from ignored packages, we do not care about any of those changes being unlabeled', () => {
+      const changelog = `## Release (2024-03-10)
+
+#### :boom: Breaking Change
+* \`ember-repl\`
+  * [#1674](https://github.com/NullVoxPopuli/limber/pull/1674) Refactor the compilation library to prepare for broader usage ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :present: Additional updates
+* \`tutorial\`
+  * [#1618](https://github.com/NullVoxPopuli/limber/pull/1618) Add note about trying out Polaris ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#1680](https://github.com/NullVoxPopuli/limber/pull/1680) feat: Arg Components ([@MichalBryxi](https://github.com/MichalBryxi))
+
+  `;
+      const result = parseChangeLog(changelog, new Set(['ember-repl']));
+
+      expect(result).toMatchInlineSnapshot(`
+        {
+          "sections": [
+            {
+              "heading": ":boom: Breaking Change",
+              "impact": "major",
+              "packages": [
+                "ember-repl",
+              ],
+            },
+          ],
+        }
+      `);
+    });
   });
 });
