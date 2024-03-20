@@ -1,5 +1,21 @@
 # release-plan Changelog
 
+## Release (2024-03-12)
+
+release-plan 0.9.0 (minor)
+
+#### :rocket: Enhancement
+* `release-plan`
+  * [#66](https://github.com/embroider-build/release-plan/pull/66) start using github-changelog ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* `release-plan`
+  * [#67](https://github.com/embroider-build/release-plan/pull/67) fix typo in release-plan setup ([@mansona](https://github.com/mansona))
+  * [#64](https://github.com/embroider-build/release-plan/pull/64) update release-plan-setup ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2024-02-16)
 
 release-plan 0.8.0 (minor)

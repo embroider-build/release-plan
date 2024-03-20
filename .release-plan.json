@@ -2,16 +2,20 @@
   "solution": {
     "release-plan": {
       "impact": "minor",
-      "oldVersion": "0.7.1",
-      "newVersion": "0.8.0",
+      "oldVersion": "0.8.0",
+      "newVersion": "0.9.0",
       "constraints": [
         {
           "impact": "minor",
           "reason": "Appears in changelog section :rocket: Enhancement"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2024-02-16)\n\nrelease-plan 0.8.0 (minor)\n\n#### :rocket: Enhancement\n* `release-plan`\n  * [#56](https://github.com/embroider-build/release-plan/pull/56) add the default github-changelog unlabelled section name to parser ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2024-03-12)\n\nrelease-plan 0.9.0 (minor)\n\n#### :rocket: Enhancement\n* `release-plan`\n  * [#66](https://github.com/embroider-build/release-plan/pull/66) start using github-changelog ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `release-plan`\n  * [#67](https://github.com/embroider-build/release-plan/pull/67) fix typo in release-plan setup ([@mansona](https://github.com/mansona))\n  * [#64](https://github.com/embroider-build/release-plan/pull/64) update release-plan-setup ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
