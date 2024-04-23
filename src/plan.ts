@@ -62,7 +62,10 @@ class Plan {
       if (!impact) {
         solution.set(pkgName, { impact: undefined, oldVersion: entry.version });
       } else {
-        const newVersion = inc(entry.version, impact)!;
+        const newVersion = inc(
+          entry.version,
+          this.#configureImpact(pkgName, impact),
+        )!;
         solution.set(pkgName, {
           impact,
           oldVersion: entry.version,
@@ -73,6 +76,17 @@ class Plan {
       }
     }
     return solution;
+  }
+
+  #configureImpact(pkgName: string, impact: Impact): Impact {
+    const packageJson = this.#pkgs.get(pkgName)?.pkg;
+    if (packageJson && packageJson['release-plan']?.semverIncrementAs) {
+      const semverOverrides = packageJson['release-plan'].semverIncrementAs;
+      if (semverOverrides[impact]) {
+        return semverOverrides[impact];
+      }
+    }
+    return impact;
   }
 
   #expandWorkspaceRange(
