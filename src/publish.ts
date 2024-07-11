@@ -258,7 +258,9 @@ export async function npmPublish(
     );
 
     if (preExisting) {
-      info(`${pkgName} has already been publish @ version ${entry.newVersion}`);
+      info(
+        `${pkgName} has already been published @ version ${entry.newVersion}. Skipping publish;`,
+      );
       continue;
     }
 
