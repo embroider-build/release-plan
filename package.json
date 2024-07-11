@@ -33,7 +33,7 @@
     "fs-extra": "^10.0.0",
     "github-changelog": "^1.0.0",
     "js-yaml": "^4.1.0",
-    "latest-version": "^5.0.0",
+    "latest-version": "^9.0.0",
     "parse-github-repo-url": "^1.4.1",
     "semver": "^7.3.5",
     "yargs": "^17.0.1"
