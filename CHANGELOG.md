@@ -1,5 +1,21 @@
 # release-plan Changelog
 
+## Release (2024-07-11)
+
+release-plan 0.9.1 (patch)
+
+#### :bug: Bug Fix
+* `release-plan`
+  * [#72](https://github.com/embroider-build/release-plan/pull/72) add a test to exercise latest-version dependency and update it ([@mansona](https://github.com/mansona))
+
+#### :memo: Documentation
+* `release-plan`
+  * [#58](https://github.com/embroider-build/release-plan/pull/58) Update readme ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2024-03-12)
 
 release-plan 0.9.0 (minor)
