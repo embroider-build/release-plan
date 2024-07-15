@@ -1,5 +1,16 @@
 # release-plan Changelog
 
+## Release (2024-07-15)
+
+release-plan 0.9.2 (patch)
+
+#### :bug: Bug Fix
+* `release-plan`
+  * [#74](https://github.com/embroider-build/release-plan/pull/74) move @types packages to dev-dependencies ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2024-07-11)
 
 release-plan 0.9.1 (patch)
