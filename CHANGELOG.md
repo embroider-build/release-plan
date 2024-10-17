@@ -1,5 +1,16 @@
 # release-plan Changelog
 
+## Release (2024-10-17)
+
+release-plan 0.10.0 (minor)
+
+#### :rocket: Enhancement
+* `release-plan`
+  * [#81](https://github.com/embroider-build/release-plan/pull/81) Add support for specifying --access, aligning better with default publish behavior ([@saracope](https://github.com/saracope))
+
+#### Committers: 1
+- Sara Cope ([@saracope](https://github.com/saracope))
+
 ## Release (2024-07-15)
 
 release-plan 0.9.2 (patch)

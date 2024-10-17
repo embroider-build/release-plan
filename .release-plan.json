@@ -1,17 +1,17 @@
 {
   "solution": {
     "release-plan": {
-      "impact": "patch",
-      "oldVersion": "0.9.1",
-      "newVersion": "0.9.2",
+      "impact": "minor",
+      "oldVersion": "0.9.2",
+      "newVersion": "0.10.0",
       "constraints": [
         {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2024-07-15)\n\nrelease-plan 0.9.2 (patch)\n\n#### :bug: Bug Fix\n* `release-plan`\n  * [#74](https://github.com/embroider-build/release-plan/pull/74) move @types packages to dev-dependencies ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2024-10-17)\n\nrelease-plan 0.10.0 (minor)\n\n#### :rocket: Enhancement\n* `release-plan`\n  * [#81](https://github.com/embroider-build/release-plan/pull/81) Add support for specifying --access, aligning better with default publish behavior ([@saracope](https://github.com/saracope))\n\n#### Committers: 1\n- Sara Cope ([@saracope](https://github.com/saracope))\n"
 }
