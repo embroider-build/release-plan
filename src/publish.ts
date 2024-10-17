@@ -249,6 +249,10 @@ export async function npmPublish(
     args.push(`--access=${options.access}`);
   }
 
+  if (options.dryRun) {
+    args.push('--dry-run');
+  }
+
   const released = new Map();
 
   for (const [pkgName, entry] of solution) {
@@ -271,13 +275,11 @@ export async function npmPublish(
 
     if (options.dryRun) {
       info(
-        `--dryRun active. Skipping \`${packageManager} publish --access=public${
+        `--dryRun active. Adding \`--dry-run\` flag to \`${packageManager} publish${
           options.otp ? ' --otp=*redacted*' : ''
-        }\` for ${pkgName}, which would publish version ${entry.newVersion}`,
+        }\` for ${pkgName}, which would publish version ${entry.newVersion}\n`,
       );
-
       released.set(pkgName, entry.newVersion);
-      continue;
     }
 
     try {
