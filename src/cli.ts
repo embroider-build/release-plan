@@ -58,6 +58,11 @@ yargs(process.argv.slice(2))
         .option('tag', {
           type: 'string',
           description: 'pass --tag to npm publish command',
+        })
+        .option('access', {
+          choices: ['public', 'restricted'],
+          description:
+            'Tells the registry whether the published package should be public or restricted.',
         }),
     async function (opts) {
       await publish(opts);

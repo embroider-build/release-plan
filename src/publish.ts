@@ -16,6 +16,7 @@ type PublishOptions = {
   otp?: string;
   publishBranch?: string;
   tag?: string;
+  access?: string;
 };
 
 async function hasCleanRepo(): Promise<boolean> {
@@ -230,7 +231,7 @@ export async function npmPublish(
   options: PublishOptions,
   packageManager: string,
 ): Promise<{ args: string[]; released: Map<string, string> }> {
-  const args = ['publish', '--access=public'];
+  const args = ['publish'];
 
   if (options.otp) {
     args.push(`--otp=${options.otp}`);
@@ -242,6 +243,14 @@ export async function npmPublish(
 
   if (options.tag) {
     args.push(`--tag=${options.tag}`);
+  }
+
+  if (options.access) {
+    args.push(`--access=${options.access}`);
+  }
+
+  if (options.dryRun) {
+    args.push('--dry-run');
   }
 
   const released = new Map();
@@ -266,13 +275,11 @@ export async function npmPublish(
 
     if (options.dryRun) {
       info(
-        `--dryRun active. Skipping \`${packageManager} publish --access=public${
+        `--dryRun active. Adding \`--dry-run\` flag to \`${packageManager} publish${
           options.otp ? ' --otp=*redacted*' : ''
-        }\` for ${pkgName}, which would publish version ${entry.newVersion}`,
+        }\` for ${pkgName}, which would publish version ${entry.newVersion}\n`,
       );
-
       released.set(pkgName, entry.newVersion);
-      continue;
     }
 
     try {

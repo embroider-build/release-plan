@@ -19,7 +19,25 @@ describe('publish', function () {
         {
           "args": [
             "publish",
-            "--access=public",
+          ],
+          "released": Map {},
+        }
+      `);
+    });
+
+    it('adds access if passed by options', async function () {
+      const thingy = await npmPublish(
+        new Map([['thingy', { oldVersion: '3' }]]) as Solution,
+        reporter,
+        { access: 'restricted' },
+        'face',
+      );
+
+      expect(thingy).toMatchInlineSnapshot(`
+        {
+          "args": [
+            "publish",
+            "--access=restricted",
           ],
           "released": Map {},
         }
@@ -40,7 +58,6 @@ describe('publish', function () {
         {
           "args": [
             "publish",
-            "--access=public",
             "--otp=12345",
           ],
           "released": Map {},
@@ -62,7 +79,6 @@ describe('publish', function () {
         {
           "args": [
             "publish",
-            "--access=public",
             "--publish-branch=best-branch",
           ],
           "released": Map {},
@@ -84,8 +100,28 @@ describe('publish', function () {
         {
           "args": [
             "publish",
-            "--access=public",
             "--tag=best-tag",
+          ],
+          "released": Map {},
+        }
+      `);
+    });
+
+    it('adds dry-run if passed by options', async function () {
+      const thingy = await npmPublish(
+        new Map([['thingy', { oldVersion: '3' }]]) as Solution,
+        reporter,
+        {
+          dryRun: true,
+        },
+        'face',
+      );
+
+      expect(thingy).toMatchInlineSnapshot(`
+        {
+          "args": [
+            "publish",
+            "--dry-run",
           ],
           "released": Map {},
         }
@@ -117,7 +153,6 @@ describe('publish', function () {
         {
           "args": [
             "publish",
-            "--access=public",
             "--tag=best-tag",
           ],
           "released": Map {},
