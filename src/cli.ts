@@ -59,6 +59,10 @@ yargs(process.argv.slice(2))
           type: 'string',
           description: 'pass --tag to npm publish command',
         })
+        .option('provenance', {
+          type: 'boolean',
+          description: 'pass --provenance to the npm publish command',
+        })
         .option('access', {
           choices: ['public', 'restricted'],
           description:
