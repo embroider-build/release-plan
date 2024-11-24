@@ -17,6 +17,7 @@ type PublishOptions = {
   publishBranch?: string;
   tag?: string;
   access?: string;
+  provenance?: boolean;
 };
 
 async function hasCleanRepo(): Promise<boolean> {
@@ -251,6 +252,10 @@ export async function npmPublish(
 
   if (options.dryRun) {
     args.push('--dry-run');
+  }
+
+  if (options.provenance) {
+    args.push('--provenance');
   }
 
   const released = new Map();

@@ -128,6 +128,27 @@ describe('publish', function () {
       `);
     });
 
+    it('adds provenance if passed by options', async function () {
+      const thingy = await npmPublish(
+        new Map([['thingy', { oldVersion: '3' }]]) as Solution,
+        reporter,
+        {
+          provenance: true,
+        },
+        'face',
+      );
+
+      expect(thingy).toMatchInlineSnapshot(`
+        {
+          "args": [
+            "publish",
+            "--provenance",
+          ],
+          "released": Map {},
+        }
+      `);
+    });
+
     it('warns that a version exists if we are trying to release', async function () {
       const consoleSpy = vi.spyOn(process.stdout, 'write');
 
