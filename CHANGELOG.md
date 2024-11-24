@@ -1,5 +1,22 @@
 # release-plan Changelog
 
+## Release (2024-11-24)
+
+release-plan 0.11.0 (minor)
+
+#### :rocket: Enhancement
+* `release-plan`
+  * [#85](https://github.com/embroider-build/release-plan/pull/85) pass provenance through if provided to publish ([@mansona](https://github.com/mansona))
+  * [#68](https://github.com/embroider-build/release-plan/pull/68) add semverIncrementAs option for granular package version control ([@void-mAlex](https://github.com/void-mAlex))
+
+#### :house: Internal
+* `release-plan`
+  * [#83](https://github.com/embroider-build/release-plan/pull/83) use corepack to manage pnpm version ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Alex ([@void-mAlex](https://github.com/void-mAlex))
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2024-10-17)
 
 release-plan 0.10.0 (minor)

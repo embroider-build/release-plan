@@ -2,16 +2,20 @@
   "solution": {
     "release-plan": {
       "impact": "minor",
-      "oldVersion": "0.9.2",
-      "newVersion": "0.10.0",
+      "oldVersion": "0.10.0",
+      "newVersion": "0.11.0",
       "constraints": [
         {
           "impact": "minor",
           "reason": "Appears in changelog section :rocket: Enhancement"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2024-10-17)\n\nrelease-plan 0.10.0 (minor)\n\n#### :rocket: Enhancement\n* `release-plan`\n  * [#81](https://github.com/embroider-build/release-plan/pull/81) Add support for specifying --access, aligning better with default publish behavior ([@saracope](https://github.com/saracope))\n\n#### Committers: 1\n- Sara Cope ([@saracope](https://github.com/saracope))\n"
+  "description": "## Release (2024-11-24)\n\nrelease-plan 0.11.0 (minor)\n\n#### :rocket: Enhancement\n* `release-plan`\n  * [#85](https://github.com/embroider-build/release-plan/pull/85) pass provenance through if provided to publish ([@mansona](https://github.com/mansona))\n  * [#68](https://github.com/embroider-build/release-plan/pull/68) add semverIncrementAs option for granular package version control ([@void-mAlex](https://github.com/void-mAlex))\n\n#### :house: Internal\n* `release-plan`\n  * [#83](https://github.com/embroider-build/release-plan/pull/83) use corepack to manage pnpm version ([@mansona](https://github.com/mansona))\n\n#### Committers: 2\n- Alex ([@void-mAlex](https://github.com/void-mAlex))\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
