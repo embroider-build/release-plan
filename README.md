@@ -87,7 +87,22 @@ To use `release-plan` you need to have a valid `GITHUB_AUTH` environment variabl
 
 5. Once the PR is merged, in a clean local repo at the merge commit, run `npx release-plan publish`. If you need an `otp` for your release you can provide that to the `publish` command like this `npx release-plan publish --otp=123456`
 
-    
+### Options
+
+For projects that need extra control over how versions are incremented `release-plan` configuration can be added to individual package.json files to remap the increment level passed to `semver` eg:
+
+```json
+{
+  "name": "example",
+  "version": "0.9.0",
+  "release-plan": {
+    "semverIncrementAs": {
+      "major": "minor"
+    }
+  }
+}
+```
+Will mean that any breaking change is treated as a minor which is useful in case the project is in the pre 1.0 stage. Please use responsibly
 
 ## Comparison
 
