@@ -33,8 +33,8 @@ importers:
         specifier: ^11.2.0
         version: 11.2.0
       github-changelog:
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.0.2
+        version: 1.0.2
       js-yaml:
         specifier: ^4.1.0
         version: 4.1.0
@@ -1395,8 +1395,8 @@ packages:
   get-tsconfig@4.7.2:
     resolution: {integrity: sha512-wuMsz4leaj5hbGgg4IvDU0bqJagpftG5l5cXIAvo8uZrqn0NJqwtfupTN00VnkQJPcIRrxYrm1Ue24btpCha2A==}
 
-  github-changelog@1.0.0:
-    resolution: {integrity: sha512-8roCgUIEH6DDKHuywYKTk/TOSS7UxlmEbgQMevpSjF3Umf5067W2ihkmbuZmvH3m0MsM1DUiPJ27yzYbo4Fkaw==}
+  github-changelog@1.0.2:
+    resolution: {integrity: sha512-ieWWj+wEHcWwhofXOB6HwxYbRCmWMZ8q8NHjt+g8d0GVA8AJE3h7uxjZ9ZqT8l9TPrGH5HRjaVOqO3PiU4pUSQ==}
     engines: {node: 12.* || 14.* || >= 16}
     hasBin: true
 
@@ -2930,7 +2930,7 @@ snapshots:
   '@npmcli/fs@1.1.1':
     dependencies:
       '@gar/promisify': 1.1.3
-      semver: 7.5.4
+      semver: 7.6.2
 
   '@npmcli/git@5.0.3':
     dependencies:
@@ -3574,7 +3574,7 @@ snapshots:
 
   agent-base@6.0.2:
     dependencies:
-      debug: 4.3.4
+      debug: 4.3.5
     transitivePeerDependencies:
       - supports-color
 
@@ -4228,7 +4228,7 @@ snapshots:
     dependencies:
       resolve-pkg-maps: 1.0.0
 
-  github-changelog@1.0.0:
+  github-changelog@1.0.2:
     dependencies:
       '@manypkg/get-packages': 2.2.0
       chalk: 4.1.2
@@ -4328,14 +4328,14 @@ snapshots:
     dependencies:
       '@tootallnate/once': 1.1.2
       agent-base: 6.0.2
-      debug: 4.3.4
+      debug: 4.3.5
     transitivePeerDependencies:
       - supports-color
 
   https-proxy-agent@5.0.1:
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.4
+      debug: 4.3.5
     transitivePeerDependencies:
       - supports-color
 
@@ -4903,8 +4903,8 @@ snapshots:
 
   path-scurry@1.10.1:
     dependencies:
-      lru-cache: 10.1.0
-      minipass: 7.0.4
+      lru-cache: 10.4.3
+      minipass: 7.1.2
 
   path-scurry@1.11.1:
     dependencies:
@@ -5113,7 +5113,7 @@ snapshots:
   socks-proxy-agent@6.2.1:
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.4
+      debug: 4.3.5
       socks: 2.8.1
     transitivePeerDependencies:
       - supports-color

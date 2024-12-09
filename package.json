@@ -27,7 +27,7 @@
     "cli-highlight": "^2.1.11",
     "execa": "^4.0.3",
     "fs-extra": "^11.2.0",
-    "github-changelog": "^1.0.0",
+    "github-changelog": "^1.0.2",
     "js-yaml": "^4.1.0",
     "latest-version": "^9.0.0",
     "parse-github-repo-url": "^1.4.1",
