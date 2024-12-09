@@ -91,8 +91,8 @@ importers:
         specifier: ^5.0.1
         version: 5.0.1(eslint-config-prettier@9.1.0(eslint@8.55.0))(eslint@8.55.0)(prettier@3.1.0)
       fixturify-project:
-        specifier: github:stefanpenner/node-fixturify-project
-        version: https://codeload.github.com/stefanpenner/node-fixturify-project/tar.gz/4495beb6196034d72f180d3cddeff4020f7f3607
+        specifier: ^7.1.3
+        version: 7.1.3
       prettier:
         specifier: ^3.1.0
         version: 3.1.0
@@ -1311,9 +1311,8 @@ packages:
     resolution: {integrity: sha512-78/PXT1wlLLDgTzDs7sjq9hzz0vXD+zn+7wypEe4fXQxCmdmqfGsEPQxmiCSQI3ajFV91bVSsvNtrJRiW6nGng==}
     engines: {node: '>=10'}
 
-  fixturify-project@https://codeload.github.com/stefanpenner/node-fixturify-project/tar.gz/4495beb6196034d72f180d3cddeff4020f7f3607:
-    resolution: {tarball: https://codeload.github.com/stefanpenner/node-fixturify-project/tar.gz/4495beb6196034d72f180d3cddeff4020f7f3607}
-    version: 7.1.3
+  fixturify-project@7.1.3:
+    resolution: {integrity: sha512-araEoNawWCIV9xT/+kAQ+H3aiFTVVH1nUDuYU7syhbWnlyA6BzuRE7vhdZQ7m+1+T5A3zG2JljGxRkNP1EhvXQ==}
     engines: {node: '>= 14.*'}
 
   fixturify@3.0.0:
@@ -4107,7 +4106,7 @@ snapshots:
       locate-path: 6.0.0
       path-exists: 4.0.0
 
-  fixturify-project@https://codeload.github.com/stefanpenner/node-fixturify-project/tar.gz/4495beb6196034d72f180d3cddeff4020f7f3607:
+  fixturify-project@7.1.3:
     dependencies:
       '@embroider/shared-internals': 2.8.1
       '@pnpm/find-workspace-dir': 7.0.2
