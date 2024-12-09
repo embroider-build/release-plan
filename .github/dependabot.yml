@@ -13,7 +13,7 @@ updates:
     time: "03:00"
     timezone: America/New_York
   open-pull-requests-limit: 10
-  versioning-strategy: increase
+  versioning-strategy: increase-if-necessary
 - package-ecosystem: github-actions
   directory: "/"
   schedule:
