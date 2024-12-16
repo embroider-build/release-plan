@@ -59,7 +59,7 @@ importers:
         version: 4.0.9
       '@types/npmcli__package-json':
         specifier: ^4.0.3
-        version: 4.0.3
+        version: 4.0.4
       '@types/parse-github-repo-url':
         specifier: ^1.4.2
         version: 1.4.2
@@ -760,8 +760,8 @@ packages:
   '@types/node@20.9.1':
     resolution: {integrity: sha512-HhmzZh5LSJNS5O8jQKpJ/3ZcrrlG6L70hpGqMIAoM9YVD0YBRNWYsfwcXq8VnSjlNpCpgLzMXdiPo+dxcvSmiA==}
 
-  '@types/npmcli__package-json@4.0.3':
-    resolution: {integrity: sha512-FafZwr1SnJEHlyPJeT5IRvsEjhvm3+dCNdy1OsAJZVrIKT0jNi3sFLbKRqVrHnnXEVI1rNljFGVEcuNG4PMuJw==}
+  '@types/npmcli__package-json@4.0.4':
+    resolution: {integrity: sha512-6QjlFUSHBmZJWuC08bz1ZCx6tm4t+7+OJXAdvM6tL2pI7n6Bh5SIp/YxQvnOLFf8MzCXs2ijyFgrzaiu1UFBGA==}
 
   '@types/parse-github-repo-url@1.4.2':
     resolution: {integrity: sha512-4ksgPpeG6HjqGT3mF/xhCJl4eKSiMGlNttk8mgnxMQ03SBMQ6AnzLZUuyA1hr8JkNCuAljXmqpY1Zz1WZ2m+Ug==}
@@ -3361,7 +3361,7 @@ snapshots:
     dependencies:
       undici-types: 5.26.5
 
-  '@types/npmcli__package-json@4.0.3': {}
+  '@types/npmcli__package-json@4.0.4': {}
 
   '@types/parse-github-repo-url@1.4.2': {}
 
