@@ -19,7 +19,7 @@ importers:
         version: 19.0.13(encoding@0.1.13)
       assert-never:
         specifier: ^1.2.1
-        version: 1.2.1
+        version: 1.4.0
       chalk:
         specifier: ^4.1.1
         version: 4.1.2
@@ -958,8 +958,8 @@ packages:
   as-table@1.0.55:
     resolution: {integrity: sha512-xvsWESUJn0JN421Xb9MQw6AsMHRCUknCe0Wjlxvjud80mU4E6hQf1A6NzQKcYNmYw62MfzEtXc+badstZP3JpQ==}
 
-  assert-never@1.2.1:
-    resolution: {integrity: sha512-TaTivMB6pYI1kXwrFlEhLeGfOqoDNdTxjCdwRfFFkEA30Eu+k48W34nlok2EYWJfFFzqaEmichdNM7th6M5HNw==}
+  assert-never@1.4.0:
+    resolution: {integrity: sha512-5oJg84os6NMQNl27T9LnZkvvqzvAnHu03ShCnoj6bsJwS7L8AO4lf+C/XjK/nvzEqQB744moC6V128RucQd1jA==}
 
   assertion-error@2.0.1:
     resolution: {integrity: sha512-Izi8RQcffqCeNVgFigKli1ssklIbpHnCYc6AknXGYoB6grJqyeby7jv12JUQgmTAnIDnbck1uxksT4dzN3PWBA==}
@@ -3600,7 +3600,7 @@ snapshots:
     dependencies:
       printable-characters: 1.0.42
 
-  assert-never@1.2.1: {}
+  assert-never@1.4.0: {}
 
   assertion-error@2.0.1: {}
 
