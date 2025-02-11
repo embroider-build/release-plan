@@ -114,4 +114,45 @@ describe('plan', function () {
       ]),
     );
   });
+
+  it('allows you to define semver tag', async () => {
+    project.pkg['release-plan'] = {
+      semverIncrementAs: {
+        major: 'premajor',
+      },
+      semverIncrementTag: 'alpha',
+    };
+
+    await project.write();
+
+    const solution = planVersionBumps({
+      sections: [
+        {
+          packages: ['test-package'],
+          impact: 'major',
+          heading: 'breaking',
+        },
+      ],
+    });
+
+    expect(solution).to.deep.equal(
+      new Map([
+        [
+          'test-package',
+          {
+            constraints: [
+              {
+                impact: 'major',
+                reason: 'Appears in changelog section breaking',
+              },
+            ],
+            impact: 'major',
+            newVersion: '2.0.0-alpha.0',
+            oldVersion: '1.2.3',
+            pkgJSONPath: './package.json',
+          },
+        ],
+      ]),
+    );
+  });
 });
