@@ -65,6 +65,7 @@ class Plan {
         const newVersion = inc(
           entry.version,
           this.#configureImpact(pkgName, impact),
+          this.#semverTag(pkgName),
         )!;
         solution.set(pkgName, {
           impact,
@@ -87,6 +88,11 @@ class Plan {
       }
     }
     return impact;
+  }
+
+  #semverTag(pkgName: string): Impact {
+    const packageJson = this.#pkgs.get(pkgName)?.pkg;
+    return packageJson?.['release-plan']?.semverIncrementTag;
   }
 
   #expandWorkspaceRange(
