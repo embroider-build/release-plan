@@ -2,8 +2,8 @@
   "solution": {
     "release-plan": {
       "impact": "minor",
-      "oldVersion": "0.10.0",
-      "newVersion": "0.11.0",
+      "oldVersion": "0.11.0",
+      "newVersion": "0.12.0",
       "constraints": [
         {
           "impact": "minor",
@@ -17,5 +17,5 @@
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2024-11-24)\n\nrelease-plan 0.11.0 (minor)\n\n#### :rocket: Enhancement\n* `release-plan`\n  * [#85](https://github.com/embroider-build/release-plan/pull/85) pass provenance through if provided to publish ([@mansona](https://github.com/mansona))\n  * [#68](https://github.com/embroider-build/release-plan/pull/68) add semverIncrementAs option for granular package version control ([@void-mAlex](https://github.com/void-mAlex))\n\n#### :house: Internal\n* `release-plan`\n  * [#83](https://github.com/embroider-build/release-plan/pull/83) use corepack to manage pnpm version ([@mansona](https://github.com/mansona))\n\n#### Committers: 2\n- Alex ([@void-mAlex](https://github.com/void-mAlex))\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2025-02-11)\n\nrelease-plan 0.12.0 (minor)\n\n#### :rocket: Enhancement\n* `release-plan`\n  * [#119](https://github.com/embroider-build/release-plan/pull/119) allow you to define a semver tag when using prerelease ([@mansona](https://github.com/mansona))\n  * [#109](https://github.com/embroider-build/release-plan/pull/109) Bump @octokit/rest from 19.0.13 to 21.1.0 ([@dependabot[bot]](https://github.com/apps/dependabot))\n\n#### :house: Internal\n* `release-plan`\n  * [#118](https://github.com/embroider-build/release-plan/pull/118) Bump the dev-dependencies group across 1 directory with 3 updates ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#92](https://github.com/embroider-build/release-plan/pull/92) Bump @npmcli/package-json from 5.0.0 to 6.1.0 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#102](https://github.com/embroider-build/release-plan/pull/102) Bump the dev-dependencies group with 6 updates ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#101](https://github.com/embroider-build/release-plan/pull/101) use increase-if-necessary strategy for dependabot ([@mansona](https://github.com/mansona))\n  * [#89](https://github.com/embroider-build/release-plan/pull/89) Bump fs-extra and @types/fs-extra ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#100](https://github.com/embroider-build/release-plan/pull/100) update release-plan workflows ([@mansona](https://github.com/mansona))\n  * [#99](https://github.com/embroider-build/release-plan/pull/99) stop using git fork of fixturify-project ([@mansona](https://github.com/mansona))\n  * [#73](https://github.com/embroider-build/release-plan/pull/73) add a dependabot config ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }

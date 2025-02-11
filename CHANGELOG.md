@@ -1,5 +1,28 @@
 # release-plan Changelog
 
+## Release (2025-02-11)
+
+release-plan 0.12.0 (minor)
+
+#### :rocket: Enhancement
+* `release-plan`
+  * [#119](https://github.com/embroider-build/release-plan/pull/119) allow you to define a semver tag when using prerelease ([@mansona](https://github.com/mansona))
+  * [#109](https://github.com/embroider-build/release-plan/pull/109) Bump @octokit/rest from 19.0.13 to 21.1.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### :house: Internal
+* `release-plan`
+  * [#118](https://github.com/embroider-build/release-plan/pull/118) Bump the dev-dependencies group across 1 directory with 3 updates ([@dependabot[bot]](https://github.com/apps/dependabot))
+  * [#92](https://github.com/embroider-build/release-plan/pull/92) Bump @npmcli/package-json from 5.0.0 to 6.1.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  * [#102](https://github.com/embroider-build/release-plan/pull/102) Bump the dev-dependencies group with 6 updates ([@dependabot[bot]](https://github.com/apps/dependabot))
+  * [#101](https://github.com/embroider-build/release-plan/pull/101) use increase-if-necessary strategy for dependabot ([@mansona](https://github.com/mansona))
+  * [#89](https://github.com/embroider-build/release-plan/pull/89) Bump fs-extra and @types/fs-extra ([@dependabot[bot]](https://github.com/apps/dependabot))
+  * [#100](https://github.com/embroider-build/release-plan/pull/100) update release-plan workflows ([@mansona](https://github.com/mansona))
+  * [#99](https://github.com/embroider-build/release-plan/pull/99) stop using git fork of fixturify-project ([@mansona](https://github.com/mansona))
+  * [#73](https://github.com/embroider-build/release-plan/pull/73) add a dependabot config ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2024-11-24)
 
 release-plan 0.11.0 (minor)
