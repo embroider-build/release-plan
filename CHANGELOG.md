@@ -1,5 +1,16 @@
 # release-plan Changelog
 
+## Release (2025-02-12)
+
+release-plan 0.13.0 (minor)
+
+#### :rocket: Enhancement
+* `release-plan`
+  * [#120](https://github.com/embroider-build/release-plan/pull/120) make name of release the same as the tag ([@patricklx](https://github.com/patricklx))
+
+#### Committers: 1
+- Patrick Pircher ([@patricklx](https://github.com/patricklx))
+
 ## Release (2025-02-11)
 
 release-plan 0.12.0 (minor)
