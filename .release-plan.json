@@ -1,17 +1,17 @@
 {
   "solution": {
     "release-plan": {
-      "impact": "minor",
-      "oldVersion": "0.12.0",
-      "newVersion": "0.13.0",
+      "impact": "patch",
+      "oldVersion": "0.13.0",
+      "newVersion": "0.13.1",
       "constraints": [
         {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2025-02-12)\n\nrelease-plan 0.13.0 (minor)\n\n#### :rocket: Enhancement\n* `release-plan`\n  * [#120](https://github.com/embroider-build/release-plan/pull/120) make name of release the same as the tag ([@patricklx](https://github.com/patricklx))\n\n#### Committers: 1\n- Patrick Pircher ([@patricklx](https://github.com/patricklx))\n"
+  "description": "## Release (2025-02-12)\n\nrelease-plan 0.13.1 (patch)\n\n#### :bug: Bug Fix\n* `release-plan`\n  * [#122](https://github.com/embroider-build/release-plan/pull/122) rename embroider-release in error message to release-plan ([@patricklx](https://github.com/patricklx))\n\n#### Committers: 1\n- Patrick Pircher ([@patricklx](https://github.com/patricklx))\n"
 }
