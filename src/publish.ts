@@ -164,7 +164,7 @@ async function doesReleaseExist(
   }
 }
 
-async function createGithubRelease(
+export async function createGithubRelease(
   octokit: Octokit,
   description: string,
   tagName: string,
@@ -192,6 +192,7 @@ async function createGithubRelease(
       owner,
       repo,
       tag_name: tagName,
+      name: tagName,
       body: description,
     });
   } catch (err) {
