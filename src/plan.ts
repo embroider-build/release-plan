@@ -300,7 +300,7 @@ export function loadSolution(): { solution: Solution; description: string } {
     };
   } catch (err) {
     process.stderr.write(
-      `Unable to load release plan file. You must run "embroider-release prepare" first to create the file.\n`,
+      `Unable to load release plan file. You must run "release-plan prepare" first to create the file.\n`,
     );
     if (err.code !== 'ENOENT') {
       console.error(err);
