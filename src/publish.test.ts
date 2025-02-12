@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { npmPublish, IssueReporter } from './publish.js';
+import { npmPublish, createGithubRelease, IssueReporter } from './publish.js';
 import { Solution } from './plan.js';
 
 // we aren't currently using this so we can just ignore for now
@@ -178,6 +178,40 @@ describe('publish', function () {
           ],
           "released": Map {},
         }
+      `);
+    });
+  });
+
+  describe('createGithubRelease', function () {
+    it('calls octokit create Release with correct params', async function () {
+      const octokit = {
+        repos: {
+          getReleaseByTag() {
+            const err = new Error() as any;
+            err.status = 404;
+            throw err;
+          },
+          createRelease: vi.fn(),
+        },
+      };
+      await createGithubRelease(
+        octokit as any,
+        'new release',
+        'v1.0.0-release-plan',
+        reporter,
+        {},
+      );
+      expect(octokit.repos.createRelease.mock.calls.length).toBe(1);
+      expect(octokit.repos.createRelease.mock.lastCall).toMatchInlineSnapshot(`
+        [
+          {
+            "body": "new release",
+            "name": "v1.0.0-release-plan",
+            "owner": "embroider-build",
+            "repo": "release-plan",
+            "tag_name": "v1.0.0-release-plan",
+          },
+        ]
       `);
     });
   });

@@ -164,7 +164,7 @@ async function doesReleaseExist(
   }
 }
 
-async function createGithubRelease(
+export async function createGithubRelease(
   octokit: Octokit,
   description: string,
   tagName: string,
