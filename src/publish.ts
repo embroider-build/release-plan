@@ -192,6 +192,7 @@ async function createGithubRelease(
       owner,
       repo,
       tag_name: tagName,
+      name: tagName,
       body: description,
     });
   } catch (err) {
