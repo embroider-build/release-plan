@@ -83,25 +83,6 @@ describe('publish', function () {
           "released": Map {},
         }
       `);
-  });
-
-  describe('npmPublish', function () {
-    it('adds the correct args with no options', async function () {
-      const thingy = await npmPublish(
-        new Map([['thingy', { oldVersion: '3' }]]) as Solution,
-        reporter,
-        {},
-        'face',
-      );
-
-      expect(thingy).toMatchInlineSnapshot(`
-        {
-          "args": [
-            "publish",
-          ],
-          "released": Map {},
-        }
-      `);
     });
 
     it('adds access if passed by options', async function () {
