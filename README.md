@@ -106,7 +106,7 @@ Will mean that any breaking change is treated as a minor which is useful in case
 
 ## Custom github api url for ghe
 you can set GITHUB_API_URL to a custom url e.g.
-https://mycustom.github.com
+https://api.mycustom.github.com
 
 ## Comparison
 
