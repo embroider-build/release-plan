@@ -29,7 +29,56 @@ vi.mock('@octokit/rest', () => {
 });
 
 describe('publish', function () {
-  it('publish support custom base Url', function () {
+  it('publish support custom base api url', function () {
+    process.env.GITHUB_API_URL = 'https://api.custombase.com';
+    process.env.GITHUB_AUTH = 'auth';
+    publish({
+      skipRepoSafetyCheck: true,
+      dryRun: true,
+    });
+    expect(octokit.mock.calls.length).toBe(1);
+    expect(octokit.mock.lastCall).toMatchInlineSnapshot(`
+      [
+        {
+          "auth": "auth",
+          "baseUrl": "https://api.custombase.com",
+        },
+      ]
+    `);
+  });
+
+  it('publish support custom base domain', function () {
+    process.env.GITHUB_API_URL = null;
+    process.env.GITHUB_DOMAIN = 'custombase.com';
+    process.env.GITHUB_AUTH = 'auth';
+    publish({
+      skipRepoSafetyCheck: true,
+      dryRun: true,
+    });
+    expect(octokit.mock.calls.length).toBe(1);
+    expect(octokit.mock.lastCall).toMatchInlineSnapshot(`
+      [
+        {
+          "auth": "auth",
+          "baseUrl": "https://api.custombase.com",
+        },
+      ]
+    `);
+  });
+
+  describe('npmPublish', function () {
+    it('adds the correct args with no options', async function () {
+      const thingy = await npmPublish(
+        new Map([['thingy', { oldVersion: '3' }]]) as Solution,
+        reporter,
+        {},
+        'face',
+      );
+
+      expect(thingy).toMatchInlineSnapshot(`
+        {
+          "args": [
+stom base api url', function () {
     process.env.GITHUB_API_URL = 'https://custombase.com';
     process.env.GITHUB_AUTH = 'auth';
     publish({
