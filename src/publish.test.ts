@@ -1,11 +1,43 @@
 import { describe, it, expect, vi } from 'vitest';
-import { npmPublish, createGithubRelease, IssueReporter } from './publish.js';
+import {
+  npmPublish,
+  publish,
+  createGithubRelease,
+  IssueReporter,
+} from './publish.js';
 import { Solution } from './plan.js';
 
 // we aren't currently using this so we can just ignore for now
 const reporter = new IssueReporter();
 
+const octokit = vi.fn();
+vi.mock('@octokit/rest', () => {
+  return {
+    Octokit: function (...args: any) {
+      octokit(...args);
+    },
+  };
+});
+
 describe('publish', function () {
+  it('publish support custom base Url', function () {
+    process.env.GITHUB_API_URL = 'https://custombase.com';
+    process.env.GITHUB_AUTH = 'auth';
+    publish({
+      skipRepoSafetyCheck: true,
+      dryRun: true,
+    });
+    expect(octokit.mock.calls.length).toBe(1);
+    expect(octokit.mock.lastCall).toMatchInlineSnapshot(`
+      [
+        {
+          "auth": "auth",
+          "baseUrl": "https://custombase.com",
+        },
+      ]
+    `);
+  });
+
   describe('npmPublish', function () {
     it('adds the correct args with no options', async function () {
       const thingy = await npmPublish(
