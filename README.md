@@ -104,6 +104,17 @@ For projects that need extra control over how versions are incremented `release-
 ```
 Will mean that any breaking change is treated as a minor which is useful in case the project is in the pre 1.0 stage. Please use responsibly
 
+## Usage in GitHub Enterprise
+to use release-plan in GitHub enterprise environment you have to set GITHUB_DOMAIN to your ghe domain
+
+GITHUB_DOMAIN=github.custom.com
+
+
+if you have a custom api endpoint you need to set it with
+GITHUB_API_URL to your ghe api url e.g.
+
+GITHUB_API_URL=https://api.github.custom.com
+
 ## Comparison
 
 Note that we take the stance of reducing friction for new contributors (regardless of how new to GitHub they are), we want to optimize for the contribution, and assume that maintainers can handle a little bit of process -- and with this stance, changesets is the _most work_ out of this comparison.
