@@ -104,8 +104,8 @@ For projects that need extra control over how versions are incremented `release-
 ```
 Will mean that any breaking change is treated as a minor which is useful in case the project is in the pre 1.0 stage. Please use responsibly
 
-## Custom github api url for GitHub Enterprise
-to use release-plan in GitHub enterprise environment you have to set GITHUB_API_URL to a custom url e.g.
+## Usage in GitHub Enterprise
+to use release-plan in GitHub enterprise environment you have to set GITHUB_API_URL to your ghe api url e.g.
 GITHUB_API_URL=https://api.github.custom.com
 
 ## Comparison
