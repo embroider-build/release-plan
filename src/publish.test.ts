@@ -15,7 +15,7 @@ vi.mock('@octokit/rest', () => {
   return {
     Octokit: function (...args: any) {
       octokit(...args);
-      return octokit = {
+      return {
         repos: {
           getReleaseByTag() {
             const err = new Error() as any;
