@@ -104,6 +104,10 @@ For projects that need extra control over how versions are incremented `release-
 ```
 Will mean that any breaking change is treated as a minor which is useful in case the project is in the pre 1.0 stage. Please use responsibly
 
+## Custom github api url for ghe
+you can set GITHUB_API_URL to a custom url e.g.
+https://mycustom.github.com
+
 ## Comparison
 
 Note that we take the stance of reducing friction for new contributors (regardless of how new to GitHub they are), we want to optimize for the contribution, and assume that maintainers can handle a little bit of process -- and with this stance, changesets is the _most work_ out of this comparison.
