@@ -49,7 +49,7 @@ describe('publish', function () {
 
   it('publish support custom base domain', function () {
     vi.clearAllMocks();
-    process.env.GITHUB_API_URL = null;
+    delete process.env.GITHUB_API_URL;
     process.env.GITHUB_DOMAIN = 'custombase.com';
     process.env.GITHUB_AUTH = 'auth';
     publish({
