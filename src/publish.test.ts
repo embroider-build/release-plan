@@ -78,22 +78,11 @@ describe('publish', function () {
       expect(thingy).toMatchInlineSnapshot(`
         {
           "args": [
-stom base api url', function () {
-    process.env.GITHUB_API_URL = 'https://custombase.com';
-    process.env.GITHUB_AUTH = 'auth';
-    publish({
-      skipRepoSafetyCheck: true,
-      dryRun: true,
-    });
-    expect(octokit.mock.calls.length).toBe(1);
-    expect(octokit.mock.lastCall).toMatchInlineSnapshot(`
-      [
-        {
-          "auth": "auth",
-          "baseUrl": "https://custombase.com",
-        },
-      ]
-    `);
+            "publish",
+          ],
+          "released": Map {},
+        }
+      `);
   });
 
   describe('npmPublish', function () {
