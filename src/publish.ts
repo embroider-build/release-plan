@@ -332,7 +332,17 @@ To publish a release you should start from a clean repo. Run "npx release-plan p
     process.exit(-1);
   }
 
-  const octokit = new Octokit({ auth: process.env.GITHUB_AUTH });
+  let baseUrl = undefined;
+  if (process.env.GITHUB_DOMAIN) {
+    baseUrl = `https://api.${process.env.GITHUB_DOMAIN}`;
+  }
+  if (process.env.GITHUB_API_URL) {
+    baseUrl = process.env.GITHUB_API_URL;
+  }
+  const octokit = new Octokit({
+    auth: process.env.GITHUB_AUTH,
+    baseUrl,
+  });
 
   const representativeTag = chooseRepresentativeTag(solution);
 
