@@ -34,6 +34,7 @@ describe('interdep', function () {
 
       expect(Array(...answer.keys())).toMatchInlineSnapshot(`
         [
+          "do-not-publish",
           "star-package",
         ]
       `);

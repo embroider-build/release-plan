@@ -6,7 +6,7 @@ import latestVersion from 'latest-version';
 import { dirname } from 'path';
 import PackageJson from '@npmcli/package-json';
 import parseGithubUrl from 'parse-github-repo-url';
-import fsExtra from 'fs-extra';
+import fsExtra, { readJSONSync } from 'fs-extra';
 
 const { existsSync } = fsExtra;
 
@@ -266,6 +266,14 @@ export async function npmPublish(
       continue;
     }
 
+    const pkg = readJSONSync(entry.pkgJSONPath);
+    if (pkg['release-plan']?.skipNpmPublish) {
+      info(
+        `skipping publish for ${pkgName}, as config option skipNpmPublish is set in its package.json`,
+      );
+      continue;
+    }
+
     const preExisting = await doesVersionExist(
       pkgName,
       entry.newVersion,
@@ -294,6 +302,7 @@ export async function npmPublish(
         stderr: 'inherit',
         stdout: 'inherit',
       });
+      released.set(pkgName, entry.newVersion);
     } catch (err) {
       reporter.reportFailure(
         `Failed to ${packageManager} publish ${pkgName} - Error: ${err.message}`,
