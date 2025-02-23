@@ -1,4 +1,4 @@
-import execa from 'execa';
+import { execa } from 'execa';
 import type { Solution } from './plan.js';
 import { loadSolution } from './plan.js';
 import { Octokit } from '@octokit/rest';

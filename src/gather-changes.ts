@@ -1,4 +1,4 @@
-import execa from 'execa';
+import { execa } from 'execa';
 import { resolve } from 'path';
 import { dirname } from 'path';
 import { createRequire } from 'node:module';
