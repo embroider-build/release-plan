@@ -103,7 +103,7 @@ async function pushTags(reporter: IssueReporter, options: PublishOptions) {
   try {
     await execa('git', ['push', '--tags']);
   } catch (err) {
-    reporter.reportFailure(`Failed to git push`);
+    reporter.reportFailure(`Failed to git push: ${err.message}`);
   }
 }
 
