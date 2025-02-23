@@ -19,5 +19,5 @@
     "useUnknownInCatchVariables": false,
     "rootDir": "./src",
     "outDir": "./dist"
-  },
+  }
 }

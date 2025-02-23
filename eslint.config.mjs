@@ -1,14 +1,14 @@
 import globals from 'globals';
-import nodePlugin from "eslint-plugin-n";
+import nodePlugin from 'eslint-plugin-n';
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
-import eslintConfigPrettier from "eslint-config-prettier";
+import eslintConfigPrettier from 'eslint-config-prettier';
 
 export default tseslint.config(
   {
     ignores: ['dist/', 'node_modules/'],
   },
-  nodePlugin.configs["flat/recommended-module"],
+  nodePlugin.configs['flat/recommended-module'],
   eslint.configs.recommended,
   tseslint.configs.recommended,
   {
@@ -43,4 +43,4 @@ export default tseslint.config(
     },
   },
   eslintConfigPrettier,
-)
+);
