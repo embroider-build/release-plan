@@ -1,6 +1,5 @@
 packages:
   # any directory (including the top level)
-  - '*'
+  - "*"
   # ignore everything in the files directory
-  - '!files'
-
+  - "!files"
