@@ -1,0 +1,9 @@
+# Unlabeled Changes
+
+* `release-plan`
+  * [#138](https://github.com/embroider-build/release-plan/pull/138) fix readJSONSync import ([@patricklx](https://github.com/patricklx))
+  * [#107](https://github.com/embroider-build/release-plan/pull/107) Bump chalk from 4.1.2 to 5.4.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  * [#133](https://github.com/embroider-build/release-plan/pull/133) update execa ([@mansona](https://github.com/mansona))
+
+
+*Cannot plan release until the above changes are labeled*.
