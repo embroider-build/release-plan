@@ -6,9 +6,9 @@ import latestVersion from 'latest-version';
 import { dirname } from 'path';
 import PackageJson from '@npmcli/package-json';
 import parseGithubUrl from 'parse-github-repo-url';
-import fsExtra, { readJSONSync } from 'fs-extra';
+import fsExtra from 'fs-extra';
 
-const { existsSync } = fsExtra;
+const { existsSync, readJSONSync } = fsExtra;
 
 type PublishOptions = {
   skipRepoSafetyCheck?: boolean;
