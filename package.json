@@ -48,7 +48,7 @@
     "@types/parse-github-repo-url": "^1.4.2",
     "@types/semver": "^7.3.6",
     "@types/yargs": "^17.0.3",
-    "@vitest/coverage-v8": "^2.0.2",
+    "@vitest/coverage-v8": "^3.0.6",
     "concurrently": "^9.1.2",
     "eslint": "^9.21.0",
     "eslint-config-prettier": "^9.1.0",
