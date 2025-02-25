@@ -6,6 +6,7 @@ import {
   IssueReporter,
 } from './publish.js';
 import { Solution } from './plan.js';
+import { getPackages } from './interdep.js';
 
 // we aren't currently using this so we can just ignore for now
 const reporter = new IssueReporter();
@@ -217,7 +218,12 @@ describe('publish', function () {
         new Map([
           [
             'release-plan',
-            { oldVersion: '0.8.1', newVersion: '0.9.0', impact: 'minor' },
+            {
+              oldVersion: '0.8.1',
+              newVersion: '0.9.0',
+              impact: 'minor',
+              pkgJSONPath: './package.json',
+            },
           ],
         ]) as Solution,
         reporter,
@@ -238,6 +244,58 @@ describe('publish', function () {
             "--tag=best-tag",
           ],
           "released": Map {},
+        }
+      `);
+    });
+
+    it('skips publishing if npmSkipPublish is specified in package.json', async function () {
+      const consoleSpy = vi.spyOn(process.stdout, 'write');
+      const packages = getPackages('./fixtures/pnpm/star-package');
+      const publishResult = await npmPublish(
+        new Map([
+          [
+            'do-not-publish',
+            {
+              oldVersion: '0.8.1',
+              newVersion: '0.9.0',
+              impact: 'minor',
+              pkgJSONPath: packages.get('do-not-publish')?.pkgJSONPath,
+            },
+          ],
+          [
+            'star-package',
+            {
+              oldVersion: '0.8.1',
+              newVersion: '0.9.0',
+              impact: 'minor',
+              pkgJSONPath: packages.get('star-package')?.pkgJSONPath,
+            },
+          ],
+        ]) as Solution,
+        reporter,
+        {
+          tag: 'best-tag',
+          dryRun: true,
+        },
+        'face',
+      );
+
+      expect(consoleSpy.mock.lastCall?.[0]).toMatchInlineSnapshot(`
+        "
+         ℹ️ --dryRun active. Adding \`--dry-run\` flag to \`face publish\` for star-package, which would publish version 0.9.0
+        "
+      `);
+
+      expect(publishResult).toMatchInlineSnapshot(`
+        {
+          "args": [
+            "publish",
+            "--tag=best-tag",
+            "--dry-run",
+          ],
+          "released": Map {
+            "star-package" => "0.9.0",
+          },
         }
       `);
     });
