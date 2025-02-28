@@ -22,7 +22,7 @@ This allows folks with GH Maintainer access to preview and release to npm withou
 [^npm-config]: The NPM token can be granular, and the package needs to have its "Publishing access" configured to either "Don't require two-factor authentication" or, "Require two-factor authentication or an automation or granular access token" (recommended). This can be configured under `https://www.npmjs.com/package/{package-name}/access`
 [^release-anywhere]: You can release from bed, the mall, the porcelain, anywhere! No need for a computer! (assuming you have a smart phone)
 
-[gh-create]: https://github.com/mansona/create-release-plan-setup
+[gh-create]: https://github.com/embroider-build/create-release-plan-setup
 
 
 ## Usage & Installation
@@ -65,6 +65,13 @@ npm i --save-dev release-plan
 ```
 
 To use `release-plan` you need to have a valid `GITHUB_AUTH` environment variable that has the `repo` permission. This allows `release-plan` to check what PRs have been merged since the last release and plan the release accordingly. 
+
+For new repositories or those without any tags, `release-plan` also requires an initial tag, we recommend: 
+```bash
+git tag v0.0.0
+git push origin v0.0.0
+```
+
 
 1. Run `npx release-plan explain-plan`. If there are unlabeled PRs that need to be released it will complain and show you a list of them. Each PR needs to be labeled with one of: 
     - breaking
