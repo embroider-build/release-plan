@@ -2,6 +2,17 @@
 
 ## Release (2025-03-03)
 
+release-plan 0.14.1 (patch)
+
+#### :house: Internal
+* `release-plan`
+  * [#153](https://github.com/embroider-build/release-plan/pull/153) move publish test to mock execa ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
+## Release (2025-03-03)
+
 release-plan 0.14.0 (minor)
 
 #### :rocket: Enhancement
