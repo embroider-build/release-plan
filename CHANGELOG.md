@@ -1,5 +1,45 @@
 # release-plan Changelog
 
+## Release (2025-03-03)
+
+release-plan 0.14.0 (minor)
+
+#### :rocket: Enhancement
+* `release-plan`
+  * [#131](https://github.com/embroider-build/release-plan/pull/131) add skip npm option ([@patricklx](https://github.com/patricklx))
+  * [#133](https://github.com/embroider-build/release-plan/pull/133) update execa ([@mansona](https://github.com/mansona))
+  * [#124](https://github.com/embroider-build/release-plan/pull/124) support github enterprise api url via env var ([@patricklx](https://github.com/patricklx))
+
+#### :bug: Bug Fix
+* `release-plan`
+  * [#138](https://github.com/embroider-build/release-plan/pull/138) fix readJSONSync import ([@patricklx](https://github.com/patricklx))
+  * [#107](https://github.com/embroider-build/release-plan/pull/107) Bump chalk from 4.1.2 to 5.4.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### :memo: Documentation
+* `release-plan`
+  * [#141](https://github.com/embroider-build/release-plan/pull/141) Add note about creating initial tag ([@kategengler](https://github.com/kategengler))
+
+#### :house: Internal
+* `release-plan`
+  * [#146](https://github.com/embroider-build/release-plan/pull/146) add extra test coverage to plan ([@mansona](https://github.com/mansona))
+  * [#152](https://github.com/embroider-build/release-plan/pull/152) remove conditional coverage run ([@mansona](https://github.com/mansona))
+  * [#151](https://github.com/embroider-build/release-plan/pull/151) fix coverage summary and double-execution ([@mansona](https://github.com/mansona))
+  * [#150](https://github.com/embroider-build/release-plan/pull/150) fix coverage json summary path ([@mansona](https://github.com/mansona))
+  * [#149](https://github.com/embroider-build/release-plan/pull/149) fix coverage comparison path ([@mansona](https://github.com/mansona))
+  * [#148](https://github.com/embroider-build/release-plan/pull/148) enable coverage comparison to main ([@mansona](https://github.com/mansona))
+  * [#147](https://github.com/embroider-build/release-plan/pull/147) Fix workflow for adding coverage ([@mansona](https://github.com/mansona))
+  * [#145](https://github.com/embroider-build/release-plan/pull/145) add coverage report to PRs ([@mansona](https://github.com/mansona))
+  * [#144](https://github.com/embroider-build/release-plan/pull/144) Bump @vitest/coverage-v8 from 2.1.8 to 3.0.7 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  * [#143](https://github.com/embroider-build/release-plan/pull/143) Bump eslint-config-prettier from 9.1.0 to 10.0.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  * [#142](https://github.com/embroider-build/release-plan/pull/142) Bump the dev-dependencies group across 1 directory with 5 updates ([@dependabot[bot]](https://github.com/apps/dependabot))
+  * [#134](https://github.com/embroider-build/release-plan/pull/134) Update eslint - flat config and better prettier implementation ([@mansona](https://github.com/mansona))
+  * [#132](https://github.com/embroider-build/release-plan/pull/132) update pnpm ([@mansona](https://github.com/mansona))
+
+#### Committers: 3
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Katie Gengler ([@kategengler](https://github.com/kategengler))
+- Patrick Pircher ([@patricklx](https://github.com/patricklx))
+
 ## Release (2025-02-12)
 
 release-plan 0.13.1 (patch)
