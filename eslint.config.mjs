@@ -36,7 +36,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['src/*.test.ts', 'eslint.config.mjs'],
+    files: ['src/*.test.ts', 'eslint.config.mjs', 'vitest.config.js'],
 
     rules: {
       'n/no-unpublished-import': 0,
