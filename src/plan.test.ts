@@ -71,6 +71,7 @@ describe('plan', function () {
             newVersion: '1.3.0',
             oldVersion: '1.2.3',
             pkgJSONPath: './package.json',
+            tagName: 'latest',
           },
         ],
       ]),
@@ -103,6 +104,7 @@ describe('plan', function () {
             newVersion: '0.2.0',
             oldVersion: '0.1.0',
             pkgJSONPath: './packages/face/package.json',
+            tagName: 'latest',
           },
         ],
         [
@@ -118,6 +120,7 @@ describe('plan', function () {
             newVersion: '1.2.4',
             oldVersion: '1.2.3',
             pkgJSONPath: './package.json',
+            tagName: 'latest',
           },
         ],
       ]),
@@ -202,6 +205,68 @@ describe('plan', function () {
             newVersion: '2.0.0',
             oldVersion: '1.2.3',
             pkgJSONPath: './package.json',
+            tagName: 'latest',
+          },
+        ],
+      ]),
+    );
+  });
+
+  it('reads package.json config correctly for tagName config', async () => {
+    project.pkg['release-plan'] = {
+      publishTag: 'alpha',
+    };
+
+    // There is a bug in fixturify project where you can't call await project.write()
+    // more than once when you have depedencies in the project so we need to do this
+    // manually
+    await writeFile(
+      join(project.baseDir, 'package.json'),
+      JSON.stringify(project.pkg),
+    );
+
+    const solution = planVersionBumps({
+      sections: [
+        {
+          packages: ['face'],
+          impact: 'minor',
+          heading: 'enhancement',
+        },
+      ],
+    });
+
+    expect(solution).to.deep.equal(
+      new Map([
+        [
+          'face',
+          {
+            impact: 'minor',
+            oldVersion: '0.1.0',
+            constraints: [
+              {
+                impact: 'minor',
+                reason: 'Appears in changelog section enhancement',
+              },
+            ],
+            newVersion: '0.2.0',
+            pkgJSONPath: './packages/face/package.json',
+            tagName: 'latest',
+          },
+        ],
+        [
+          'test-package',
+          {
+            constraints: [
+              {
+                impact: 'patch',
+                reason: 'Has dependency `workspace:*` on face',
+              },
+            ],
+            impact: 'patch',
+            newVersion: '1.2.4',
+            oldVersion: '1.2.3',
+            pkgJSONPath: './package.json',
+            tagName: 'alpha',
           },
         ],
       ]),
@@ -256,6 +321,7 @@ describe('plan', function () {
             newVersion: '2.0.0-alpha.0',
             oldVersion: '1.2.3',
             pkgJSONPath: './package.json',
+            tagName: 'latest',
           },
         ],
       ]),
