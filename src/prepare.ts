@@ -46,10 +46,13 @@ export function updateChangelog(
 }
 
 function versionSummary(solution: Solution): string {
-  const result: string[] = [];
+  const result: string[] = [
+    '| Package | Version | Impact |',
+    '| --- | --- | --- |',
+  ];
   for (const [pkgName, entry] of solution) {
     if (entry.impact) {
-      result.push(`* ${pkgName} ${entry.newVersion} (${entry.impact})`);
+      result.push(`| ${pkgName} | ${entry.newVersion} | ${entry.impact} |`);
     }
   }
   return result.join('\n');
