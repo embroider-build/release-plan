@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import {
   npmPublish,
   publish,
@@ -7,6 +7,20 @@ import {
 } from './publish.js';
 import { Solution } from './plan.js';
 import { getPackages } from './interdep.js';
+import { execa } from 'execa';
+
+vi.mock('execa', (importOriginal) => {
+  return {
+    execa: vi.fn().mockImplementation(async (command, ...rest) => {
+      if (command === 'git') {
+        return (await importOriginal<typeof import('execa')>()).execa(
+          command,
+          ...rest,
+        );
+      }
+    }),
+  };
+});
 
 // we aren't currently using this so we can just ignore for now
 const reporter = new IssueReporter();
@@ -69,152 +83,146 @@ describe('publish', function () {
   });
 
   describe('npmPublish', function () {
-    it('adds the correct args with no options', async function () {
-      const thingy = await npmPublish(
-        new Map([['thingy', { oldVersion: '3' }]]) as Solution,
-        reporter,
-        {},
-        'face',
-      );
+    let solution: Solution;
 
-      expect(thingy).toMatchInlineSnapshot(`
-        {
-          "args": [
-            "publish",
-          ],
-          "released": Map {},
-        }
-      `);
+    beforeEach(() => {
+      solution = new Map();
+      solution.set('thingy', {
+        oldVersion: '3',
+        newVersion: '4',
+        impact: 'minor',
+        constraints: [],
+        tagName: 'latest',
+        pkgJSONPath: './package.json',
+      });
+    });
+
+    afterEach(() => {
+      vi.resetAllMocks();
+    });
+
+    it('adds the correct args with no options', async function () {
+      await npmPublish(solution, reporter, {}, 'fake-npm');
+
+      expect(execa).toBeCalledWith('fake-npm', ['publish'], {
+        cwd: '.',
+        stderr: 'inherit',
+        stdout: 'inherit',
+      });
     });
 
     it('adds access if passed by options', async function () {
-      const thingy = await npmPublish(
-        new Map([['thingy', { oldVersion: '3' }]]) as Solution,
+      await npmPublish(
+        solution,
         reporter,
         { access: 'restricted' },
-        'face',
+        'fake-npm',
       );
 
-      expect(thingy).toMatchInlineSnapshot(`
+      expect(execa).toBeCalledWith(
+        'fake-npm',
+        ['publish', '--access=restricted'],
         {
-          "args": [
-            "publish",
-            "--access=restricted",
-          ],
-          "released": Map {},
-        }
-      `);
+          cwd: '.',
+          stderr: 'inherit',
+          stdout: 'inherit',
+        },
+      );
     });
 
     it('adds otp if passed by options', async function () {
-      const thingy = await npmPublish(
-        new Map([['thingy', { oldVersion: '3' }]]) as Solution,
+      await npmPublish(
+        solution,
         reporter,
         {
           otp: '12345',
         },
-        'face',
+        'fake-npm',
       );
 
-      expect(thingy).toMatchInlineSnapshot(`
-        {
-          "args": [
-            "publish",
-            "--otp=12345",
-          ],
-          "released": Map {},
-        }
-      `);
+      expect(execa).toBeCalledWith('fake-npm', ['publish', '--otp=12345'], {
+        cwd: '.',
+        stderr: 'inherit',
+        stdout: 'inherit',
+      });
     });
 
     it('adds publish-branch if passed by options', async function () {
-      const thingy = await npmPublish(
-        new Map([['thingy', { oldVersion: '3' }]]) as Solution,
+      await npmPublish(
+        solution,
         reporter,
         {
           publishBranch: 'best-branch',
         },
-        'face',
+        'fake-pnpm',
       );
 
-      expect(thingy).toMatchInlineSnapshot(`
+      expect(execa).toBeCalledWith(
+        'fake-pnpm',
+        ['publish', '--publish-branch=best-branch'],
         {
-          "args": [
-            "publish",
-            "--publish-branch=best-branch",
-          ],
-          "released": Map {},
-        }
-      `);
+          cwd: '.',
+          stderr: 'inherit',
+          stdout: 'inherit',
+        },
+      );
     });
 
-    it('adds tag if passed by options', async function () {
-      const thingy = await npmPublish(
-        new Map([['thingy', { oldVersion: '3' }]]) as Solution,
+    it('adds tag if passed set in the solution', async function () {
+      await npmPublish(
+        solution,
         reporter,
         {
           tag: 'best-tag',
         },
-        'face',
+        'fake-npm',
       );
 
-      expect(thingy).toMatchInlineSnapshot(`
-        {
-          "args": [
-            "publish",
-            "--tag=best-tag",
-          ],
-          "released": Map {},
-        }
-      `);
+      expect(execa).toBeCalledWith('fake-npm', ['publish', '--tag=best-tag'], {
+        cwd: '.',
+        stderr: 'inherit',
+        stdout: 'inherit',
+      });
     });
 
     it('adds dry-run if passed by options', async function () {
-      const thingy = await npmPublish(
-        new Map([['thingy', { oldVersion: '3' }]]) as Solution,
+      await npmPublish(
+        solution,
         reporter,
         {
           dryRun: true,
         },
-        'face',
+        'fake-npm',
       );
 
-      expect(thingy).toMatchInlineSnapshot(`
-        {
-          "args": [
-            "publish",
-            "--dry-run",
-          ],
-          "released": Map {},
-        }
-      `);
+      expect(execa).toBeCalledWith('fake-npm', ['publish', '--dry-run'], {
+        cwd: '.',
+        stderr: 'inherit',
+        stdout: 'inherit',
+      });
     });
 
     it('adds provenance if passed by options', async function () {
-      const thingy = await npmPublish(
-        new Map([['thingy', { oldVersion: '3' }]]) as Solution,
+      await npmPublish(
+        solution,
         reporter,
         {
           provenance: true,
         },
-        'face',
+        'fake-npm',
       );
 
-      expect(thingy).toMatchInlineSnapshot(`
-        {
-          "args": [
-            "publish",
-            "--provenance",
-          ],
-          "released": Map {},
-        }
-      `);
+      expect(execa).toBeCalledWith('fake-npm', ['publish', '--provenance'], {
+        cwd: '.',
+        stderr: 'inherit',
+        stdout: 'inherit',
+      });
     });
 
     it('warns that a version exists if we are trying to release', async function () {
       const consoleSpy = vi.spyOn(process.stdout, 'write');
 
-      const publishResult = await npmPublish(
+      await npmPublish(
         new Map([
           [
             'release-plan',
@@ -227,9 +235,7 @@ describe('publish', function () {
           ],
         ]) as Solution,
         reporter,
-        {
-          tag: 'best-tag',
-        },
+        {},
         'face',
       );
 
@@ -237,21 +243,13 @@ describe('publish', function () {
         "
          ℹ️ release-plan has already been published @ version 0.9.0. Skipping publish;"
       `);
-      expect(publishResult).toMatchInlineSnapshot(`
-        {
-          "args": [
-            "publish",
-            "--tag=best-tag",
-          ],
-          "released": Map {},
-        }
-      `);
+      expect(execa).not.toHaveBeenCalled();
     });
 
     it('skips publishing if npmSkipPublish is specified in package.json', async function () {
       const consoleSpy = vi.spyOn(process.stdout, 'write');
       const packages = getPackages('./fixtures/pnpm/star-package');
-      const publishResult = await npmPublish(
+      await npmPublish(
         new Map([
           [
             'do-not-publish',
@@ -259,7 +257,9 @@ describe('publish', function () {
               oldVersion: '0.8.1',
               newVersion: '0.9.0',
               impact: 'minor',
+              constraints: [],
               pkgJSONPath: packages.get('do-not-publish')?.pkgJSONPath,
+              tagName: 'latest',
             },
           ],
           [
@@ -268,36 +268,31 @@ describe('publish', function () {
               oldVersion: '0.8.1',
               newVersion: '0.9.0',
               impact: 'minor',
+              constraints: [],
               pkgJSONPath: packages.get('star-package')?.pkgJSONPath,
+              tagName: 'latest',
             },
           ],
         ]) as Solution,
         reporter,
         {
-          tag: 'best-tag',
           dryRun: true,
         },
-        'face',
+        'fake-npm',
       );
 
       expect(consoleSpy.mock.lastCall?.[0]).toMatchInlineSnapshot(`
         "
-         ℹ️ --dryRun active. Adding \`--dry-run\` flag to \`face publish\` for star-package, which would publish version 0.9.0
+         ℹ️ --dryRun active. Adding \`--dry-run\` flag to \`fake-npm publish\` for star-package, which would publish version 0.9.0
         "
       `);
 
-      expect(publishResult).toMatchInlineSnapshot(`
-        {
-          "args": [
-            "publish",
-            "--tag=best-tag",
-            "--dry-run",
-          ],
-          "released": Map {
-            "star-package" => "0.9.0",
-          },
-        }
-      `);
+      expect(execa).toHaveBeenCalledOnce();
+      expect(execa).toBeCalledWith('fake-npm', ['publish', '--dry-run'], {
+        cwd: './fixtures/pnpm/star-package',
+        stderr: 'inherit',
+        stdout: 'inherit',
+      });
     });
   });
 
