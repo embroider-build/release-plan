@@ -8,6 +8,7 @@ on:
 
 jobs:
   report:
+    if: github.event.workflow_run.name == 'Test'
     runs-on: ubuntu-latest
 
     permissions:
@@ -31,6 +32,6 @@ jobs:
       - name: "Report Coverage"
         uses: davelosert/vitest-coverage-report-action@v2
         with:
-          json-summary-path: coverage-pr/coverage/coverage-final.json
+          json-summary-path: coverage-pr/coverage/coverage-summary.json
           json-final-path: coverage-pr/coverage/coverage-final.json
-          json-summary-compare-path: coverage/coverage-final.json
+          json-summary-compare-path: coverage/coverage-summary.json
