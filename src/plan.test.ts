@@ -1,15 +1,34 @@
 import { describe, it, expect, afterEach, beforeEach } from 'vitest';
 
-import { planVersionBumps } from './plan.js';
+import { explain, planVersionBumps, Solution } from './plan.js';
 
 import { Project } from 'fixturify-project';
+import { writeFile } from 'fs/promises';
+import { join } from 'path';
 
 describe('plan', function () {
   let project;
   let realCwd;
 
   beforeEach(async () => {
-    project = new Project('test-package', '1.2.3', {});
+    project = new Project('test-package', '1.2.3', {
+      files: {
+        'pnpm-workspace.yaml': `packages:
+  - packages/*
+`,
+        packages: {
+          face: {
+            'package.json': JSON.stringify({
+              name: 'face',
+              version: '0.1.0',
+            }),
+          },
+        },
+      },
+    });
+
+    project.addDependency('face', 'workspace:*');
+
     await project.write();
     realCwd = process.cwd();
     process.chdir(project.baseDir);
@@ -33,6 +52,13 @@ describe('plan', function () {
     expect(solution).to.deep.equal(
       new Map([
         [
+          'face',
+          {
+            impact: undefined,
+            oldVersion: '0.1.0',
+          },
+        ],
+        [
           'test-package',
           {
             constraints: [
@@ -43,6 +69,53 @@ describe('plan', function () {
             ],
             impact: 'minor',
             newVersion: '1.3.0',
+            oldVersion: '1.2.3',
+            pkgJSONPath: './package.json',
+          },
+        ],
+      ]),
+    );
+  });
+
+  it('propagates dependencies correctly', () => {
+    const solution = planVersionBumps({
+      sections: [
+        {
+          packages: ['face'],
+          impact: 'minor',
+          heading: 'enhancement',
+        },
+      ],
+    });
+
+    expect(solution).to.deep.equal(
+      new Map([
+        [
+          'face',
+          {
+            constraints: [
+              {
+                impact: 'minor',
+                reason: 'Appears in changelog section enhancement',
+              },
+            ],
+            impact: 'minor',
+            newVersion: '0.2.0',
+            oldVersion: '0.1.0',
+            pkgJSONPath: './packages/face/package.json',
+          },
+        ],
+        [
+          'test-package',
+          {
+            constraints: [
+              {
+                impact: 'patch',
+                reason: 'Has dependency `workspace:*` on face',
+              },
+            ],
+            impact: 'patch',
+            newVersion: '1.2.4',
             oldVersion: '1.2.3',
             pkgJSONPath: './package.json',
           },
@@ -65,6 +138,13 @@ describe('plan', function () {
     expect(solution).to.deep.equal(
       new Map([
         [
+          'face',
+          {
+            impact: undefined,
+            oldVersion: '0.1.0',
+          },
+        ],
+        [
           'test-package',
           {
             impact: undefined,
@@ -82,7 +162,13 @@ describe('plan', function () {
       },
     };
 
-    await project.write();
+    // There is a bug in fixturify project where you can't call await project.write()
+    // more than once when you have depedencies in the project so we need to do this
+    // manually
+    await writeFile(
+      join(project.baseDir, 'package.json'),
+      JSON.stringify(project.pkg),
+    );
 
     const solution = planVersionBumps({
       sections: [
@@ -96,6 +182,13 @@ describe('plan', function () {
 
     expect(solution).to.deep.equal(
       new Map([
+        [
+          'face',
+          {
+            impact: undefined,
+            oldVersion: '0.1.0',
+          },
+        ],
         [
           'test-package',
           {
@@ -123,7 +216,13 @@ describe('plan', function () {
       semverIncrementTag: 'alpha',
     };
 
-    await project.write();
+    // There is a bug in fixturify project where you can't call await project.write()
+    // more than once when you have depedencies in the project so we need to do this
+    // manually
+    await writeFile(
+      join(project.baseDir, 'package.json'),
+      JSON.stringify(project.pkg),
+    );
 
     const solution = planVersionBumps({
       sections: [
@@ -137,6 +236,13 @@ describe('plan', function () {
 
     expect(solution).to.deep.equal(
       new Map([
+        [
+          'face',
+          {
+            impact: undefined,
+            oldVersion: '0.1.0',
+          },
+        ],
         [
           'test-package',
           {
@@ -154,5 +260,97 @@ describe('plan', function () {
         ],
       ]),
     );
+  });
+
+  describe('explain', function () {
+    let solution: Solution;
+
+    beforeEach(() => {
+      solution = new Map();
+    });
+    it('wont error with an empty solution', function () {
+      expect(explain(solution)).toMatchInlineSnapshot(`""`);
+    });
+
+    it('outputs a mostly empty solution when no impact is defined', function () {
+      solution.set('thingy', { oldVersion: '0.0.1' });
+      solution.set('other-thingy', { impact: undefined, oldVersion: '0.0.1' });
+
+      expect(explain(solution)).toMatchInlineSnapshot(`
+        "Unreleased
+
+        ## thingy
+          thingy unchanged
+        ## other-thingy
+          other-thingy unchanged
+        "
+      `);
+    });
+
+    it('correctly bumps packages when there is an impact', function () {
+      solution.set('thingy', {
+        impact: 'major',
+        oldVersion: '0.0.1',
+        newVersion: '1.0.0',
+        constraints: [
+          { impact: 'major', reason: 'this is the reason it is in the place' },
+          {
+            impact: 'minor',
+            reason:
+              'this reason wont be mentioned because it has a lower impact',
+          },
+        ],
+        pkgJSONPath: './package.json ',
+      });
+
+      solution.set('other-thingy', {
+        impact: 'minor',
+        oldVersion: '0.0.1',
+        newVersion: '0.1.0',
+        constraints: [
+          { impact: 'minor', reason: 'this is the reason it is in the place' },
+          {
+            impact: 'patch',
+            reason:
+              'this reason wont be mentioned because it has a lower impact',
+          },
+        ],
+        pkgJSONPath: './packages/other-thingy/package.json ',
+      });
+
+      solution.set('last-thingy', {
+        impact: 'patch',
+        oldVersion: '0.0.1',
+        newVersion: '0.1.0',
+        constraints: [
+          { impact: 'patch', reason: 'this is the reason it is in the place' },
+          {
+            impact: 'patch',
+            reason:
+              'this reason will also be mentioned because it has the same impact',
+          },
+        ],
+        pkgJSONPath: './packages/other-thingy/package.json ',
+      });
+
+      expect(explain(solution)).toMatchInlineSnapshot(`
+        "Major
+
+          thingy from 0.0.1 to 1.0.0
+           - this is the reason it is in the place
+
+        Minor
+
+          other-thingy from 0.0.1 to 0.1.0
+           - this is the reason it is in the place
+
+        Patch
+
+          last-thingy from 0.0.1 to 0.1.0
+           - this is the reason it is in the place
+           - this reason will also be mentioned because it has the same impact
+        "
+      `);
+    });
   });
 });
