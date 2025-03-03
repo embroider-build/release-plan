@@ -35,7 +35,9 @@ describe('prepare', function () {
 
 ## v1.0.0
 
-* thing v1.0.0 (major)
+| Package | Version | Impact |
+| --- | --- | --- |
+| thing | v1.0.0 | major |
 
 - added release-plan (how did I live without it!?)
 - releasing initial working version
@@ -68,7 +70,9 @@ describe('prepare', function () {
 
 ## v1.0.0
 
-* thing v1.0.0 (major)
+| Package | Version | Impact |
+| --- | --- | --- |
+| thing | v1.0.0 | major |
 
 - added release-plan (how did I live without it!?)
 - releasing initial working version
