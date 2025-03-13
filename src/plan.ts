@@ -18,6 +18,7 @@ export type Solution = Map<
       impact: Impact;
       oldVersion: string;
       newVersion: string;
+      tagName: string;
       constraints: { impact: Impact; reason: string }[];
       pkgJSONPath: string;
     }
@@ -71,6 +72,7 @@ class Plan {
           impact,
           oldVersion: entry.version,
           newVersion,
+          tagName: this.#publishTag(pkgName),
           constraints,
           pkgJSONPath: entry.pkgJSONPath,
         });
@@ -90,9 +92,14 @@ class Plan {
     return impact;
   }
 
-  #semverTag(pkgName: string): Impact {
+  #semverTag(pkgName: string): string {
     const packageJson = this.#pkgs.get(pkgName)?.pkg;
     return packageJson?.['release-plan']?.semverIncrementTag;
+  }
+
+  #publishTag(pkgName: string): string {
+    const packageJson = this.#pkgs.get(pkgName)?.pkg;
+    return packageJson?.['release-plan']?.publishTag ?? 'latest';
   }
 
   #expandWorkspaceRange(

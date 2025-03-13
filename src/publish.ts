@@ -232,7 +232,7 @@ export async function npmPublish(
   reporter: IssueReporter,
   options: PublishOptions,
   packageManager: string,
-): Promise<{ args: string[]; released: Map<string, string> }> {
+): Promise<void> {
   const args = ['publish'];
 
   if (options.otp) {
@@ -244,7 +244,9 @@ export async function npmPublish(
   }
 
   if (options.tag) {
-    args.push(`--tag=${options.tag}`);
+    throw new Error(
+      `The '--tag' option has been removed. If you want to publish a package with a tag other than latest please set the 'release-plan.publishTag' setting in your package.json.`,
+    );
   }
 
   if (options.access) {
@@ -297,7 +299,7 @@ export async function npmPublish(
     }
 
     try {
-      await execa(packageManager, args, {
+      await execa(packageManager, [...args, `--tag=${entry.tagName}`], {
         cwd: dirname(entry.pkgJSONPath),
         stderr: 'inherit',
         stdout: 'inherit',
@@ -309,11 +311,6 @@ export async function npmPublish(
       );
     }
   }
-
-  return {
-    args,
-    released,
-  };
 }
 
 function packageManager(): string {

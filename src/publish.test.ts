@@ -104,7 +104,7 @@ describe('publish', function () {
     it('adds the correct args with no options', async function () {
       await npmPublish(solution, reporter, {}, 'fake-npm');
 
-      expect(execa).toBeCalledWith('fake-npm', ['publish'], {
+      expect(execa).toBeCalledWith('fake-npm', ['publish', '--tag=latest'], {
         cwd: '.',
         stderr: 'inherit',
         stdout: 'inherit',
@@ -121,7 +121,7 @@ describe('publish', function () {
 
       expect(execa).toBeCalledWith(
         'fake-npm',
-        ['publish', '--access=restricted'],
+        ['publish', '--access=restricted', '--tag=latest'],
         {
           cwd: '.',
           stderr: 'inherit',
@@ -140,11 +140,15 @@ describe('publish', function () {
         'fake-npm',
       );
 
-      expect(execa).toBeCalledWith('fake-npm', ['publish', '--otp=12345'], {
-        cwd: '.',
-        stderr: 'inherit',
-        stdout: 'inherit',
-      });
+      expect(execa).toBeCalledWith(
+        'fake-npm',
+        ['publish', '--otp=12345', '--tag=latest'],
+        {
+          cwd: '.',
+          stderr: 'inherit',
+          stdout: 'inherit',
+        },
+      );
     });
 
     it('adds publish-branch if passed by options', async function () {
@@ -159,7 +163,7 @@ describe('publish', function () {
 
       expect(execa).toBeCalledWith(
         'fake-pnpm',
-        ['publish', '--publish-branch=best-branch'],
+        ['publish', '--publish-branch=best-branch', '--tag=latest'],
         {
           cwd: '.',
           stderr: 'inherit',
@@ -168,15 +172,32 @@ describe('publish', function () {
       );
     });
 
-    it('adds tag if passed set in the solution', async function () {
-      await npmPublish(
-        solution,
-        reporter,
-        {
-          tag: 'best-tag',
-        },
-        'fake-npm',
+    it('throws an error if --tag is passed on the command line', async function () {
+      expect(
+        npmPublish(
+          solution,
+          reporter,
+          {
+            tag: 'face',
+          },
+          'fake-npm',
+        ),
+      ).rejects.toThrow(
+        `The '--tag' option has been removed. If you want to publish a package with a tag other than latest please set the 'release-plan.publishTag' setting in your package.json.`,
       );
+    });
+
+    it('adds tag if passed set in the solution', async function () {
+      solution.set('thingy', {
+        oldVersion: '3',
+        newVersion: '4',
+        impact: 'minor',
+        constraints: [],
+        tagName: 'best-tag',
+        pkgJSONPath: './package.json',
+      });
+
+      await npmPublish(solution, reporter, {}, 'fake-npm');
 
       expect(execa).toBeCalledWith('fake-npm', ['publish', '--tag=best-tag'], {
         cwd: '.',
@@ -195,11 +216,15 @@ describe('publish', function () {
         'fake-npm',
       );
 
-      expect(execa).toBeCalledWith('fake-npm', ['publish', '--dry-run'], {
-        cwd: '.',
-        stderr: 'inherit',
-        stdout: 'inherit',
-      });
+      expect(execa).toBeCalledWith(
+        'fake-npm',
+        ['publish', '--dry-run', '--tag=latest'],
+        {
+          cwd: '.',
+          stderr: 'inherit',
+          stdout: 'inherit',
+        },
+      );
     });
 
     it('adds provenance if passed by options', async function () {
@@ -212,11 +237,15 @@ describe('publish', function () {
         'fake-npm',
       );
 
-      expect(execa).toBeCalledWith('fake-npm', ['publish', '--provenance'], {
-        cwd: '.',
-        stderr: 'inherit',
-        stdout: 'inherit',
-      });
+      expect(execa).toBeCalledWith(
+        'fake-npm',
+        ['publish', '--provenance', '--tag=latest'],
+        {
+          cwd: '.',
+          stderr: 'inherit',
+          stdout: 'inherit',
+        },
+      );
     });
 
     it('warns that a version exists if we are trying to release', async function () {
@@ -288,11 +317,15 @@ describe('publish', function () {
       `);
 
       expect(execa).toHaveBeenCalledOnce();
-      expect(execa).toBeCalledWith('fake-npm', ['publish', '--dry-run'], {
-        cwd: './fixtures/pnpm/star-package',
-        stderr: 'inherit',
-        stdout: 'inherit',
-      });
+      expect(execa).toBeCalledWith(
+        'fake-npm',
+        ['publish', '--dry-run', '--tag=latest'],
+        {
+          cwd: './fixtures/pnpm/star-package',
+          stderr: 'inherit',
+          stdout: 'inherit',
+        },
+      );
     });
   });
 
