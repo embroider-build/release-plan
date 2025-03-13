@@ -43,6 +43,8 @@ vi.mock('@octokit/rest', () => {
   };
 });
 
+vi.stubEnv('GITHUB_SHA', 'test-sha');
+
 describe('publish', function () {
   it('publish support custom base api url', function () {
     process.env.GITHUB_API_URL = 'https://api.custombase.com';
@@ -324,6 +326,7 @@ describe('publish', function () {
             "owner": "embroider-build",
             "repo": "release-plan",
             "tag_name": "v1.0.0-release-plan",
+            "target_commitish": "test-sha",
           },
         ]
       `);
