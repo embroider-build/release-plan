@@ -44,6 +44,76 @@ export class IssueReporter {
     process.stderr.write(message);
   }
 }
+async function doesTagExist(
+  octokit: Octokit,
+  tag: string,
+  reporter: IssueReporter,
+) {
+  try {
+    const { owner, repo } = await getRepo();
+    const response = await octokit.git.getRef({
+      owner,
+      repo,
+      ref: `tags/${tag}`,
+    });
+
+    return response.status === 200;
+  } catch (err) {
+    if (err.status === 404) {
+      return false;
+    }
+    console.error(err.message);
+    reporter.reportFailure(`Problem while checking for existing GitHub tag`);
+  }
+}
+
+async function getSha(cwd: string): Promise<string> {
+  const result = await execa('git', ['rev-parse', 'HEAD'], { cwd });
+
+  return result.stdout.trim();
+}
+
+async function makeTags(
+  solution: Solution,
+  reporter: IssueReporter,
+  octokit: Octokit,
+  options: PublishOptions,
+): Promise<void> {
+  for (const [pkgName, entry] of solution) {
+    if (!entry.impact) {
+      continue;
+    }
+    try {
+      const tag = tagFor(pkgName, entry);
+      const cwd = dirname(entry.pkgJSONPath);
+      const sha = await getSha(cwd);
+
+      const preExisting = await doesTagExist(octokit, tag, reporter);
+
+      if (preExisting) {
+        info(`The tag, ${tag}, has already been pushed up for ${pkgName}`);
+        return;
+      }
+
+      if (options.dryRun) {
+        info(`--dryRun active. Skipping \`git tag ${tag}\``);
+        continue;
+      }
+
+      const { owner, repo } = await getRepo();
+      octokit.git.createRef({
+        owner,
+        repo,
+        sha,
+        ref: `refs/tags/${tag}`,
+        type: 'commit',
+      });
+    } catch (err) {
+      console.error(err);
+      reporter.reportFailure(`Failed to create tag for ${pkgName}`);
+    }
+  }
+}
 
 function chooseRepresentativeTag(solution: Solution): string {
   for (const [pkgName, entry] of solution) {
@@ -296,6 +366,7 @@ To publish a release you should start from a clean repo. Run "npx release-plan p
   // the end.
   const reporter = new IssueReporter();
 
+  await makeTags(solution, reporter, octokit, opts);
   await npmPublish(solution, reporter, opts, packageManager());
   await createGithubRelease(
     octokit,
