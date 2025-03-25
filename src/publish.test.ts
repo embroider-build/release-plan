@@ -38,6 +38,13 @@ vi.mock('@octokit/rest', () => {
             throw err;
           },
         },
+        git: {
+          getRef() {
+            const err = new Error() as any;
+            err.status = 404;
+            throw err;
+          },
+        },
       };
     },
   };
