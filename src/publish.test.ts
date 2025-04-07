@@ -38,10 +38,19 @@ vi.mock('@octokit/rest', () => {
             throw err;
           },
         },
+        git: {
+          getRef() {
+            const err = new Error() as any;
+            err.status = 404;
+            throw err;
+          },
+        },
       };
     },
   };
 });
+
+vi.stubEnv('GITHUB_SHA', 'test-sha');
 
 describe('publish', function () {
   it('publish support custom base api url', function () {
@@ -357,6 +366,7 @@ describe('publish', function () {
             "owner": "embroider-build",
             "repo": "release-plan",
             "tag_name": "v1.0.0-release-plan",
+            "target_commitish": "test-sha",
           },
         ]
       `);
