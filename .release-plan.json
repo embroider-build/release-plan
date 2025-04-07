@@ -1,18 +1,8 @@
 {
   "solution": {
     "release-plan": {
-      "impact": "minor",
-      "oldVersion": "0.15.0",
-      "newVersion": "0.16.0",
-      "tagName": "latest",
-      "constraints": [
-        {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        }
-      ],
-      "pkgJSONPath": "./package.json"
+      "oldVersion": "0.16.0"
     }
   },
-  "description": "## Release (2025-03-13)\n\n* release-plan 0.16.0 (minor)\n\n#### :rocket: Enhancement\n* `release-plan`\n  * [#155](https://github.com/embroider-build/release-plan/pull/155) add ability to set tag per package ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "\n\n\n\n"
 }
