@@ -24,7 +24,7 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@manypkg/get-packages": "^2.2.0",
+    "@manypkg/get-packages": "^3.0.0",
     "@npmcli/package-json": "^6.1.0",
     "@octokit/rest": "^21.1.0",
     "assert-never": "^1.2.1",
