@@ -25,7 +25,16 @@ configuration](https://circleci.com/docs/dynamic-config) (see their [dynamic
 config how-to](https://circleci.com/docs/using-dynamic-configuration/)) with
 their `path-filtering` filtering orb.
 
-### Environment Variables
+### Project Settings
+
+#### Dynamic Configuration
+
+In order to use dynamic configuration, it must be enabled at first.
+
+Go to `Project Settings > Advanced`, there is a section in which you can enable
+dynamic configuration for workflows.
+
+#### Environment Variables
 
 Add them in `Project Settings > Environments` or `Organization Settings > Contexts`
 
