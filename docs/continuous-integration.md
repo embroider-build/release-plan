@@ -25,7 +25,21 @@ configuration](https://circleci.com/docs/dynamic-config) (see their [dynamic
 config how-to](https://circleci.com/docs/using-dynamic-configuration/)) with
 their `path-filtering` filtering orb.
 
-Here is two sample configs:
+### Environment Variables
+
+Add them in `Project Settings > Environments` or `Organization Settings > Contexts`
+
+- `GITHUB_USER` - The user who is pushing the tags to the repo
+- `GITHUB_AUTH` - The auth token for that user
+
+::: info
+
+That `GITHUB_USER` needs to have write access to the repo (Sometimes forgotten,
+when this is a bot). Make sure to add them in `https://github.com/<org>/<repo>/settings/access`
+
+:::
+
+### Sample Config
 
 ::: code-group
 
@@ -72,10 +86,6 @@ commands:
   setup-git:
     description: Configures the local SSH and git client, so that it can be used for your repo.
     steps:
-      - add_ssh_keys:
-          fingerprints:
-            # https://app.circleci.com/settings/project/github/<org>/<repo>/ssh
-            - "<your-ssh-key>"
       - run:
           name: Add `github.com` SSH fingerprint to `known_hosts`
           command: |
