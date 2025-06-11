@@ -2,17 +2,21 @@
   "solution": {
     "release-plan": {
       "impact": "minor",
-      "oldVersion": "0.15.0",
-      "newVersion": "0.16.0",
+      "oldVersion": "0.16.0",
+      "newVersion": "0.17.0",
       "tagName": "latest",
       "constraints": [
         {
           "impact": "minor",
           "reason": "Appears in changelog section :rocket: Enhancement"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :memo: Documentation"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2025-03-13)\n\n* release-plan 0.16.0 (minor)\n\n#### :rocket: Enhancement\n* `release-plan`\n  * [#155](https://github.com/embroider-build/release-plan/pull/155) add ability to set tag per package ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2025-06-11)\n\n* release-plan 0.17.0 (minor)\n\n#### :rocket: Enhancement\n* `release-plan`\n  * [#184](https://github.com/embroider-build/release-plan/pull/184) add the ability to set the github release to prerelease ([@mansona](https://github.com/mansona))\n  * [#161](https://github.com/embroider-build/release-plan/pull/161) refactor: Create tags via GitHub REST API ([@TSenter](https://github.com/TSenter))\n\n#### :memo: Documentation\n* `release-plan`\n  * [#183](https://github.com/embroider-build/release-plan/pull/183) add documentation for command-line arguments ([@mansona](https://github.com/mansona))\n\n#### Committers: 2\n- Chris Manson ([@mansona](https://github.com/mansona))\n- Tyler Senter ([@TSenter](https://github.com/TSenter))\n"
 }

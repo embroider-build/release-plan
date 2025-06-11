@@ -1,5 +1,22 @@
 # release-plan Changelog
 
+## Release (2025-06-11)
+
+* release-plan 0.17.0 (minor)
+
+#### :rocket: Enhancement
+* `release-plan`
+  * [#184](https://github.com/embroider-build/release-plan/pull/184) add the ability to set the github release to prerelease ([@mansona](https://github.com/mansona))
+  * [#161](https://github.com/embroider-build/release-plan/pull/161) refactor: Create tags via GitHub REST API ([@TSenter](https://github.com/TSenter))
+
+#### :memo: Documentation
+* `release-plan`
+  * [#183](https://github.com/embroider-build/release-plan/pull/183) add documentation for command-line arguments ([@mansona](https://github.com/mansona))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Tyler Senter ([@TSenter](https://github.com/TSenter))
+
 ## Release (2025-03-13)
 
 * release-plan 0.16.0 (minor)
