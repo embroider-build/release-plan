@@ -364,6 +364,43 @@ describe('publish', function () {
             "body": "new release",
             "name": "v1.0.0-release-plan",
             "owner": "embroider-build",
+            "prerelease": false,
+            "repo": "release-plan",
+            "tag_name": "v1.0.0-release-plan",
+            "target_commitish": "test-sha",
+          },
+        ]
+      `);
+    });
+
+    it('sets prerelease to true when githubPrerelease is set to true', async function () {
+      const octokit = {
+        repos: {
+          getReleaseByTag() {
+            const err = new Error() as any;
+            err.status = 404;
+            throw err;
+          },
+          createRelease: vi.fn(),
+        },
+      };
+      await createGithubRelease(
+        octokit as any,
+        'new release',
+        'v1.0.0-release-plan',
+        reporter,
+        {
+          githubPrerelease: true,
+        },
+      );
+      expect(octokit.repos.createRelease.mock.calls.length).toBe(1);
+      expect(octokit.repos.createRelease.mock.lastCall).toMatchInlineSnapshot(`
+        [
+          {
+            "body": "new release",
+            "name": "v1.0.0-release-plan",
+            "owner": "embroider-build",
+            "prerelease": true,
             "repo": "release-plan",
             "tag_name": "v1.0.0-release-plan",
             "target_commitish": "test-sha",

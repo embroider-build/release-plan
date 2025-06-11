@@ -67,6 +67,10 @@ yargs(process.argv.slice(2))
           choices: ['public', 'restricted'],
           description:
             'Tells the registry whether the published package should be public or restricted.',
+        })
+        .option('github-prerelease', {
+          type: 'boolean',
+          description: `Allows you to set the GitHub release to a pre-release. This can be useful if you're using release-plan to release beta versions.`,
         }),
     async function (opts) {
       await publish(opts);
