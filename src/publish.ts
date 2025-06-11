@@ -18,6 +18,7 @@ type PublishOptions = {
   tag?: string;
   access?: string;
   provenance?: boolean;
+  githubPrerelease?: boolean;
 };
 
 async function hasCleanRepo(): Promise<boolean> {
@@ -203,6 +204,7 @@ export async function createGithubRelease(
       target_commitish: process.env.GITHUB_SHA,
       name: tagName,
       body: description,
+      prerelease: options.githubPrerelease ?? false,
     });
   } catch (err) {
     console.error(err);

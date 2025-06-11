@@ -125,6 +125,10 @@ This passes on the `--provenance` flag to `npm publish`. Note this doesn't work 
 
 This can be used to tell the registry whether the published package should be public or restricted. If this is omitted it will revert to the default value of `npm` or `pnpm` in your environment
 
+#### --github-prerelease
+
+Allows you to set the GitHub release to a pre-release. This can be useful if you're using release-plan to release beta versions.
+
 ### Options (package.json)
 
 This project attempts to have sensible defaults so there is not any need to configure `release-plan` in most cases. There are some cases, like releasing a prerelease version of a package, that might require some configuration depending on the type of prerelease you are doing. For config that is defined per-package (i.e. can be different for each the packages in a monorepo), you can configure that in the `release-plan` section of the package's `package.json` file.
