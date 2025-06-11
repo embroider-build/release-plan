@@ -94,9 +94,40 @@ git push origin v0.0.0
 
 5. Once the PR is merged, in a clean local repo at the merge commit, run `npx release-plan publish`. If you need an `otp` for your release you can provide that to the `publish` command like this `npx release-plan publish --otp=123456`
 
-### Options
+### Options (command line)
 
-This project attemps to have sensible defaults so there is not any need to configure `release-plan` in most cases. There are some cases, like releasing a prerelease version of a package, that might require some configuration depending on the type of prerelease you are doing. You can configure that in the `release-plan` section of your pakcage.json, or if you're in a monorepo in the `release-plan` section of the package that you want set the config for. This way you can have multiple packages with different configurations if you need to.
+Some config for `release-plan` applies globally for each run of the program, this means that if you're using `release-plan` to release multiple packages in a monorepo all packages will have the same config. These configuration options are passed via the command-line to the `release-plan publish` command
+
+#### --skipRepoSafetyCheck
+
+Allows you to run "publish" even if there are uncommitted changes in your repo. Useful only for developing "publish" itself
+
+        
+#### --otp <your-one-time-password>
+          
+If the publish operation that `release-plan` is going to do requires a one-time-password to complete, you can use this option and `release-plan` will pass this on to `npm` for all operations.
+
+
+#### --dryRun
+
+Run through the release, but log to stdout instead of tagging/pushing/publishing. This can be useful when you're evaluating what release-plan is going to do when you run `release-plan publish`
+
+
+#### --publish-branch <branch>
+
+When using `pnpm` there is a check to make sure that you're only publishing from `master` or `main`. Passing --publish-branch to `release-plan` will pass it directly on to `pnpm`. This is not needed when using `npm`
+  
+#### --provenance 
+
+This passes on the `--provenance` flag to `npm publish`. Note this doesn't work with `pnpm` so you would need to set the `NPM_CONFIG_PROVENANCE` environment variable to `true` in your publish script. 
+
+#### --access <access-level>
+
+This can be used to tell the registry whether the published package should be public or restricted. If this is omitted it will revert to the default value of `npm` or `pnpm` in your environment
+
+### Options (package.json)
+
+This project attempts to have sensible defaults so there is not any need to configure `release-plan` in most cases. There are some cases, like releasing a prerelease version of a package, that might require some configuration depending on the type of prerelease you are doing. For config that is defined per-package (i.e. can be different for each the packages in a monorepo), you can configure that in the `release-plan` section of the package's `package.json` file.
 
 #### semverIncrementAs
 
