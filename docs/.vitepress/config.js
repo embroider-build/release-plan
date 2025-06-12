@@ -58,6 +58,11 @@ export default withMermaid(defineConfig({
     }
   },
   vite: {
+    resolve: {
+      alias: {
+        "mermaid": "mermaid/dist/mermaid.esm.mjs"
+      }
+    },
     plugins: [
       groupIconVitePlugin()
     ]
