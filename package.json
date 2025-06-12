@@ -44,7 +44,6 @@
     "yargs": "^17.0.1"
   },
   "devDependencies": {
-    "@braintree/sanitize-url": "^7.1.1",
     "@eslint/eslintrc": "^3.3.0",
     "@eslint/js": "^9.21.0",
     "@types/fs-extra": "^11.0.4",
@@ -55,8 +54,6 @@
     "@types/yargs": "^17.0.3",
     "@vitest/coverage-v8": "^3.0.7",
     "concurrently": "^9.1.2",
-    "dayjs": "^1.11.13",
-    "debug": "^4.4.1",
     "eslint": "^9.21.0",
     "eslint-config-prettier": "^10.0.2",
     "eslint-plugin-n": "^17.15.1",
