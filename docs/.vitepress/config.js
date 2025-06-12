@@ -24,6 +24,7 @@ export default withMermaid(defineConfig({
           { text: 'Features', link: '/features' },
           { text: 'Release Workflow', link: '/release-workflow' },
           { text: 'Continuous Integration', link: '/continuous-integration' },
+          { text: 'Troubleshooting', link: '/troubleshooting' }
         ]
       },
       {
