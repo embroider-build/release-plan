@@ -1,7 +1,7 @@
 # Versioning
 
 When `release-plan` is deciding what part of the semver version to update it
-considers the **Impact** a PR has on a pakcage. Impact can be either `major`,
+considers the **Impact** a PR has on a package. Impact can be either `major`,
 `minor`, or `patch` and by default they directly map on to the
 `<major>.<minor>.<patch>` parts of semver versions.
 
