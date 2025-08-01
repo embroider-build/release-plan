@@ -1,5 +1,16 @@
 # release-plan Changelog
 
+## Release (2025-08-01)
+
+* release-plan 0.17.1 (patch)
+
+#### :bug: Bug Fix
+* `release-plan`
+  * [#192](https://github.com/embroider-build/release-plan/pull/192) make sure the changelog only creates one version ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2025-06-11)
 
 * release-plan 0.17.0 (minor)
