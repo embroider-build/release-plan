@@ -2,8 +2,8 @@
   "solution": {
     "release-plan": {
       "impact": "patch",
-      "oldVersion": "0.17.0",
-      "newVersion": "0.17.1",
+      "oldVersion": "0.17.1",
+      "newVersion": "0.17.2",
       "tagName": "latest",
       "constraints": [
         {
@@ -14,5 +14,5 @@
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2025-08-01)\n\n* release-plan 0.17.1 (patch)\n\n#### :bug: Bug Fix\n* `release-plan`\n  * [#192](https://github.com/embroider-build/release-plan/pull/192) make sure the changelog only creates one version ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2025-08-01)\n\n* release-plan 0.17.2 (patch)\n\n#### :bug: Bug Fix\n* `release-plan`\n  * [#193](https://github.com/embroider-build/release-plan/pull/193) fix error in github-changelog argument ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
