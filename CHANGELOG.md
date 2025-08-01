@@ -2,6 +2,17 @@
 
 ## Release (2025-08-01)
 
+* release-plan 0.17.2 (patch)
+
+#### :bug: Bug Fix
+* `release-plan`
+  * [#193](https://github.com/embroider-build/release-plan/pull/193) fix error in github-changelog argument ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
+## Release (2025-08-01)
+
 * release-plan 0.17.1 (patch)
 
 #### :bug: Bug Fix
