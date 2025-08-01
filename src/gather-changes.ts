@@ -9,6 +9,7 @@ export async function gatherChanges() {
 
   const result = await execa('node', [
     resolve(dirname(githubChangelogPath), 'bin', 'cli.js'),
+    '--ignore-versions',
     '--next-version',
     'Release',
   ]);
