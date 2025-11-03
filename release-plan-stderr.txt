@@ -1,0 +1,7 @@
+# Unlabeled Changes
+
+* `release-plan`
+  * [#178](https://github.com/embroider-build/release-plan/pull/178) Documentation site with `vitepress` ([@gossi](https://github.com/gossi))
+
+
+*Cannot plan release until the above changes are labeled*.
