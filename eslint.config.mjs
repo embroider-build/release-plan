@@ -36,7 +36,13 @@ export default tseslint.config(
     },
   },
   {
-    files: ['src/*.test.ts', 'eslint.config.mjs', 'vitest.config.js', 'docs/.vitepress/config.js', 'docs/.vitepress/theme/index.js'],
+    files: [
+      'src/*.test.ts',
+      'eslint.config.mjs',
+      'vitest.config.js',
+      'docs/.vitepress/config.js',
+      'docs/.vitepress/theme/index.js',
+    ],
 
     rules: {
       'n/no-unpublished-import': 0,
