@@ -21,7 +21,10 @@
     "lint:js:fix": "eslint . --fix",
     "prepare": "pnpm run build",
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
     "@manypkg/get-packages": "^2.2.0",
@@ -55,9 +58,14 @@
     "eslint-plugin-n": "^17.15.1",
     "fixturify-project": "^7.1.3",
     "globals": "^16.0.0",
+    "markdown-it-footnote": "^4.0.0",
+    "mermaid": "^11.6.0",
     "prettier": "^3.5.0",
     "typescript": "^5.2.2",
     "typescript-eslint": "^8.24.1",
+    "vitepress": "^1.6.3",
+    "vitepress-plugin-group-icons": "^1.5.5",
+    "vitepress-plugin-mermaid": "^2.0.17",
     "vitest": "^3.0.6"
   },
   "packageManager": "pnpm@10.4.1"
