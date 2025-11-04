@@ -12,7 +12,7 @@ export default withMermaid(
     description: 'Release from anywhere',
     themeConfig: {
       outline: {
-        level: [2,3]
+        level: [2, 3],
       },
 
       search: {
